@@ -1,0 +1,66 @@
+<div class="main-card mb-3 card">
+  <div class="card-body">
+    <h5 class="card-title">Upload resume</h5>
+    <!-- <form action="" enctype="multipart/form-data">
+        </form> -->
+    <input type="file" id="selectResume" />
+    <button class="mt-1 btn btn-primary" type="button" onclick="uploadResume()">
+      Submit
+    </button>
+    <br />
+    <br />
+    <!-- <div id="resume-loader-holder" class="resume-loader-holder">
+            <div id="resume-loader" class="resume-loader"></div>
+            <br>
+            <div id="upload-message" class="upload-message">
+                uploading...
+            </div>
+        </div> -->
+    <hr />
+
+    <div class="active--resume">
+      <img src="/assets/images/pp1.jpeg" alt="" style="width: 50px" />
+    </div>
+  </div>
+</div>
+
+<!-- Component Based Javascript -->
+<script>
+  // Global variables
+  const app_home_url = "<%= globals.app_home_url %>";
+
+  function uploadResume() {
+    // start loader
+    const fileInput = document.getElementById("selectResume");
+    const file = fileInput.files[0];
+    const formdata = new FormData();
+    formdata.append("resume", file);
+
+    if (!file) return alert("Select a resume document");
+
+    async function fetchUploadResume() {
+      const url = `${app_home_url}/api/resume/`;
+      let method = "post";
+      let data = formdata;
+      let options = { method, data };
+
+      let requestObject = await fetch(url, options);
+      let requestStatus = requestObject.status;
+      let data = requestObject.json();
+
+      if (!data) return alert("Something went wrong");
+
+      alert("resume uploaded");
+    }
+
+    fetchUploadResume()
+      .then(() => {
+        // end loader
+        loadPage();
+      })
+      .catch(() => {
+        // end loader
+        alert("could not upload resume at the moment");
+      });
+  }
+</script>

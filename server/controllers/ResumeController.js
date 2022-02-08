@@ -77,7 +77,30 @@ class ResumeController extends ApiController{
   }
 
 
-  deleteResune(){
+  setActiveResume = (req, res) => {
+    this.initController(req, res);
+
+    let setResumeActive = require('../domain/resume/set_resume_active');
+    
+    let resumeID = this.reqParams['id'] || null;
+
+    if(!resumeID) return this.response.status(500).json({message: "no resume id sent"});
+
+    setResumeActive(resumeID)
+
+    .then(resume=>{
+        if(!resume) return this.response.status(400).json({message: "no resume with id found"});
+
+        return this.response.status(200).json({data: resume});
+    })
+    
+    .catch(error=>{
+      //log error
+      return this.response.status(500).json({message:"could not complete request"});
+    })
+  }
+
+  deleteResume = (req, res) => {
     this.initController(req, res);
 
     let deleteResune = require('../domain/resume/delete_resume');

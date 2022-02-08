@@ -1,7 +1,7 @@
 const Imagekit = require('../../libs/imagekit/Imagekit');
 const ResumeModel = require('../../models/ResumeNodel');
 
-function deleteResune(resume_id){
+async function deleteResune(resume_id){
 
     if(!resume_id) throw new Error ("")
     // find resume in database

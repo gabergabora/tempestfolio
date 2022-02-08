@@ -14,6 +14,7 @@ const resumeController = new ResumeController;
 router.get('/resume', resumeController.getResumes);
 router.get('/resume/:id', resumeController.getOneResume);
 router.post('/resume/', multerUpload.single('resume'), resumeController.uploadResume);
-router.delete('/resume/:id', multerUpload.single('resume'), resumeController.deleteResume);
+router.put('/resume/:id/setactive', resumeController.setActiveResume);
+router.delete('/resume/:id', resumeController.deleteResume);
 
 module.exports = router;
