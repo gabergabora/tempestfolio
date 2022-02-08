@@ -6,8 +6,8 @@ function connectLocal(dbname) {
 	let db = mongoose.connection;
 	//#check for error
 	db.on('error', (error) => {
-		console.log(error);
-		return;
+		console.log(error); // Logger
+		process.exit();
 	});
 	//#check connection
 	db.once('open', () => {
@@ -21,8 +21,10 @@ function connectAtlas(connectionString) {
 	mongoose.connect(
 		connectionString,
 		(error) => {
-			if (error)
-				console.log('Could not Connect to mongoDB Atlas : \n ' + error);
+			if (error){
+				console.log('Could not Connect to mongoDB Atlas : \n ' + error); // logger
+				process.exit();
+			}
 			else console.log('Connected to mongoDB Atlas');
 		}
 	);

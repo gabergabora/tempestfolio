@@ -1,5 +1,6 @@
 const indexRouter = require('./index'); 
-const adminRouter = require('./admin.js'); 
+const adminRouter = require('./admin'); 
+const apiRouter = require('./api'); 
 
 /**
  * 
@@ -8,6 +9,7 @@ const adminRouter = require('./admin.js');
 function route(app){
     app.use("/", indexRouter);
     app.use('/admin', adminRouter);
+    app.use('/api', apiRouter);
 }
 
 
