@@ -1,11 +1,3 @@
 check potential mongodb validation error threat
 reqBody validator 
 add logger and sample logger
-
-
-
-//Services
-router.get('/services', resumeController.getServices);
-// router.post('/services', serviceController.add);
-// router.put('/api/services/:id', serviceController.update);
-// router.delete('/api/services/:id', serviceController.remove);
