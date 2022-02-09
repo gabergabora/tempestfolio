@@ -1,119 +1,109 @@
 const ApiController = require('./ApiController')
 
-class ResumeController extends ApiController{
+class ResumeController {
    
 //   domainBasePath = Path2D.join(__dirname, '/../domain/resume');
 
-  initController = (req, res) => {
-    this.initRequest(req, res);
-  }
-
 
   getResumes = (req, res) => {
-      this.initController(req, res);
-
       let findResumes = require('../domain/resume/find_resumes');
 
       findResumes()
 
       .then(resumes => {
-        return this.response.status(200).json({data: resumes});
+        return res.status(200).json({data: resumes});
       })
 
       .catch(error => {
         // Log error
-        return this.response.status(500).json({message: "Could not complete request"});
+        return res.status(500).json({message: "Could not complete request"});
       })
   }
 
 
   getOneResume = (req, res) => {
-    this.initController(req, res);
 
     let findOneResume = require('../domain/resume/find_one_resume');
     
-    let resumeID = this.reqParams['id'] || null;
+    let resumeID = req.params['id'] || null;
 
-    if(!resumeID) return this.response.status(500).json({message: "no resume id sent"});
+    if(!resumeID) return res.status(500).json({message: "no resume id sent"});
 
     findOneResume(resumeID)
 
     .then(resume=>{
-      if(!resume) return this.response.status(400).json({message: "no resume with id found"});
-      return this.response.status(200).json({data: resume});
+      if(!resume) return res.status(400).json({message: "no resume with id found"});
+      return res.status(200).json({data: resume});
 
     })
 
     .catch(error => {
       // Log error
-      return this.response.status(500).json({message: "Could not complete request"});
+      return res.status(500).json({message: "Could not complete request"});
     })
   }
 
 
   uploadResume = (req, res) => {
-    this.initController(req, res);
 
     let uploadResume = require('../domain/resume/upload_resume');
 
-    let file = this.reqFile;
+    let file = req.file;
 
-    if(!file) return this.response.status(400).json({message: "no file sent"});
+    if(!file) return res.status(400).json({message: "no file sent"});
 
     uploadResume(file)
 
     .then(resumeDetails=>{
       if(!resumeDetails.uploaded)
-        return this.response.status(400).json({data: resumeDetails.error});
+        return res.status(400).json({data: resumeDetails.error});
 
-      return this.response.status(200).json({data: resumeDetails});
+      return res.status(200).json({data: resumeDetails});
     })
 
     .catch(error => {
       // Log error
-      return this.response.status(500).json({message: "Could not complete request"});
+      return res.status(500).json({message: "Could not complete request"});
     })
 
   }
 
 
   setActiveResume = (req, res) => {
-    this.initController(req, res);
 
     let setResumeActive = require('../domain/resume/set_resume_active');
     
-    let resumeID = this.reqParams['id'] || null;
+    let resumeID = req.params['id'] || null;
 
-    if(!resumeID) return this.response.status(500).json({message: "no resume id sent"});
+    if(!resumeID) return res.status(500).json({message: "no resume id sent"});
 
     setResumeActive(resumeID)
 
     .then(resume=>{
-        if(!resume) return this.response.status(400).json({message: "no resume with id found"});
+        if(!resume) return res.status(400).json({message: "no resume with id found"});
 
-        return this.response.status(200).json({data: resume});
+        return res.status(200).json({data: resume});
     })
     
     .catch(error=>{
       //log error
-      return this.response.status(500).json({message:"could not complete request"});
+      return res.status(500).json({message:"could not complete request"});
     })
   }
 
   deleteResume = (req, res) => {
-    this.initController(req, res);
 
     let deleteResune = require('../domain/resume/delete_resume');
 
-    let resumeID = this.reqParams['id'];
+    let resumeID = req.params['id'];
 
-    if(!resumeID) return this.response.status(400).json({message: "no file sent"});
+    if(!resumeID) return res.status(400).json({message: "no file sent"});
 
     deleteResune(resumeID)
     .then(status => {
-        return this.response.status(200).json({data:[]});
+        return res.status(200).json({data:[]});
     })
-    .catch(error=>{return this.response.status(500).json({message: "could not complete request"})})
+    .catch(error=>{return res.status(500).json({message: "could not complete request"})})
   }
 
 

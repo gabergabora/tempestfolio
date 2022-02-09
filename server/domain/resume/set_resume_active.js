@@ -7,11 +7,7 @@ async function setResumeActive(resume_id){
 
      let newupdate = await ResumeModel.findByIdAndUpdate(resume_id, {active: true}, {new: true});
 
-     if(newupdate){
-        return {_id, active, fileSize, url, fileExtension} = newupdate;
-     }
-
-     else return null;
+    return newupdate;
 }
 
 module.exports = setResumeActive

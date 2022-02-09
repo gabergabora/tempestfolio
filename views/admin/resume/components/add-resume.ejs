@@ -26,9 +26,6 @@
 
 <!-- Component Based Javascript -->
 <script>
-  // Global variables
-  const app_home_url = "<%= globals.app_home_url %>";
-
   function uploadResume() {
     // start loader
     const fileInput = document.getElementById("selectResume");
@@ -42,15 +39,14 @@
       const url = `${app_home_url}/api/resume/`;
       let method = "post";
       let data = formdata;
-      let options = { method, data };
+      let options = { method, body: data };
 
       let requestObject = await fetch(url, options);
       let requestStatus = requestObject.status;
-      let data = requestObject.json();
+      let resume = await requestObject.json();
 
-      if (!data) return alert("Something went wrong");
-
-      alert("resume uploaded");
+      return console.log(resume);
+      if (!resume) return alert("Something went wrong");
     }
 
     fetchUploadResume()

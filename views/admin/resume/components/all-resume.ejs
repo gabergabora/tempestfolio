@@ -75,7 +75,8 @@
         const url = `${app_home_url}/api/resume/`;
 
         let requestObject = await fetch(url);
-        let resumes = await requestObject.json();
+        let response = await requestObject.json();
+        let resumes = response.data;
 
         if (!resumes.length) {
           resWidgetsHolder.innerHTML = `<p style="text-align:center">You have no resume yet. Upload a resume immediately </p>`;
@@ -150,15 +151,13 @@
 
         if (requestObject.status > 399) alert("An error occured");
         else alert("Resume deleted successfully");
-
-        return;
       }
 
       if (
         confirm("This Resume will be completely removed,  Continue anyway?")
       ) {
         fetchDeleteResume()
-          .then(loadPage())
+          .then(() => loadPage())
           .catch((e) => {
             return alert("could not delete resume at the moment");
           });
@@ -174,13 +173,13 @@
         let requestObject = await fetch(url, options);
 
         if (requestObject.status > 399) alert("An error occured");
-
-        return;
       }
 
       fetchSetActiveResume()
-        .then(loadPage())
-        .catch((e) => {
+        .then((data) => {
+          loadPage();
+        })
+        .catch(() => {
           return alert("something went wrong");
         });
     }

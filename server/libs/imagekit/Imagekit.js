@@ -24,7 +24,6 @@ class Imagekit {
 		 * Unlink staged file
 		 */
 		console.log('imageKit uploading...');
-		console.log('Staging file...');
           
 		const fileName = file['originalname'];
 		const fileData = file.buffer;
@@ -33,9 +32,14 @@ class Imagekit {
 			Imagekit.imagekitErrandBoy.upload({file:fileData, fileName, folder: remoteFolder}, (error, data) => {
 					if (error) {
                         //log error
+						console.log('file upload failed');
 						reject(error);
 					}
-					else resolve(data);
+					else 
+					{
+						console.log('file upload successful');
+						resolve(data)
+					};
 				}
 			);
 		});
