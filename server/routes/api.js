@@ -24,7 +24,7 @@ router.get('/service', serviceController.getServices);
 router.get('/service/:id', serviceController.getSingleService);
 router.post('/service', serviceController.addService);
 router.put('/service/:id', serviceController.updateService);
-router.delete('/api/services/:id', serviceController.deleteService);
+router.delete('/service/:id', serviceController.deleteService);
 
 
 module.exports = router;

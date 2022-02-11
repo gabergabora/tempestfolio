@@ -16,6 +16,7 @@ class ResumeController {
 
       .catch(error => {
         // Log error
+        console.log(error);
         return res.status(500).json({message: "Could not complete request"});
       })
   }

@@ -1,14 +1,16 @@
-const ServiceModel = require('../../models/service');
+const paginate = require('../api/paginate');
+const ServiceModel = require('../../models/ServiceModel');
 
  async function findService(entries=null, pageIndex=null){
-
     if(entries){
         entries;
         pageIndex = pageIndex || 1;
 
-        // Find mongo by entries
+        let paginatedService = await paginate(ServiceModel, entries, pageIndex);
+        
+        return paginatedService;
     }
-
+    
     let services = await ServiceModel.find();
 
     return services;

@@ -1,4 +1,4 @@
-const ServiceModel = require('../../models/service');
+const ServiceModel = require('../../models/ServiceModel');
 
 async function updateService(service_id, data){
     const disAllowedProperties = ["_id", "__v"];
@@ -8,11 +8,10 @@ async function updateService(service_id, data){
 
     (Object.keys(service._doc)).forEach(property=>{
         if(!disAllowedProperties.includes(property)){
-            if(data[property]){
+            if(data[property] != undefined){
                 service[property] = data[property];
             }
         }
-        
     })
 
     let updatedService = await service.save({new: true});

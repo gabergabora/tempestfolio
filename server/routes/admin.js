@@ -10,4 +10,9 @@ router.get('/resume', function(req, res, next) {
   res.render('admin/resume/index', {title : "admin"});
 });
 
+router.get('/service', function(req, res, next) {
+  res.render('admin/service/index', {title : "service"});
+});
+
+
 module.exports = router;

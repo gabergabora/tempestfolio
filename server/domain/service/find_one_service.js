@@ -1,4 +1,4 @@
-const ServiceModel = require('../../models/service');
+const ServiceModel = require('../../models/ServiceModel');
 
  async function findOneService(service_id){
     if(!service_id)

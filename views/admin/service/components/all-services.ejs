@@ -1,0 +1,211 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="row" id="serviceWidgetsHolder"></div>
+  </div>
+
+  <div class="col-lg-12">
+    <nav class="" aria-label="Page navigation example">
+      <ul class="pagination" id="pagination"></ul>
+    </nav>
+  </div>
+  <div style="display: block; height: 100px"></div>
+</div>
+
+<!-- Component Based Javascript -->
+<script>
+  const app_home_url = "<%= globals.app_home_url %>";
+  const widgetThemes = [
+    {
+      theme: "bg-premium-dark",
+      icon: "warning",
+    },
+
+    {
+      theme: "bg-arielle-smile",
+      icon: "white",
+    },
+
+    {
+      theme: "bg-happy-green",
+      icon: "white",
+    },
+
+    {
+      theme: "bg-midnight-bloom",
+      icon: "warning",
+    },
+  ];
+
+  loadPage();
+
+  function loadPage(index) {
+    const serviceWidgetsHolder = document.getElementById(
+      "serviceWidgetsHolder"
+    );
+    serviceWidgetsHolder.innerHTML = "";
+
+    const entries = 6;
+    let pageIndex = index || 1;
+
+    async function fetchServicespage() {
+      const url = `${app_home_url}/api/service/?entries=${entries}&index=${pageIndex}`;
+      let requestObject = await fetch(url);
+      let requestStatus = requestObject.status;
+      let response = await requestObject.json();
+
+      return response.data;
+    }
+
+    fetchServicespage()
+      .then((response) => {
+        let services = response.chunk;
+
+        if (!services.length)
+          return (serviceWidgetsHolder.innerHTML = `<p>You have no registered experience Start by adding an experience </p>`);
+
+        // render pagination
+        paginate(response);
+
+        // Render services
+        services.forEach((service, i) => {
+          // rotate widgetThemes
+          let j = i;
+
+          if (i > widgetThemes.length - 1) {
+            j = i - widgetThemes.length;
+          }
+
+          serviceWidgetsHolder.innerHTML += renderServiceWidget(
+            service,
+            widgetThemes[j]
+          );
+        });
+      })
+
+      .catch((e) => {
+        return console.log(e);
+        return (serviceWidgetsHolder.innerHTML = `<p>Could Not Load Data at the moment Please check your connection and reload your browser </p>`);
+      });
+  }
+
+  function renderServiceWidget(service, theme) {
+    const newServiceWidget = ` <div class="col-md-6 service-widget pointer" key="${service._id}" onclick="loadService('${service._id}')">
+        <div class="card mb-3 widget-content ${theme["theme"]}">
+            <div class="widget-content-wrapper text-white">
+                <div class="widget-content-left">
+                    <h5 class="" style="text-transform:capitalize;">${service.title}</h5>
+                </div>
+                <div class="widget-content-right">
+                    <div class="widget-numbers text-${theme["icon"]}">
+                        <span>
+                            <i
+                                class="fa ${service.icon}"
+                                aria-hidden="true"
+                                title="Copy to use address-card"
+                                ></i
+                            >
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`;
+
+    return newServiceWidget;
+  }
+
+  function paginate(data) {
+    let { entries, count, page } = data;
+    const pages = Math.ceil(count / entries);
+
+    const pagination = document.getElementById("pagination");
+    const pageNextButton = `   <li class="page-item">
+                    <span
+                        role="button"
+                        class="page-link page-link-next"
+                        aria-label="Next"
+                        id="pageNext"
+                        onclick="getNextPage()"
+                        style="background: #ffffff52;"
+                        >
+                        <span aria-hidden="true">»</span>
+                        <span class="sr-only">Next</span>
+                        </span>
+                </li>`;
+
+    const pagePrevButton = `  <li class="page-item">
+                    <span
+                        role="button"
+                        class="page-link  page-link-prev"
+                        aria-label="Prev"
+                        id="pagePrev"
+                        onclick="getPrevPage()"
+                        style="background: #ffffff52;"
+
+                   >
+                        <span aria-hidden="true">«</span>
+                        <span class="sr-only">Previous</span>
+                    </span>
+                </li>`;
+
+    pagination.innerHTML = "";
+    pagination.innerHTML += pagePrevButton;
+
+    let i = 1;
+    for (; i <= pages; ) {
+      let active = i === page ? true : false;
+      let isFirst = i === 1 ? "page-link-page-first" : "";
+      let isLast = i === pages ? "page-link-page-last" : "";
+
+      pagination.innerHTML += `<li class="page-item ${active ? "active" : ""}">
+                    <span role="button" class="page-link page-link-page ${
+                      active ? "active" : ""
+                    } ${isFirst} ${isLast}" pageindex="${i}"  active="${active}" onclick="loadPage(${i})" >${i}</a>
+                </li>`;
+
+      i++;
+    }
+
+    pagination.innerHTML += pageNextButton;
+  }
+
+  function getPrevPage() {
+    const pageLinks = document.querySelectorAll(".page-item .page-link-page");
+    const pageLinkFirst = document
+      .querySelector(".page-item .page-link-page-first")
+      .getAttribute("pageindex");
+
+    pageLinks.forEach((pageLink) => {
+      let active = pageLink.getAttribute("active");
+      let pageIndex = parseInt(pageLink.getAttribute("pageindex"));
+
+      if (active === "true") {
+        let newPageIndex = pageIndex - 1;
+        if (newPageIndex < parseInt(pageLinkFirst)) return;
+        loadPage(newPageIndex);
+        return;
+      }
+    });
+    return;
+  }
+
+  function getNextPage() {
+    const pageLinks = document.querySelectorAll(".page-item .page-link-page");
+    const pageLinkLast = document
+      .querySelector(".page-item .page-link-page-last")
+      .getAttribute("pageindex");
+
+    pageLinks.forEach((pageLink) => {
+      let active = pageLink.getAttribute("active");
+      let pageIndex = parseInt(pageLink.getAttribute("pageindex"));
+
+      if (active === "true") {
+        let newPageIndex = pageIndex + 1;
+        if (newPageIndex > parseInt(pageLinkLast)) return;
+        loadPage(newPageIndex);
+        return;
+      }
+    });
+    return;
+  }
+</script>

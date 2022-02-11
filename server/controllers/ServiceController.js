@@ -9,8 +9,8 @@ class ServiceController {
       const findServices = require('../domain/service/find_services');
 
       // check for pagination
-      let entries  = req.query['page'];
-      let pageIndex  = req.query['page'];
+      let entries  = req.query['entries'];
+      let pageIndex  = req.query['index'];
       // lastId = req.query['lastId'];
 
       findServices(entries, pageIndex)
@@ -62,14 +62,14 @@ class ServiceController {
          
          .then(service=>{
             if(!service.status)
-               return this.response.status(400).json({message:error.message});
+               return res.status(400).json({message:error.message});
 
             return res.status(200).json({data:service.data}) 
          })
 
          .catch(err => {
             console.log(err)//Should be logger
-            return this.response.status(500).json({message:"could not add service at the moment"});
+            return res.status(500).json({message:"could not add service at the moment"});
         })
 
    }
@@ -103,12 +103,12 @@ class ServiceController {
 
       let resumeID = req.params['id'] || null;
 
-      if(!resumeID) return this.response.status(400).json({message:"no resume id sent"});
+      if(!resumeID) return res.status(400).json({message:"no resume id sent"});
 
       deleteResume(resumeID)
-      .then(deleted=> { return this.response.status(200).json({data:{}}) })
+      .then(deleted=> { return res.status(200).json({data:{}}) })
       .catch(err=> { 
-            return this.response.status(500).json({message:"could not delete service at the moment"});
+            return res.status(500).json({message:"could not delete service at the moment"});
       })
    }
 
