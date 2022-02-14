@@ -25,6 +25,31 @@ class ApiController {
         this.response = res;
 
     }
+
+    /** Since most find routes do not have unique request validation
+     * we can decide to handle get requests from the api controller
+     * and override in special domain find
+     */
+
+     getExperiences = (model, req, res) => {
+        const findResources = require('../domain/api/find_resource');
+  
+        // check for pagination
+        let entries  = req.query['entries'];
+        let pageIndex  = req.query['index'];
+        // lastId = req.query['lastId'];
+  
+        findResources(model, entries, pageIndex)
+  
+        .then(resources=>{
+           return res.status(200).json({data:resources});
+        })
+  
+        .catch(err=>{
+           return res.status(500).json({message:"could not complete request"});
+        });
+  
+     }
 }
 
 

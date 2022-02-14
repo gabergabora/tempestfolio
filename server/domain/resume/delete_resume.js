@@ -7,6 +7,8 @@ async function deleteResune(resume_id){
     // find resume in database
     let resume = await ResumeModel.findById(resume_id);
 
+    if(!resume) return true;
+
     // get fileId
     let resumeFileId = resume.fileId;
 

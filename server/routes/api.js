@@ -27,4 +27,15 @@ router.put('/service/:id', serviceController.updateService);
 router.delete('/service/:id', serviceController.deleteService);
 
 
+//Experience
+const ExperienceController = require('../controllers/ExperienceController');
+const experienceController = new ExperienceController;
+
+router.get('/experience', experienceController.getExperiences);
+router.get('/experience/:id', experienceController.getSingleExperience);
+router.post('/experience', experienceController.addExperience);
+router.put('/experience/:id', experienceController.updateExperience);
+router.delete('/experience/:id', experienceController.deleteExperience);
+
+
 module.exports = router;

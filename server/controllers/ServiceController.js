@@ -62,7 +62,7 @@ class ServiceController {
          
          .then(service=>{
             if(!service.status)
-               return res.status(400).json({message:error.message});
+               return res.status(400).json({message:service.message});
 
             return res.status(200).json({data:service.data}) 
          })
@@ -87,7 +87,9 @@ class ServiceController {
 
         .then(service=>{
             if(!service) return res.status(400).json({message: "no service with id found"});
-            return res.status(200).json({data:service});
+            if(!service.status) return res.status(400).json({message: service.message});
+
+            return res.status(200).json({data:service.updatedData});
         })
 
         .catch(error=>{
@@ -99,13 +101,13 @@ class ServiceController {
    }
 
    deleteService = (req, res) =>{
-      const deleteResume = require('../domain/service/delete_service');
+      const deleteService = require('../domain/service/delete_service');
 
-      let resumeID = req.params['id'] || null;
+      let serviceID = req.params['id'] || null;
 
-      if(!resumeID) return res.status(400).json({message:"no resume id sent"});
+      if(!serviceID) return res.status(400).json({message:"no resume id sent"});
 
-      deleteResume(resumeID)
+      deleteService(serviceID)
       .then(deleted=> { return res.status(200).json({data:{}}) })
       .catch(err=> { 
             return res.status(500).json({message:"could not delete service at the moment"});
