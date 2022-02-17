@@ -1,0 +1,180 @@
+<div class="main-card mb-3 card">
+    <div class="card-body">
+        <h5 class="card-title">Add Experience</h5>
+        <form id="add-experience" class="">
+            <div class="position-relative form-group">
+                <label for="exampleEmail" class="">Title</label
+                ><input
+                    name="title"
+                    id="experience--title"
+                    placeholder="Experience Title"
+                    type="text"
+                    class="form-control"
+                    style="
+                        border: 3px solid #f4f3f3;
+                        background: #f2f2f2;
+                        color: #333;
+                    "
+                />
+            </div>
+
+            <div class="position-relative form-group">
+                <label for="exampleEmail" class="">Company</label
+                ><input
+                    name="company"
+                    id="experience--company"
+                    placeholder="Company"
+                    type="text"
+                    class="form-control"
+                    style="
+                        border: 3px solid #f4f3f3;
+                        background: #f2f2f2;
+                        color: #333;
+                    "
+                />
+            </div>
+
+            <div class="position-relative form-group">
+                <label for="exampleEmail" class="">
+                    Icon
+                    <br>
+                    <small>
+                        use Font Awesome only
+                    </small>
+                    </label
+                >
+                <div style="position: relative;">
+                    <input
+                        name="icon"
+                        id="experience--icon"
+                        placeholder="fa-rocket"
+                        type="text"
+                        class="form-control"
+                        style="
+                            border: 3px solid #f4f3f3;
+                            background: #f2f2f2;
+                            color: #333;
+                        "
+                    />
+                    <span id="icon-stager" style="display: inline-block; position: absolute; top:50%; right: 10px; transform: translateY(-50%);">
+                        <i id="icon-stager-icon" class="fa fa-rocket" style="font-size: 1rem;"></i>
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="position-relative form-group">
+                <label for="exampleEmail" class="">From</label
+                >
+                    <input
+                    name="from"
+                    id="experience--from"
+                    placeholder="from"
+                    type="month"
+                    class="form-control"
+                    style="
+                        border: 3px solid #f4f3f3;
+                        background: #f2f2f2;
+                        color: #333;
+                    "
+                />
+
+            </div>
+
+            <div class="position-relative form-group">
+                <label for="exampleEmail" class="">To</label
+                ><input
+                    name="to"
+                    id="experience--to"
+                    placeholder="to"
+                    type="month"
+                    class="form-control"
+                    style="
+                        border: 3px solid #f4f3f3;
+                        background: #f2f2f2;
+                        color: #333;
+                    "
+                />
+            </div>
+
+            <div class="position-relative form-group">
+                <label for="exampleText" class="">Take</label
+                ><textarea
+                    name="experience"
+                    id="service--description"
+                    class="form-control"
+                    rows="10"
+                    style="
+                        border: 3px solid #f4f3f3;
+                        background: #f2f2f2;
+                        color: #333;
+                    "
+                ></textarea>
+            </div>
+            
+            <div class="position-relative form-group">
+                <label for="exampleEmail" class="">
+                    Company Link
+                    <br>
+                    <small>Optional</small>
+                    </label>
+                    <input
+                    name="company_link"
+                    id="experience--company--link"
+                    placeholder="Website or Social"
+                    type="text"
+                    class="form-control"
+                    style="
+                        border: 3px solid #f4f3f3;
+                        background: #f2f2f2;
+                        color: #333;
+                    "
+                />
+            </div>
+
+            <span class="mt-1 btn btn-primary" role="button" onclick="addExperience()">
+                Submit
+            </span>
+        </form>
+    </div>
+</div>
+
+<!-- Component Based Javascript -->
+<script src="/assets/scripts/formserialize.js"></script>
+<script>
+ function iconStage(){
+   const iconInput = document.getElementById("experience--icon");
+   const iconStager = document.getElementById("icon-stager");
+   const iconStagerIcon = document.getElementById("icon-stager-icon");
+               iconInput.oninput = function(e){
+                   const icon = e.target.value.trim();
+                   iconStagerIcon.className = `fa ${icon}`;
+               }
+ }
+
+
+ function addExperience(){
+   let serializedData;
+   const {title, icon, company, company_link, from, to, experience} = serializedData = serialize("#add-experience", "json");
+
+   if(!title || !icon || !company || !from, !to, !experience)  {
+      return alert("Title, Icon, Company, From, To and Experience field are required");
+   }
+
+   const xhr  =  new XMLHttpRequest();
+    xhr.open("POST", `${app_home_url}/api/experience/`);
+    xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.send(JSON.stringify(serializedData));
+    xhr.onload = function(){
+        if(this.status > 399) return alert(`Error adding ${title}`);
+
+        const responseData =JSON.parse(this.responseText);
+        // if(!responseData.status) return alert(`Error adding ${title}`);
+
+        alert(`Added ${title} successfully`);
+        loadPage();
+    }
+ }
+
+ iconStage();
+</script>

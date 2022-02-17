@@ -14,5 +14,9 @@ router.get('/service', function(req, res, next) {
   res.render('admin/service/index', {title : "service"});
 });
 
+router.get('/experience', function(req, res, next) {
+  res.render('admin/experience/index', {title : "experience"});
+});
+
 
 module.exports = router;
