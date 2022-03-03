@@ -7,7 +7,8 @@ const cors = require('cors');
 const session = require('express-session');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
-const logger = require('morgan');
+const morgan = require('morgan');
+const logger = require('./core/logger');
 
 require('dotenv').config();
 
@@ -21,14 +22,16 @@ MONGO_URI = process.env.MONGO_URI;
 const db = mongooseConnect.connectAtlas(MONGO_URI);
 
 
-// view engine setup
+// view engine setup/
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 
 // Middlewares
 app.use(cors());
-app.use(logger('dev'));
+app.use( 
+	morgan('dev')
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(

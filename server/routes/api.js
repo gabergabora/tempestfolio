@@ -4,7 +4,7 @@ const router = express.Router();
 const multer = require('multer');
 
 const multerStorage = multer.memoryStorage();
-const multerUpload = multer({storage: multerStorage});
+const multerUpload = multer({storage: multerStorage, errorHandling: 'manual'});
 
 // Resume
 const ResumeController = require('../controllers/ResumeController');
@@ -37,5 +37,23 @@ router.post('/experience', experienceController.addExperience);
 router.put('/experience/:id', experienceController.updateExperience);
 router.delete('/experience/:id', experienceController.deleteExperience);
 
+
+// Project
+const ProjectController = require('../controllers/ProjectController');
+const projectController = new ProjectController;
+
+// Reading binaries
+const projectImages = [
+	{ name: 'imageHero', maxCount: 1 }, 
+	{ name: 'project_img_1', maxCount: 1 },
+	{ name: 'project_img_2', maxCount: 1 },
+	{ name: 'project_img_3', maxCount: 1 },
+];
+
+router.post('/project/', multerUpload.fields(projectImages), projectController.newProject);
+
+function handleMulterError(error){
+	console.log("My Handle", error)
+}
 
 module.exports = router;
