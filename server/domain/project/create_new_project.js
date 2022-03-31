@@ -3,14 +3,10 @@ const { promises } = require('nodemailer/lib/xoauth2');
 const Imagekit = require('../../libs/imagekit/Imagekit');
 const ProjectModel = require('../../models/ProjectModel');
 
-/**
- * 
- * refactor
- * 
- * add logger
- * error with client json
- * catching multer error
- */
+
+const allowedProjectHeroTypes = ["png", "jpg", "jpeg", "webp"];
+const allowedProjectFileTypes = [...allowedProjectHeroTypes, "gif"];
+
 
 async function createNewProject(project){
     // destructure project
@@ -68,6 +64,7 @@ async function createNewProject(project){
 
     // Other Images
     projectMedias.forEach((media, i)=>{
+        // Switch to for loop and fast error
         // Make sure only allowed files are sent
         if(media && media != "undefined"){
 
@@ -86,7 +83,6 @@ async function createNewProject(project){
         return {status: false, message: projectMediasErrors[0]};
     }
 
-
    
     // Everything is right
 
@@ -94,10 +90,10 @@ async function createNewProject(project){
     let newProject = {title, category, description, video, github, externalUrl, tags};
 
     // upload Image imageHero
-    let projectHeroUploadedDetails = await uploadProjectImage(projectHero);
+    let projectHeroUploadedDetails = await uploadProjectMedia(projectHero);
     newProject.imageHero = projectHeroUploadedDetails;
 
-    const projectMediaDetails = await uploadProjectMedia(projectMedias);
+    const projectMediaDetails = await uploadProjectMedias(projectMedias);
 
     if(projectMediaDetails.status)
         newProject.imgs = projectMediaDetails.mediaDetails;
@@ -111,12 +107,6 @@ async function createNewProject(project){
 }
 
 
-
-const allowedProjectHeroTypes = ["png", "jpg", "jpeg", "webp"];
-const allowedProjectFileTypes = [...allowedProjectHeroTypes, "gif"];
-
-
-
 function getFileExtension(fileName){
     if(!fileName) return undefined;
 
@@ -126,7 +116,7 @@ function getFileExtension(fileName){
     return fileExtension;
 }
 
-function uploadProjectImage (file){
+function uploadProjectMedia (file){
     return new Promise((resolve, reject)=>{
         const remoteFolder = "portf/proj";
     
@@ -148,7 +138,7 @@ function uploadProjectImage (file){
     
 }
 
-function uploadProjectMedia(mediaArray = []){
+function uploadProjectMedias(mediaArray = []){
     return new Promise((resolve, reject)=>{
 
         if(!mediaArray.length){
@@ -164,7 +154,7 @@ function uploadProjectMedia(mediaArray = []){
             if(media && media != "undefined"){
                 media = media[0];
     
-                let mediaInfo = uploadProjectImage(media);
+                let mediaInfo = uploadProjectMedia(media);
                 otherImages.push(mediaInfo);
             }
     

@@ -50,10 +50,18 @@ const projectImages = [
 	{ name: 'project_img_3', maxCount: 1 },
 ];
 
+router.get('/project/', projectController.getProjects);
+router.get('/project/:id', projectController.getSingleProject);
 router.post('/project/', multerUpload.fields(projectImages), projectController.newProject);
+router.put('/project/:id/setvisibility', projectController.updateVisibility);
+router.delete('/project/:id/', projectController.dropProject);
 
-function handleMulterError(error){
-	console.log("My Handle", error)
-}
+
+// Tags
+const TagController = require('../controllers/TagController.js');
+const tagController = new TagController;
+
+router.get('/tag/', tagController.getTags);
+router.post('/tag/', tagController.createTag);
 
 module.exports = router;

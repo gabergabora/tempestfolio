@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const ImageKit = require('imagekit');
-
+const logger = require('../../../core/logger');
 
 class Imagekit {
 	/**
@@ -18,13 +18,8 @@ class Imagekit {
 	 *  @description Push file to imagekit
 	 */
 	static upload(file, remoteFolder="portf/res") {
-		/**
-		 * Stage File in app /uploads
-		 * Read file and push to remote
-		 * Unlink staged file
-		 */
-		console.log('imageKit uploading...');
-          
+		Imagekit.log("Imagekit uploading...");
+
 		const fileName = file['originalname'];
 		const fileData = file.buffer;
 
@@ -32,12 +27,12 @@ class Imagekit {
 			Imagekit.imagekitErrandBoy.upload({file:fileData, fileName, folder: remoteFolder}, (error, data) => {
 					if (error) {
                         //log error
-						console.log('file upload failed');
+						Imagekit.log(error, "error");
 						reject(error);
 					}
 					else 
 					{
-						console.log('file upload successful');
+						Imagekit.log("Imagekit file upload successful");
 						resolve(data)
 					};
 				}
@@ -47,20 +42,36 @@ class Imagekit {
 
 
 	static deleteFile(fileId){
-		console.log("Imagekit deleting media");
+		Imagekit.log("Imagekit deleting media...");
+
 		return new Promise((resolve, reject)=>{
 			Imagekit.imagekitErrandBoy.deleteFile(fileId, function(error, result) {
 				if(error) {
-					//File to be deletd does not exist
-					console.log("Imagekit media deletion failed"); // logs
+					Imagekit.log("Imagekit file to be deletd does not exist", "error");
 					resolve();
 				}
 				else {
-					console.log("Imagekit media deletion successful");
+					Imagekit.log("Imagekit media deletion successful");
 					resolve();
 				}
 			});
 		});
+	}
+
+
+	static log(info, level="info"){
+		let message;
+
+		if(typeof info == "object")
+		  message = info.toString();
+		else
+		  message = info;
+
+		logger.log({
+			level: level,
+			message: message,
+			meta: {where: __filename, date: (new Date()).toLocaleString()}
+		})
 	}
 }
 

@@ -17,6 +17,8 @@ let projectSchema = new mongoose.Schema({
 	github: { type: String },
 	externalUrl: { type: String },
 	date: { type: String, default: new Date().getTime().toString() },
+	visibility: { type: Boolean, default: true },
+
 });
 
 

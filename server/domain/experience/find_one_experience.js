@@ -4,9 +4,9 @@ const ExperienceModel = require('../../models/ExperienceModel');
     if(!experience_id)
         throw new Error("find_one_service requires param experience_id");
 
-    let services = await ExperienceModel.findById(experience_id);
+    let experience = await ExperienceModel.findById(experience_id);
     
-    return services;
+    return experience;
 }
 
 module.exports = findOneExperience;

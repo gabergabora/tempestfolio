@@ -1,5 +1,6 @@
-const createError = require('http-errors');
+require('dotenv').config();
 
+const createError = require('http-errors');
 const path = require('path');
 const fs = require('fs');
 const express = require('express');
@@ -8,30 +9,30 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
-const logger = require('./core/logger');
-
-require('dotenv').config();
 
 // My modules
 const mongooseConnect = require('./core/mongooseConnect');
 
 const app = express();
-MONGO_URI = process.env.MONGO_URI;
+
+const MONGO_URI = process.env.MONGO_URI;
+const morganLogStream = fs.createWriteStream(path.join(__dirname, 'logs', 'morgan.log'), { flags: 'a' })
+
 
 // Database
-const db = mongooseConnect.connectAtlas(MONGO_URI);
-
+mongooseConnect.connectAtlas(MONGO_URI);
 
 // view engine setup/
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-
 // Middlewares
+// Morgan
+app.use(morgan('combined', { stream: morganLogStream }))
+// log to console if on development
+if(process.env.NODE_ENV != "production") app.use(morgan('dev'));
+
 app.use(cors());
-app.use( 
-	morgan('dev')
-);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(

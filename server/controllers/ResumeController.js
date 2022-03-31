@@ -1,9 +1,7 @@
-const ApiController = require('./ApiController')
+const ApiController = require('./ApiController');
+const logger = require('../../core/logger');
 
 class ResumeController {
-   
-//   domainBasePath = Path2D.join(__dirname, '/../domain/resume');
-
 
   getResumes = (req, res) => {
       let findResumes = require('../domain/resume/find_resumes');
@@ -15,8 +13,7 @@ class ResumeController {
       })
 
       .catch(error => {
-        // Log error
-        console.log(error);
+        ResumeController.log(error);
         return res.status(500).json({message: "Could not complete request"});
       })
   }
@@ -39,7 +36,7 @@ class ResumeController {
     })
 
     .catch(error => {
-      // Log error
+      ResumeController.log(error);
       return res.status(500).json({message: "Could not complete request"});
     })
   }
@@ -63,7 +60,7 @@ class ResumeController {
     })
 
     .catch(error => {
-      // Log error
+      ResumeController.log(error);
       return res.status(500).json({message: "Could not complete request"});
     })
 
@@ -87,7 +84,7 @@ class ResumeController {
     })
     
     .catch(error=>{
-      //log error
+      ResumeController.log(error);
       return res.status(500).json({message:"could not complete request"});
     })
   }
@@ -104,13 +101,27 @@ class ResumeController {
     .then(status => {
         return res.status(200).json({data:{}});
     })
-    .catch(error=>
-      {
-    console.log(error);
+    .catch(error=>{
+        ResumeController.log(error);
         return res.status(500).json({message: "could not complete request"})
       })
   }
 
+
+  static log(info, level="error"){
+		let message;
+
+		if(typeof info == "object")
+		  message = info.toString();
+		else
+		  message = info;
+
+		logger.log({
+			level: level,
+			message: message,
+			meta: {where: __filename, date: (new Date()).toLocaleString()}
+		})
+	}
 
 }
 
