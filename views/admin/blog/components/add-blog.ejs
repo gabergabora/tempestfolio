@@ -1,0 +1,170 @@
+<div class="main-card mb-3 card">
+    <div class="card-body">
+        <h5 class="card-title">New Blog</h5>
+        <form class="" id="addBlog">
+            <div class="position-relative form-group">
+                <label for="blogTitle" class="">Title</label
+                ><input
+                    name="title"
+                    id="blogTitle"
+                    type="text"
+                    class="form-control bordered"
+                />
+            </div>
+
+            <div class="position-relative form-group">
+                <label for="blogDate" class="">Date</label
+                ><input
+                    name="date"
+                    id="blogDate"
+                    type="date"
+                    class="form-control bordered"
+                />
+            </div>
+
+            <div class="blog-link">
+                <label for="blogLink" class=""
+                    >Blog External link</label
+                ><input
+                    name="link"
+                    id="blogLink"
+                    class="form-control bordered"
+                    rows="10"
+                />
+            </div>
+
+            <div class="position-relative form-group">
+                <label for="blogExtract" class="mt-2">Extract</label
+                ><textarea
+                    name="extract"
+                    id="blogExtract"
+                    class="form-control bordered"
+                    rows="10"
+                ></textarea>
+            </div>
+
+            <div class="image-upload">
+                <label for="heroImage" class="">Image Hero link</label
+                ><input
+                    name="image-hero"
+                    id="heroImage"
+                    placeholder="http://your-blog-image-link"
+                    class="form-control bordered"
+                    rows="10"
+                />
+            </div>
+
+            <!--  -->
+            <div class="tag-select-container" id="tag-select-container">
+                <label for="tags" class="mt-2">Tags</label
+                    >
+                 <div id="tags-holder"></div>
+            </div>
+            <!--  -->
+            
+            <br />
+
+            <button
+                class="mt-1 btn btn-outline-primary"
+                type="button"
+                onclick="addBlog()"
+            >
+                + Add Blog
+            </button>
+        </form>
+    </div>
+</div>
+
+<!--  -->
+<script>
+
+function addBlog(){
+    const blogTitle = document.querySelector("input#blogTitle").value.trim();
+    const blogDate = document.querySelector("input#blogDate").value.trim();
+    const blogLink = document.querySelector("input#blogLink").value.trim();
+    const heroImage = document.querySelector("input#heroImage").value.trim();
+    const blogExtract = document.querySelector("textarea#blogExtract").value.trim();
+    const tags = getActiveTags() ;
+
+    if(!blogTitle || !blogDate||  !blogLink || !blogExtract || !heroImage) return alert("Please fill all input");
+    if(!tags.length > 0) return alert("please select at least one tag");
+    if(blogExtract.length > 700) return alert("Blog extract should be a minimum of 25 characters");
+
+    const formData = {
+        title: blogTitle,
+        image: heroImage,
+        link: blogLink,
+        extract: blogExtract,
+        tags: tags,
+        date: blogDate
+    }
+
+    const xhr  =  new XMLHttpRequest();
+    xhr.open("POST", `${app_home_url}/api/blog/`);
+    xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.send(JSON.stringify(formData));
+
+    xhr.onload = function(){
+        const blogsHolder = document.getElementById('blogsHolder');        
+            if(this.status < 399){
+                    const responseData =JSON.parse(this.responseText);
+                    if(responseData.status) loadPage();
+            }
+            else {
+                alert("Could not add blog at the moment");
+            }
+      }
+
+}
+
+function renderAddBlogTags(tags){
+    const tagsContainer = document.querySelector('#addBlog #tag-select-container #tags-holder');
+    tagsContainer.innerHTML = "";
+
+    tags.forEach(tag => {
+        const newTagElement = `
+        <span 
+        class="tag"
+        name="${tag.name}"
+        key="${tag._id}"
+        role="button"
+        active="false"
+        onclick="toggleActiveTag(this)"
+          > 
+        ${tag.name} 
+        </span>`;
+
+        tagsContainer.innerHTML += newTagElement;
+    });
+}
+
+   function loadTags(){
+    const xhr  =  new XMLHttpRequest();
+    xhr.open("GET", `${app_home_url}/api/tag/`);
+    xhr.send();
+
+    xhr.onload = function(){
+        const responseData =JSON.parse(this.responseText);
+        renderAddBlogTags(responseData.data)
+    }
+}
+loadTags();
+
+function toggleActiveTag(tagElem){
+     const isActive = tagElem.getAttribute("active") === "true" ? true :  false ; 
+     const flipActive = !isActive ; 
+    tagElem.setAttribute("active", flipActive);
+    if(flipActive) tagElem.className = "tag active";
+    else tagElem.className = "tag";
+}
+
+function getActiveTags(){
+    const activeTags = [];
+    const tags = document.querySelectorAll("span.tag.active");
+    Array.from(tags).forEach(tag=>{
+            activeTags.push(tag.getAttribute("name").toLocaleLowerCase())
+    })
+    return activeTags;
+}
+
+</script>

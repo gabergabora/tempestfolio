@@ -56,6 +56,25 @@ router.post('/project/', multerUpload.fields(projectImages), projectController.n
 router.put('/project/:id/setvisibility', projectController.updateVisibility);
 router.delete('/project/:id/', projectController.dropProject);
 
+// Expertise
+const ExpertiseController = require('../controllers/ExpertiseController.js');
+const expertiseController = new ExpertiseController;
+
+// router.get('/expertise/', expertiseController.getExpertises);
+// router.post('/expertise/', multerUpload.single('icon'), expertiseController.addExpertise);
+
+
+// Blog
+const BlogController = require('../controllers/BlogController.js');
+const blogController = new BlogController;
+
+router.get('/blog/', blogController.getAllBlogs);
+router.get('/blog/:id', blogController.getSingleBlog);
+router.post('/blog/', blogController.addBlog);
+router.put('/blog/:id', blogController.editBlog);
+router.delete('/blog/:id', blogController.removeBlog);
+
+
 
 // Tags
 const TagController = require('../controllers/TagController.js');
@@ -63,5 +82,9 @@ const tagController = new TagController;
 
 router.get('/tag/', tagController.getTags);
 router.post('/tag/', tagController.createTag);
+
+
+
+
 
 module.exports = router;

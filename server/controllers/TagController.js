@@ -3,7 +3,7 @@ const path = require('path');
 
 class TagController {
    getTags = (req, res) => {
-      const fetchTags = require('../domain/tags/fetchTags');
+      const fetchTags = require('../domain/tags/fetch_tags');
 
       fetchTags()
       .then(tags=>{
@@ -16,7 +16,7 @@ class TagController {
 
 
    createTag = (req, res) => {
-      const createTag = require('../domain/tags/createTag');
+      const createTag = require('../domain/tags/create_tag');
 
       const tagName = req.body.name;
 	   if (!tagName) return res.status(400).json({ status: 0, message: 'client error' });

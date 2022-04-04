@@ -58,7 +58,7 @@ async function createNewProject(project){
     if(!projectHero || projectHero == "undefined") 
         return {status: false, message: `frontpage media is required`};
 
-    if ( !allowedProjectFileTypes.includes(getFileExtension(projectHero['originalname'])) )
+    if (!allowedProjectFileTypes.includes(getFileExtension(projectHero['originalname'])) )
         return {status: false, message: `frontpage media ${projectHero['originalname']} is of unsupported file type`};
 
 

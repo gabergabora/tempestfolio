@@ -22,5 +22,12 @@ router.get('/project', function(req, res, next) {
   res.render('admin/project/index', {title : "project"});
 });
 
+router.get('/expertise', function(req, res, next) {
+  res.render('admin/expertise/index', {title : "project"});
+});
+
+router.get('/blog', function(req, res, next) {
+  res.render('admin/blog/index', {title : "project"});
+});
 
 module.exports = router;

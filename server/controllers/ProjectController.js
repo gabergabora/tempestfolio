@@ -40,7 +40,7 @@ class ProjectController {
         const projectData = req.body;
         const projectImages = req.files;
 
-        if(!projectData && projectImages)
+        if(!projectData && !projectImages)
            return res.status(400).json({message: "no data sent"});
 
         createNewProject({...projectData, ...projectImages})
@@ -88,6 +88,8 @@ class ProjectController {
         let deleteProject = require('../domain/project/delete_project');
 
         const projectID = req.params.id;
+       
+        if(!expertiseID) return res.status(400).json("no id sent");
 
         deleteProject(projectID)
         .then(status=>{ 
