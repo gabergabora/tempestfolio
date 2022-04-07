@@ -4,16 +4,18 @@ const ExpertiseModel = require('../../models/ExpertiseModel');
 
 
 async function addNewExpertise(expertise){
-   const {name, rating} = expertise;
+   const {name, rating, icon} = expertise;
+   const expertiseData = {name, rating}
+
 
     // Validate text data
     const schema = Joi.object({
-        name: Joi.string().required().trim(true),
-        rating: Joi.string().required().trim(true),
+        name: Joi.string().trim(true),
+        rating: Joi.string().trim(true),
     });
 
     try{
-        const value = await schema.validateAsync(expertise);
+        const value = await schema.validateAsync(expertiseData);
     }
     catch(error){
         const {_original, details} = error;
@@ -27,30 +29,34 @@ async function addNewExpertise(expertise){
         return errorObject;
     }
 
-    // if(!icon || icon == "undefined" || (getFileExtension(icon)) != "svg"){
-    //     let errorObject = {};
+    if(!icon || icon == "undefined" || (getFileExtension(icon.originalname)) != "svg"){
+        let errorObject = {};
 
-    //     errorObject.status = false;
-    //     errorObject.message = `Invalid or empty Icon media. Media can only be svg files `;
+        errorObject.status = false;
+        errorObject.message = `Invalid or empty Icon media. Media can only be svg files `;
 
-    //     return errorObject;
-    // }
+        return errorObject;
+    }
 
     //Upload media
-    // const projectIcon = await uploadMedia(icon);
+    const expertiseIconDetails = await uploadMedia(icon);
 
-    // if(!projectMediaDetails.status){
-    //     let errorObject = {};
+    if(!expertiseIconDetails){
+        let errorObject = {};
 
-    //     errorObject.status = false;
-    //     errorObject.message = `Could not upload Icon media`;
+        errorObject.status = false;
+        errorObject.message = `Could not upload Icon media`;
 
-    //     return errorObject;
-    // }
+        return errorObject;
+    }
 
-    let newExpertise = {name, rating: parseInt(rating)};
 
-    return {status:true, data: await (new ExpertiseModel(newExpertise)).save() }
+    let newExpertise = new ExpertiseModel({name, rating: parseInt(rating), icon:expertiseIconDetails})
+     
+    await newExpertise.save();
+
+    delete newExpertise._doc.icon.file_id;
+    return {status:true, data: newExpertise};
 }
 
 

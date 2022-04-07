@@ -1,10 +1,7 @@
-const path = require('path');
-
-
-// const { path } = require('../../app');
 const ApiController = require('./ApiController');
 
-class ServiceController {
+
+class ServiceController extends ApiController{
    getServices = (req, res) => {
       const findServices = require('../domain/service/find_services');
 
@@ -18,9 +15,9 @@ class ServiceController {
       .then(services=>{
          return res.status(200).json({data:services});
       })
-
-      .catch(err=>{
-         return res.status(500).json({message:"could not complete request"});
+      .catch(error=>{
+        this.logError(error);
+        return res.status(500).json({message:"could not complete request"});
       });
 
    }
@@ -41,8 +38,8 @@ class ServiceController {
          }
          return res.status(200).json({data:service});
       })
-      .catch(err=>{
-         //log error
+      .catch(error=>{
+        this.logError(error);
          return res.status(500).json({message:"could not complete request"});
       });
 
@@ -51,7 +48,7 @@ class ServiceController {
 
    addService = (req, res) => {
       const addService = require('../domain/service/add_service');
-console.log(req.body)
+      console.log(req.body)
       //check if req data is empty
       if (!Object.keys(req.body).length)
             return res.status(404).json({message: 'empty request data' });
@@ -67,9 +64,9 @@ console.log(req.body)
             return res.status(200).json({data:service.data}) 
          })
 
-         .catch(err => {
-            console.log(err)//Should be logger
-            return res.status(500).json({message:"could not add service at the moment"});
+         .catch(error => {
+            this.logError(error);
+            return res.status(500).json({message:"could not complete request"});
         })
 
    }
@@ -93,8 +90,7 @@ console.log(req.body)
         })
 
         .catch(error=>{
-           // Log error
-           console.log(error);
+           this.logError(error);
            return res.status(500).json({message: "Could not complete request"});
         })
 
@@ -109,8 +105,10 @@ console.log(req.body)
 
       deleteService(serviceID)
       .then(deleted=> { return res.status(200).json({data:{}}) })
-      .catch(err=> { 
-            return res.status(500).json({message:"could not delete service at the moment"});
+
+      .catch(error=> { 
+        this.logError(error);
+        return res.status(500).json({message: "Could not complete request"});
       })
    }
 

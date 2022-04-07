@@ -69,21 +69,24 @@ function addExpertise() {
     const skillIcon = document.getElementById("skill-icon");
     const icon = skillIcon.files[0];
 
+    const formData = new FormData();
+    formData.append('name', skillName);
+    formData.append('rating', skillRating);
+    formData.append('icon', icon);
 
-    const formdata = new FormData();
-    formdata.append("icon", icon);
-    formdata.append("name", skillName);
-    formdata.append("rating", skillRating);
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", `${app_home_url}/api/expertise/`);
+    xhr.send(formData);
 
-    var xhr = new XMLHttpRequest();
-    xhr.addEventListener("readystatechange", function() {
-        if(this.readyState === 4) {
-            console.log(this.responseText);
+    xhr.onload = function() {
+        if(this.status < 399){
+            alert("new skill added");
+            loadSkills();
         }
-    });
-
-    xhr.open("POST", "http://127.0.0.1:3000/api/expertise/");
-    xhr.send(formdata);
+        else{
+            alert("Failed to add skill");
+        }
+    }
 }
 
  

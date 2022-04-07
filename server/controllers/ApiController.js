@@ -1,29 +1,10 @@
-const Requester = require('../http/Requester');
-const Responder = require('../http/Responder');
+const logger = require('../../app/logger');
 
 class ApiController {
+   response;
     
-    response;
-
-    initRequest = (req, res) => {
-        
-        let requester =  new Requester(req);
-
-        // Make request properties accessible 
-        /**
-         * Will not load objects in _proto_
-         */
-        (Object.keys(requester)).forEach(k=>{
-            this[k] = requester[k];
-        })
-
-
-        // delete requester object
-        requester = null;
-
-        // load responder
-        this.response = res;
-
+    constructor(){
+      this.logger = logger
     }
 
     /** Since most find routes do not have unique request validation
@@ -31,7 +12,7 @@ class ApiController {
      * and override in special domain find
      */
 
-     getExperiences = (model, req, res) => {
+     getResources = (model, req, res) => {
         const findResources = require('../domain/api/find_resource');
   
         // check for pagination
@@ -49,6 +30,10 @@ class ApiController {
            return res.status(500).json({message:"could not complete request"});
         });
   
+     }
+
+     logError = (error) => {
+       this.logger.error(error.toString(), this.constructor.name);
      }
 }
 

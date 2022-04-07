@@ -1,7 +1,7 @@
-const path = require('path');
+const ApiController = require('./ApiController');
 
 
-class TagController {
+class TagController extends ApiController{
    getTags = (req, res) => {
       const fetchTags = require('../domain/tags/fetch_tags');
 
@@ -10,6 +10,7 @@ class TagController {
          return res.status(200).json({data:tags});
       })
       .catch(err=>{
+         this.logError(error);
          return res.status(500).json({message:"could not complete request"});
       });
    }
@@ -30,7 +31,7 @@ class TagController {
       })
 
       .catch(err => {
-         console.log(err)
+         this.logError(error);
          return res.status(500).json({message:"could not add service at the moment"});
       })
 

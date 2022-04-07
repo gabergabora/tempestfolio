@@ -9,14 +9,14 @@ const infoLogFile =  path.join(logDir, 'info.log');
 const verboseLogFile =  path.join(logDir, 'verbose.log');
 
 
-// Create folder
+// Create folder if it does not exist
 if (!fs.existsSync(logDir)) fs.mkdirSync(logDir);
 
 
 const logger = winston.createLogger({
       level: 'info',
       format: winston.format.json(),
-      defaultMeta: { date: new Date().toLocaleString() },
+      defaultMeta: { date: new Date().toLocaleString()},
       transports: [
 
       new winston.transports.File({ filename: errorLogFile, level: 'error' }),
@@ -36,35 +36,18 @@ if (env !== 'production') {
 
 module.exports = logger ;
 
+module.exports.info = function(message, where=null){
+  logger.log({
+    level: "info",
+    message: message,
+    meta: {where: where ? where : '' }
+  });
+};
 
-// const now = new Date();
-
-// var logger = winston.createLogger({
-// transports: [
-//     new winston.transports.File({
-//     name: 'error-file',
-//     filename: './logs/exceptions.log',
-//     level: 'error',
-//     json: false,
-//     }),
-
-//     new winston.transports.File({
-//     filename: `${logDir}/-apimodules.log`,
-//     timestamp: now,
-//     datePattern: 'dd-MM-yyyy',
-//     prepend: true,
-//     json: false,
-//     level: env === 'development' ? 'verbose' : 'info',
-//     }),
-// ],
-// exitOnError: false,
-// });
-
-// module.exports = logger;
-
-// module.exports.stream = {
-//     write: function (message) {
-//         logger.info(message);
-//         console.log('message = ', message);
-//     },
-// };
+module.exports.error = function(message, where=null){
+  logger.log({
+    level: "error",
+    message: message,
+    meta: {where: where ? where : '' }
+  });
+};

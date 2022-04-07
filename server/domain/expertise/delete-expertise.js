@@ -9,12 +9,12 @@ async function deleteExpertise(expertise_id){
 
     if(!expertise) return {status: false};
 
-    let projectMedia = expertise.icon;
+    let expertiseIcon = expertise.icon;
 
-    await Imagekit.deleteFile(projectMedia.fileId);
+    await Imagekit.deleteFile(expertiseIcon.fileId);
 
     //delete from database
-    await ProjectModel.findByIdAndDelete(project_id);
+    await ExpertiseModel.findByIdAndDelete(expertise_id);
 
     return {status: true};
 }

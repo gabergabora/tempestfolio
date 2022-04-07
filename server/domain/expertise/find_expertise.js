@@ -2,7 +2,12 @@ const ExpertiseModel = require('../../models/ExpertiseModel');
 
 
 async function findExpertise(){
-   const projects = await ExpertiseModel.find();
+   let projects = await ExpertiseModel.find({}, "");
+
+   projects = projects.map(project=>{
+      delete project._doc.icon.file_id
+      return project;
+   })
 
    return projects;
 }

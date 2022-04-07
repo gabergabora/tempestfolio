@@ -1,0 +1,197 @@
+<%- include('./layouts/head.ejs') %>
+
+		<div class="wrapper" id="pg-login">
+			<div class="row">
+				<%- include('./layouts/background.ejs') %>
+				<div class="form">
+					<div class="wrap">
+						<div class="welcome">
+							<h2>Verify Your Email</h2>
+							<p class="motivational-quote">
+								Great talent finds happiness in execution
+								<span class="author"> ~Aristotle </span>
+							</p>
+							<br />
+
+							<p style="font-size: 15px; line-height: 1.7">
+								A One Time Password will been sent to your provided email
+								<br />
+								Enter OTP to verify your account
+							</p>
+						</div>
+						<form action="/admin/verify" method="POST">
+							<h3 class="pointer">Enter OTP Code :</h3>
+							<div class="form-group input">
+								<label for="" class="label-hidden-v">
+									<h5>OTP code</h5>
+								</label>
+								<input
+									type="text"
+									name="OTP"
+									id="inputOTP"
+									placeholder="000000"
+								/>
+							</div>
+							<!-- submit button -->
+							<br />
+							<button type="submit" id="sendOTP">Send OTP</button>
+							<br />
+							<br />
+							<div class="form-btn-loader-flex">
+								<button type="submit" id="verifyOTP">Verify</button>
+
+								<span id="loader" class="loading hidden">
+									<div class="sk-chase">
+										<div class="sk-chase-dot"></div>
+										<div class="sk-chase-dot"></div>
+										<div class="sk-chase-dot"></div>
+										<div class="sk-chase-dot"></div>
+										<div class="sk-chase-dot"></div>
+										<div class="sk-chase-dot"></div>
+									</div>
+								</span>
+								<span id="process-tracker" class="loading hidden">
+									Verifying Email
+								</span>
+							</div>
+						</form>
+						<div class="image" style="margin-top: 20px">
+							<a href="https://longbottondev.io">
+								<img
+									src="/login/images/5.jpg"
+									style="width: 150px; height: 100px"
+									alt=""
+								/>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Scripts -->
+		<!-- <script src="/js/main.js"></script> -->
+		<script>
+			const sendOtpButton = document.getElementById('sendOTP');
+			const verifyOtpButton = document.getElementById('verifyOTP');
+			const sendOtpUrl = '/admin/auth/otp/generate';
+			const verifyOtpUrl = '/admin/auth/otp/verify';
+			const loader = document.getElementById('loader');
+			const processTracker = document.getElementById('process-tracker');
+
+			sendOtpButton.style.backgroundColor = '#ccc';
+			sendOtpButton.style.color = '#222';
+
+			//Dom functions
+			function hideLoaders() {
+				const loaders = document.querySelectorAll('.loading');
+				loaders.forEach((loader) => {
+					loader.classList.add('hidden');
+				});
+			}
+			function showLoaders() {
+				const loaders = document.querySelectorAll('.loading.hidden');
+				loaders.forEach((loader) => {
+					loader.classList.remove('hidden');
+				});
+			}
+
+			function hideLoadIcon() {
+				const loader = document.getElementById('loader');
+				if (!loader.classList.contains('hidden'))
+					loader.classList.add('hidden');
+			}
+			function showLoadIcon() {
+				const loader = document.getElementById('loader');
+				if (loader.classList.contains('hidden'))
+					loader.classList.remove('hidden');
+			}
+
+			function renderProcess(processMessage) {
+				const processTracker = document.getElementById('process-tracker');
+				processTracker.textContent = processMessage;
+			}
+
+			function disableButtons() {
+				sendOtpButton.disabled = 'true';
+				sendOtpButton.style.opacity = '.6';
+				verifyOtpButton.disabled = 'true';
+				verifyOtpButton.style.opacity = '.6';
+			}
+			function enableButtons() {
+				sendOtpButton.disabled = '';
+				sendOtpButton.style.opacity = '1';
+				verifyOtpButton.disabled = '';
+				verifyOtpButton.style.opacity = '1';
+			}
+
+			sendOtpButton.addEventListener('click', (e) => {
+				e.preventDefault();
+				// disableButtons();
+
+				// showLoaders();
+				// renderProcess('Brewing.. Hold still');
+
+				// window.setTimeout(() => {
+					// Make Request
+					fetch('http://localhost:3000/admin/auth/otp/generate', {
+						method: 'post',
+					})
+					.then((response) => response.json())
+					.then((data) => {
+						console.log(data);
+						// if (data.status === 'failed') {
+						// 	renderProcess('Error sending OTP');
+						// } else {
+						// 	renderProcess('OTP sent');
+						// }
+						// //FIX THIS********
+						// window.setTimeout(() => {
+						// 	enableButtons();
+						// 	hideLoaders();
+						// 	sendOtpButton.textContent = 'Resend OTP';
+						// }, 2000);
+					})
+					.catch((err) => console.log(err));
+					// Make Request End
+				// }, 3000);
+			});
+
+			verifyOtpButton.addEventListener('click', (e) => {
+				e.preventDefault();
+				disableButtons();
+
+				showLoaders();
+				renderProcess('Brewing.. Hold still');
+				window.setTimeout(() => {
+					// Make Request
+					let otp = document.getElementById('inputOTP').value;
+					fetch('http://localhost:3000/admin/auth/otp/verify', {
+						method: 'post',
+						body: JSON.stringify({ otp: otp }),
+						headers: {
+							'Content-Type': 'application/json',
+						},
+					})
+						.then((response) => response.json())
+						.then((data) => {
+							renderProcess(data.message);
+
+							window.setTimeout(() => {
+								if (!data.isVerified) {
+									enableButtons();
+									hideLoaders();
+								} else {
+									renderProcess('redirecting..');
+									window.setTimeout(() => {
+										window.location = '/';
+									}, 2000);
+								}
+								// FIX THIS********
+							}, 2000);
+						});
+					// Make Request End
+				}, 3000);
+			});
+		</script>
+	<%- include('./layouts/footer.ejs') %>
+

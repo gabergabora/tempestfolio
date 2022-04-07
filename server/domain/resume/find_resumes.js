@@ -2,8 +2,13 @@ const ResumeModel = require('../../models/ResumeNodel');
 
 // If any mongo error catch error
 async function findResumes(){
-    const resumes = await ResumeModel.find();
+    let resumes = await ResumeModel.find();
 
+    resumes = resumes.map(resume=>{
+       delete resume._doc.file_id
+       return resume;
+    })
+ 
     return resumes;
 }
 

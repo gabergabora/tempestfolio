@@ -1,7 +1,6 @@
 const ApiController = require('./ApiController');
-const logger = require('../../core/logger');
 
-class ResumeController {
+class ResumeController extends ApiController{
 
   getResumes = (req, res) => {
       let findResumes = require('../domain/resume/find_resumes');
@@ -13,7 +12,7 @@ class ResumeController {
       })
 
       .catch(error => {
-        ResumeController.log(error);
+        this.logError(error);
         return res.status(500).json({message: "Could not complete request"});
       })
   }
@@ -36,7 +35,7 @@ class ResumeController {
     })
 
     .catch(error => {
-      ResumeController.log(error);
+        this.logError(error);
       return res.status(500).json({message: "Could not complete request"});
     })
   }
@@ -60,7 +59,7 @@ class ResumeController {
     })
 
     .catch(error => {
-      ResumeController.log(error);
+      this.logError(error);
       return res.status(500).json({message: "Could not complete request"});
     })
 
@@ -84,7 +83,7 @@ class ResumeController {
     })
     
     .catch(error=>{
-      ResumeController.log(error);
+      this.logError(error);
       return res.status(500).json({message:"could not complete request"});
     })
   }
@@ -102,26 +101,10 @@ class ResumeController {
         return res.status(200).json({data:{}});
     })
     .catch(error=>{
-        ResumeController.log(error);
+        this.logError(error);
         return res.status(500).json({message: "could not complete request"})
       })
   }
-
-
-  static log(info, level="error"){
-		let message;
-
-		if(typeof info == "object")
-		  message = info.toString();
-		else
-		  message = info;
-
-		logger.log({
-			level: level,
-			message: message,
-			meta: {where: __filename, date: (new Date()).toLocaleString()}
-		})
-	}
 
 }
 

@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const ImageKit = require('imagekit');
-const logger = require('../../../core/logger');
+const logger = require('../../../app/logger');
 
 class Imagekit {
 	/**
@@ -26,13 +26,12 @@ class Imagekit {
 		return new Promise((resolve, reject) => {
 			Imagekit.imagekitErrandBoy.upload({file:fileData, fileName, folder: remoteFolder}, (error, data) => {
 					if (error) {
-                        //log error
-						Imagekit.log(error, "error");
+						logger.error(error.toString(), __filename);
 						reject(error);
 					}
 					else 
 					{
-						Imagekit.log("Imagekit file upload successful");
+						logger.info("Imagekit file upload successful");
 						resolve(data)
 					};
 				}
@@ -42,16 +41,16 @@ class Imagekit {
 
 
 	static deleteFile(fileId){
-		Imagekit.log("Imagekit deleting media...");
+		logger.info("Imagekit deleting media...");
 
 		return new Promise((resolve, reject)=>{
 			Imagekit.imagekitErrandBoy.deleteFile(fileId, function(error, result) {
 				if(error) {
-					Imagekit.log("Imagekit file to be deletd does not exist", "error");
+					logger.error("Imagekit file to be deletd does not exist", __filename);
 					resolve();
 				}
 				else {
-					Imagekit.log("Imagekit media deletion successful");
+					logger.info("Imagekit media deletion successful", __filename);
 					resolve();
 				}
 			});
@@ -59,20 +58,6 @@ class Imagekit {
 	}
 
 
-	static log(info, level="info"){
-		let message;
-
-		if(typeof info == "object")
-		  message = info.toString();
-		else
-		  message = info;
-
-		logger.log({
-			level: level,
-			message: message,
-			meta: {where: __filename, date: (new Date()).toLocaleString()}
-		})
-	}
 }
 
 module.exports = Imagekit;

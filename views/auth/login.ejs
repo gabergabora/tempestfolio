@@ -1,0 +1,72 @@
+<%- include('./layouts/head.ejs') %>
+		<div class="wrapper" id="pg-login">
+			<div class="row">
+				<%- include('./layouts/background.ejs') %>
+				<div class="form">
+					<div class="wrap">
+						<div class="welcome">
+							<h2>Welcome Back</h2>
+							<p class="motivational-quote">
+								Great talent finds happiness in execution
+								<span class="author"> ~Aristotle </span>
+							</p>
+						</div>
+						<!-- p  -->
+						<%- include('partials/_auth_error') %>
+
+						<!-- p  -->
+						<form action="/admin/auth/login" method="POST">
+							<h3 class="pointer">Sign in below :</h3>
+							<div class="form-group input defined">
+								<label for="" class="label-hidden-v">
+									<h5>Username</h5>
+								</label>
+								<input
+									disabled
+									type="text"
+									name="username"
+									value="<%= username %>"
+								/>
+								<!-- !! -->
+								<input type="hidden" name="username" value="<%= username %>" />
+								<!-- !! -->
+							</div>
+
+							<div class="form-group input focused">
+								<label for="" class="label-hidden-v">
+									<h5>Password</h5>
+								</label>
+								<input
+									type="password"
+									name="password"
+									placeholder="password"
+									value="<%= typeof password != 'undefined' ? password : '' %>"
+								/>
+							</div>
+
+							<div class="form-group checkbox">
+								<label for="">Keep me signed in</label>
+								<input type="checkbox" value="remember-me" />
+							</div>
+
+							<button type="submit">Sign In</button>
+						</form>
+
+						<div class="form-links">
+							<a href="#">Forgot Password ?</a>
+						</div>
+
+						<div class="image" style="margin-top: 20px">
+							<a href="https://longbottondev.io">
+								<img
+									src="/login/images/2.jpg"
+									style="width: 150px; height: 100px"
+									alt=""
+								/>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<%- include('./layouts/footer.ejs') %>

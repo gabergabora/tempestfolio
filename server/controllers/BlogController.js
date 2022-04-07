@@ -1,20 +1,24 @@
-class BlogController {
+const ApiController = require('./ApiController');
+
+class BlogController extends ApiController {
+
     getAllBlogs = (req, res) => {
-            const findBlogs = require('../domain/blog/find_blogs');
-      
-            // check for pagination
-            let entries  = req.query['entries'];
-            let pageIndex  = req.query['index'];
-      
-            findBlogs(entries, pageIndex)
-      
-            .then(blogs=>{
-               return res.status(200).json({data:blogs});
-            })
-      
-            .catch(err=>{
-               return res.status(500).json({message:"could not complete request"});
-            });
+        const findBlogs = require('../domain/blog/find_blogs');
+    
+        // check for pagination
+        let entries  = req.query['entries'];
+        let pageIndex  = req.query['index'];
+    
+        findBlogs(entries, pageIndex)
+    
+        .then(blogs=>{
+            return res.status(200).json({data:blogs});
+        })
+    
+        .catch(error=>{
+            this.logError(error);
+            return res.status(500).json({message:"could not complete request"});
+        });
 
     }
 
@@ -34,8 +38,8 @@ class BlogController {
            }
            return res.status(200).json({data:blog});
         })
-        .catch(err=>{
-           //log error
+        .catch(error=>{
+           this.logError(error);
            return res.status(500).json({message:"could not complete request"});
         });
   
@@ -56,7 +60,7 @@ class BlogController {
             return res.status(200).json({data: blog.data});
         })
         .catch(error=>{
-            console.log(error);
+            this.logError(error);
             return res.status(500).json({message: "could not complete request"});
         })
     }
@@ -83,7 +87,7 @@ class BlogController {
 
         .catch(error=>{
            // Log error
-           console.log(error);
+           this.logError(error);
            return res.status(500).json({message: "Could not complete request"});
         })
 
@@ -99,8 +103,9 @@ class BlogController {
 
         deleteBlog(blogID)
         .then(deleted=> { return res.status(200).json({data:{}}) })
-        .catch(err=> { 
-                return res.status(500).json({message:"could not delete blog at the moment"});
+        .catch(error=> { 
+           this.logError(error);
+           return res.status(500).json({message:"could not delete blog at the moment"});
         })
 
     }

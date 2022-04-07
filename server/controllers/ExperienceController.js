@@ -1,4 +1,6 @@
-class ExperienceController {
+const ApiController = require('./ApiController');
+
+class ExperienceController extends ApiController  {
    getExperiences = (req, res) => {
       const findExperiences = require('../domain/experience/find_experiences');
 
@@ -13,7 +15,8 @@ class ExperienceController {
          return res.status(200).json({data:experiences});
       })
 
-      .catch(err=>{
+      .catch(error=>{
+         this.logError(error);
          return res.status(500).json({message:"could not complete request"});
       });
 
@@ -35,8 +38,8 @@ class ExperienceController {
          }
          return res.status(200).json({data:experience});
       })
-      .catch(err=>{
-         //log error
+      .catch(error=>{
+         this.logError(error);
          return res.status(500).json({message:"could not complete request"});
       });
 
@@ -61,8 +64,8 @@ class ExperienceController {
             return res.status(200).json({data:experience.data}) 
          })
 
-         .catch(err => {
-            console.log(err)//Should be logger
+         .catch(error => {
+            this.logError(error);
             return res.status(500).json({message:"could not add service at the moment"});
         })
 
@@ -87,8 +90,7 @@ class ExperienceController {
         })
 
         .catch(error=>{
-           // Log error
-           console.log(error);
+           this.logError(error);
            return res.status(500).json({message: "Could not complete request"});
         })
 
@@ -103,8 +105,9 @@ class ExperienceController {
 
       deleteExperience(experienceID)
       .then(deleted=> { return res.status(200).json({data:{}}) })
-      .catch(err=> { 
-            return res.status(500).json({message:"could not delete service at the moment"});
+      .catch(error=> { 
+         this.logError(error);
+         return res.status(500).json({message:"could not delete service at the moment"});
       })
    }
 

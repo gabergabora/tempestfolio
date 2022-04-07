@@ -1,4 +1,6 @@
-class ProjectController {
+const ApiController = require('./ApiController');
+
+class ProjectController extends ApiController{
     getProjects = (req, res) => {
         const findProjects = require('../domain/project/find_projects');
 
@@ -8,6 +10,7 @@ class ProjectController {
          })
   
         .catch(err=>{
+           this.logError(error);
            return res.status(500).json({message:"could not complete request"});
         });
 
@@ -27,7 +30,8 @@ class ProjectController {
            return res.status(200).json({data:project});
          })
   
-        .catch(err=>{
+        .catch(error=>{
+           this.logError(error);
            return res.status(500).json({message:"could not complete request"});
         });
 
@@ -51,7 +55,7 @@ class ProjectController {
             return res.status(200).json({data: project.data});
         })
         .catch(error=>{
-           // log error
+           this.logError(error);
            return res.status(500).json({message: "Could not complete request"});
          })
 
@@ -77,7 +81,7 @@ class ProjectController {
         })
         
         .catch(error=>{
-          //log error
+          this.logError(error);
           return res.status(500).json({message:"could not complete request"});
         })
 
@@ -98,8 +102,7 @@ class ProjectController {
             return res.status(200).json({data: {}});
         })
         .catch(error=>{
-            // log error
-            console.log(error);
+            this.logError(error);
             return res.status(500).json({message: "could not complete request"});
         })
     }
