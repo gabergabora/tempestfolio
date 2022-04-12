@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-lg-12">
-    <div class="row" id="serviceWidgetsHolder"></div>
+    <div class="row" id="serviceWidgetsHolder" style="min-height:328px"></div>
   </div>
 
   <div class="col-lg-12">
@@ -35,8 +35,6 @@
       icon: "warning",
     },
   ];
-
-  loadPage();
 
   function loadPage(index) {
     const serviceWidgetsHolder = document.getElementById(
@@ -207,4 +205,6 @@
     });
     return;
   }
+
+loadPage();
 </script>

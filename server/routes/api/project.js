@@ -19,6 +19,7 @@ function projectRoute(router){
     router.get('/project/', projectController.getProjects);
     router.get('/project/:id', projectController.getSingleProject);
     router.post('/project/', multerUpload.fields(projectImages), projectController.newProject);
+    router.put('/project/:id', multerUpload.fields(projectImages), projectController.editProject);
     router.put('/project/:id/setvisibility', projectController.updateVisibility);
     router.delete('/project/:id/', projectController.dropProject);
 }

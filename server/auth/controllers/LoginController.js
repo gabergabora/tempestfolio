@@ -2,6 +2,8 @@ const AuthController = require('./AuthController');
 const logger = require('../../../app/logger');
 const Joi = require('joi');
 const bcrypt = require('bcryptjs');
+const AdminModel = require('../models/AdminModel');
+
 
 
 class LoginController extends AuthController {
@@ -10,6 +12,10 @@ class LoginController extends AuthController {
     *  @description Login Route
     *  @method GET /
     */
+    constructor(){
+        super(AdminModel);
+    }
+   
     getLogin = (req, res) => {
         const admin = req.session.admin;
         

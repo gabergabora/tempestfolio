@@ -2,6 +2,8 @@ const AuthController = require('./AuthController');
 const logger = require('../../../app/logger');
 const Joi = require('joi');
 const bcrypt = require('bcryptjs');
+const AdminModel = require('../models/AdminModel');
+
 
 
 class SetupController extends AuthController {
@@ -9,6 +11,10 @@ class SetupController extends AuthController {
     *  @description SETUP Route
     *  @method GET /
     */
+    constructor(){
+        super(AdminModel);
+    }
+
     getSetup = (req, res) => {
         this.AdminModel.findOne({ mailVerified: true })
             .then((document) => {
@@ -18,12 +24,12 @@ class SetupController extends AuthController {
                     errors: undefined,
                 });
             })
-            .catch((err) => {
+            .catch((error) => {
                 logger.error(error.toString(), __filename);
             });
     };
 
-    
+
     /*
     *  @description SETUP Route
     *  @method GET /
@@ -35,36 +41,47 @@ class SetupController extends AuthController {
         const schema = Joi.object({
             username: Joi.string().required().trim(true),
             email: Joi.string().email().required().trim(true),
-            password: Joi.string().min(6),
-            password2: Joi.ref('password')
-        })
+            password: Joi.string().min(6).required()
+        });
 
-        try{
-            const value = schema.validateAsync({ username, email, password, password2 });
+        try {
+            schema.validateAsync({ username, email, password });
         }
-        catch(error){
-    
-          const {_original, details} = error;
-          const errorMessage =  (details[0]['message']).replace(/\"/g, "");
-    
-          return console.log(error, errorMessage);
+        catch{
+
+            let validationErrors = [];
+
+            if(error){
+                error.details.forEach(detail=>{
+                    validationErrors.push((detail.message).replace(/\"/g, ""));
+                })
+
+                return res.render('auth/setup', {
+                    errors: validationErrors,
+                    username,
+                    email,
+                    password,
+                    password2,
+                });
+            }
         }
 
-        return console.log(validationPassed);
-        //check if error
-        // if (errors.length > 0) {
-        //     return res.render('auth/setup', {
-        //             errors: errors,
-        //             username,
-        //             email,
-        //             password,
-        //             password2,
-        //     });
-        // } else {
-        //clear database off unverified accounts
-        AdminModel.deleteMany({}).catch((err) => console.log(err));
-        //save new user to databse
-        const adminUser = new AdminModel({
+        if(password !== password2){
+            return res.render('auth/setup', {
+                errors: ["passwords do not match"],
+                username,
+                email,
+                password,
+                password2,
+            });
+        }
+
+        
+        // Register User
+        this.AdminModel.deleteMany({}).catch((error) => logger.error(error.toString(), __filename));
+
+        //save new admin to databse
+        const adminUser = new this.AdminModel({
             username,
             email,
             password,
@@ -81,14 +98,13 @@ class SetupController extends AuthController {
                     .then((document) => {
                         //send a flash message
                         req.flash('success', 'Setup Successful!');
-                        return res.redirect('/admin/auth/login');
+                        return res.redirect(this.LOGIN_ROUTE);
                     })
-                    .catch((err) => logger.error(error.toString(), __filename));
+                    .catch((error) => logger.error(error.toString(), __filename));
             });
         });
-    };
 
-
+    }
     
 }
 

@@ -1,0 +1,23 @@
+body {
+	background: var(--cl-light);
+}
+header {
+	position: fixed;
+}
+/* overide js navbar control */
+nav {
+	background-color: var(--cl-white) !important;
+	color: var(--cl-dark) !important;
+	-webkit-box-shadow: 0 10px 33px rgb(0 0 0 / 10%) !important;
+	box-shadow: 0 10px 33px rgb(0 0 0 / 10%) !important;
+	height: 70px !important;
+}
+
+/* main {
+	display: block;
+	margin-top: 70px;
+
+	/* padding: 20px 0; */
+	border: 1px solid #ccc;
+	background: #000;
+} */

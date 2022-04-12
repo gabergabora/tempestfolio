@@ -15,7 +15,7 @@
 						<%- include('partials/_auth_error') %>
 
 						<!-- p  -->
-						<form action="/admin/auth/login" method="POST">
+						<form action="<%= globals.auth_path.login %>" method="POST">
 							<h3 class="pointer">Sign in below :</h3>
 							<div class="form-group input defined">
 								<label for="" class="label-hidden-v">

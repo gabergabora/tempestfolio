@@ -1,0 +1,61 @@
+.alert {
+	/* background: linear-gradient(
+		to top,
+		rgba(37, 131, 198, 0.798),
+		rgba(64, 165, 237, 0.649)
+	); */
+	background: #388fe1a6;
+	padding: 0.759em;
+	border-radius: 4px;
+	font-size: 19px;
+	font-weight: 400;
+	color: #fff;
+	margin-bottom: 15px;
+	box-shadow: 0px 5px 17px 1px rgba(232, 232, 232, 0.594);
+
+	min-width: 300px;
+	max-width: 100%;
+	margin-left: auto;
+	position: absolute;
+	top: 20px;
+	right: 0;
+	transform: translateX(300px);
+	z-index: 999;
+	animation-duration: 0.4s;
+	animation-timing-function: ease-out;
+	animation-fill-mode: forwards;
+}
+
+.alert.mounted {
+	animation-name: slide-in-right;
+}
+
+.alert.unmounted {
+	animation-name: slide-out-right;
+}
+
+.alert.alert-error {
+	background: #dc3546a1;
+}
+
+.alert.alert-success {
+	background: #28a746a8;
+}
+
+@keyframes slide-in-right {
+	from {
+		transform: translateX(300px);
+	}
+	to {
+		transform: translateX(-15px);
+	}
+}
+
+@keyframes slide-out-right {
+	from {
+		transform: translateX(-15px);
+	}
+	to {
+		transform: translateX(300px);
+	}
+}

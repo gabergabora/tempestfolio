@@ -1,12 +1,15 @@
-const AdminModel = require('../models/AdminModel');
-
+/**
+ * Add request and response dedicated classes
+ */
 class AuthController{
     ADMIN_HOME = '/admin/';
-    LOGIN_ROUTE = '/admin/auth/login';
-    SETUP_ROUTE = '/admin/auth/setup';
+    LOGIN_ROUTE = '/auth/login';
+    SETUP_ROUTE = '/auth/setup';
 
-    constructor(){
-        this.AdminModel = AdminModel;
+    constructor(AdminModel = null){
+        if(AdminModel){
+            this.AdminModel = AdminModel;
+        }
     }
 }
 

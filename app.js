@@ -1,4 +1,5 @@
 require('dotenv').config();
+// require('express-group-routes');
 
 const path = require('path');
 const fs = require('fs');
@@ -28,13 +29,13 @@ app.set('view engine', 'ejs');
 let globalJsonVariables = fs.readFileSync('./globals.json');
 let globals = JSON.parse(globalJsonVariables);
 
-//Global session variables
 app.use((req, res, next) => {
 	res.locals.errorMsg = req.flash('error') || false;
 	res.locals.successMsg = req.flash('success') || false;
 	res.locals.globals = globals;
 	next();
 });
+
 
 
 //Set Public Folder

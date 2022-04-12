@@ -19,7 +19,7 @@
 								Enter OTP to verify your account
 							</p>
 						</div>
-						<form action="/admin/verify" method="POST">
+						<form action="">
 							<h3 class="pointer">Enter OTP Code :</h3>
 							<div class="form-group input">
 								<label for="" class="label-hidden-v">
@@ -71,10 +71,13 @@
 		<!-- Scripts -->
 		<!-- <script src="/js/main.js"></script> -->
 		<script>
+			const globals =  '<%= globals %>';
+			
+			const sendOtpUrl = `${globals.app_home_url}${globals.auth_path.otp.generate}`;
+			const verifyOtpUrl = `${globals.app_home_url}${globals.auth_path.otp.verify}`;
+
 			const sendOtpButton = document.getElementById('sendOTP');
 			const verifyOtpButton = document.getElementById('verifyOTP');
-			const sendOtpUrl = '/admin/auth/otp/generate';
-			const verifyOtpUrl = '/admin/auth/otp/verify';
 			const loader = document.getElementById('loader');
 			const processTracker = document.getElementById('process-tracker');
 
@@ -126,34 +129,34 @@
 
 			sendOtpButton.addEventListener('click', (e) => {
 				e.preventDefault();
-				// disableButtons();
+				disableButtons();
 
-				// showLoaders();
-				// renderProcess('Brewing.. Hold still');
+				showLoaders();
+				renderProcess('Brewing.. Hold still');
 
-				// window.setTimeout(() => {
+				window.setTimeout(() => {
 					// Make Request
-					fetch('http://localhost:3000/admin/auth/otp/generate', {
+					fetch(sendOtpUrl, {
 						method: 'post',
 					})
 					.then((response) => response.json())
 					.then((data) => {
 						console.log(data);
-						// if (data.status === 'failed') {
-						// 	renderProcess('Error sending OTP');
-						// } else {
-						// 	renderProcess('OTP sent');
-						// }
-						// //FIX THIS********
-						// window.setTimeout(() => {
-						// 	enableButtons();
-						// 	hideLoaders();
-						// 	sendOtpButton.textContent = 'Resend OTP';
-						// }, 2000);
+						if (data.status === 'failed') {
+							renderProcess('Error sending OTP');
+						} else {
+							renderProcess('OTP sent');
+						}
+						//FIX THIS********
+						window.setTimeout(() => {
+							enableButtons();
+							hideLoaders();
+							sendOtpButton.textContent = 'Resend OTP';
+						}, 2000);
 					})
 					.catch((err) => console.log(err));
 					// Make Request End
-				// }, 3000);
+				}, 3000);
 			});
 
 			verifyOtpButton.addEventListener('click', (e) => {
@@ -165,7 +168,7 @@
 				window.setTimeout(() => {
 					// Make Request
 					let otp = document.getElementById('inputOTP').value;
-					fetch('http://localhost:3000/admin/auth/otp/verify', {
+					fetch(verifyOtpUrl, {
 						method: 'post',
 						body: JSON.stringify({ otp: otp }),
 						headers: {

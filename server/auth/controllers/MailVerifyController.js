@@ -6,6 +6,7 @@ const AuthController = require('./AuthController');
 
 class MailVerifyController extends AuthController {
     OTPService;
+    loffer;
 
     /*
     *  @description SETUP Route
@@ -75,8 +76,6 @@ class MailVerifyController extends AuthController {
     
     
         this.AdminModel.findOne({ username: admin }).then((admin) => {
-            if (!admin) return res.status(401).send();
-
             const { _id } = admin;
 
             this.OTPService.verify(userCode, _id)

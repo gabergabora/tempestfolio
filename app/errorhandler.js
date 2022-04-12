@@ -7,14 +7,19 @@ function handleError(app){
     });
   
     app.use(function(err, req, res, next) {
-        // set locals, only providing error in development
-        console.error(err);
-        res.locals.message = "A server error occured. Please contact site owner";
-        res.locals.error = req.app.get('env') === 'development' ? {} : {};
-      
+        res.locals.message = err.message;
+        res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+        if(req.app.get('env') === 'development') {
+            // set locals, only providing error in development
+            console.log(err.status);
+        }
+
         // render the error page
-        res.status(err.status || 500);
-        res.render('error');
+        err.status = err.status || 500;
+
+        res.setHeader('Content-Type', 'text/html');
+        res.status(err.status).render(`errors/${err.status}`);
     });
 }
 

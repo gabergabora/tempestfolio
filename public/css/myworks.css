@@ -1,0 +1,150 @@
+section#my-works {
+	background: var(--cl-light);
+	padding: 5em 10px;
+}
+section#my-works > * {
+	-webkit-transition: all 0.5s ease-out;
+	transition: all 0.5s ease-out;
+}
+
+section#my-works .section-heading {
+	margin: 0 auto;
+	text-align: center;
+}
+
+section#my-works .portfolio-board {
+	margin: 3em 0;
+	display: -ms-grid;
+	display: grid;
+	-ms-grid-columns: (minmax(300px, auto)) [auto-fit];
+	grid-template-columns: repeat(auto-fit, minmax(300px, auto));
+	grid-auto-rows: 300px;
+	grid-gap: 2em;
+	-ms-flex-pack: distribute;
+	justify-content: space-around;
+}
+
+section#my-works .slot {
+	cursor: pointer;
+	position: relative;
+	/* width: 200px;
+	height:200px; */
+	position: relative;
+	background-size: cover;
+	background-position: top center;
+	background-repeat: no-repeat;
+	/* border-radius: 20px; */
+	overflow: hidden;
+	border-radius:4px;
+}
+
+section#my-works .slot .slot-content {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	-webkit-box-align: start;
+	-ms-flex-align: start;
+	align-items: flex-start;
+	-webkit-box-pack: end;
+	-ms-flex-pack: end;
+	justify-content: flex-end;
+	padding: 10px;
+	color: var(--cl-white);
+	-webkit-transition: all 0.5s 0.2s ease-out;
+	transition: all 0.5s 0.2s ease-out;
+	opacity: 0;
+	z-index: 2;
+}
+
+section#my-works .slot .slot-content .icon {
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	width: 70px;
+	height: 70px;
+	padding: 20px;
+	background: var(--cl-white);
+	border-radius: 50%;
+	color: var(--cl-primary);
+	display: grid;
+	place-content: center;
+	text-decoration: none;
+	color: inherit;
+	z-index: 3;
+}
+
+section#my-works .slot .slot-content .icon a {
+	font-size: var(--fs-md);
+	color: var(--cl-primary);
+}
+
+section#my-works .slot img {
+	width: 100%;
+	height: 100%;
+	display: none;
+}
+
+section#my-works .slot::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-image: linear-gradient(var(--cl-primary) 10%, #161c2d);
+	/* z-index: -1; */
+	transition: all 0.5s ease-out;
+	opacity: 0;
+}
+
+section#my-works .slot:hover::after {
+	opacity: 0.85;
+}
+section#my-works .slot:hover .slot-content {
+	opacity: 1;
+}
+
+section#my-works .see-more {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+}
+
+section#my-works .see-more .btn {
+	font-size: var(--fs-md);
+	font-weight: var(--fw-400);
+}
+
+@media screen and (min-width: 480px) {
+	section#my-works .portfolio-board {
+		-ms-grid-columns: (minmax(300px, auto)) [auto-fit];
+		grid-template-columns: repeat(auto-fit, minmax(300px, auto));
+	}
+}
+
+@media screen and (min-width: 768px) {
+}
+@media screen and (min-width: 1024px) {
+	section#my-works .portfolio-board {
+		-ms-grid-columns: (minmax(250px, 400px)) [3];
+		grid-template-columns: repeat(3, minmax(250px, 400px));
+	}
+}
+@media screen and (min-width: 1200px) {
+}

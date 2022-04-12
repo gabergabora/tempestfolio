@@ -1,4 +1,13 @@
 {
     "app_name": "temportfolio",
-    "app_home_url": "http://127.0.0.1:3000"
+    "app_home_url": "http://localhost:3000",
+    "auth_path":{
+        "login": "/auth/login",
+        "setup": "/auth/setup",
+        "mailverify": "/auth/mailverify",
+        "otp" : {
+            "generate": "/auth/otp/generate",
+            "verify": "/auth/otp/verify"
+        }
+    }
 }

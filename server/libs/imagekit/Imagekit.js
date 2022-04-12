@@ -18,7 +18,7 @@ class Imagekit {
 	 *  @description Push file to imagekit
 	 */
 	static upload(file, remoteFolder="portf/res") {
-		Imagekit.log("Imagekit uploading...");
+		logger.info("Imagekit uploading...");
 
 		const fileName = file['originalname'];
 		const fileData = file.buffer;

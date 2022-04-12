@@ -8,10 +8,17 @@ class ServiceController extends ApiController{
       // check for pagination
       let entries  = req.query['entries'];
       let pageIndex  = req.query['index'];
-      // lastId = req.query['lastId'];
 
-      findServices(entries, pageIndex)
+      //support filter
+      const visibility = req.query.visible;
 
+      const filter = {};
+
+      if(visibility){
+          filter.visibility = true;
+      }
+
+      findServices(entries, pageIndex, filter)
       .then(services=>{
          return res.status(200).json({data:services});
       })

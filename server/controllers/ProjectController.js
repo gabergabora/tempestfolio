@@ -4,7 +4,22 @@ class ProjectController extends ApiController{
     getProjects = (req, res) => {
         const findProjects = require('../domain/project/find_projects');
 
-        findProjects()
+
+        // check for pagination
+        let entries  = req.query['entries'];
+        let pageIndex  = req.query['index'];
+
+        //support filter
+        const visibility = req.query.visible;
+
+        const filter = {};
+
+        if(visibility){
+            filter.visibility = true;
+        }
+
+        findProjects(entries, pageIndex, filter)
+        
         .then(projects=>{
            return res.status(200).json({data:projects});
          })
@@ -61,17 +76,36 @@ class ProjectController extends ApiController{
 
     }
 
+
+    editProject = (req, res) => {
+        let editProject = require('../domain/project/edit_project');
+        const projectID = req.params.id;
+        const projectData = req.body;
+        const projectImages = req.files;
+
+        if(!projectID) return res.status(400).json({message: "project id is required"});
+
+        editProject(projectID, {...projectData, ...projectImages})
+        .then(project=>{
+            if(!project.status)return res.status(400).json({message: project.message});
+
+            return res.status(200).json({data: project.data});
+        })
+        .catch(error=>{
+           this.logError(error);
+           return res.status(500).json({message: "Could not complete request"});
+         })
+    }
+
+
     updateVisibility = (req, res) => {
         let changeProjectVisibility = require('../domain/project/change_project_visibility');
 
         const visibility = req.body['visibility'];
         const projectID = req.params.id;
 
-        console.log(req.body)
-
         if(!projectID || visibility == undefined)
             return res.status(400).json({message: "project id and visibility are required"});
-
 
         changeProjectVisibility(projectID, visibility)
         .then(project=>{

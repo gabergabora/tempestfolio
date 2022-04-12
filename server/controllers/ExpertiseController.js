@@ -4,7 +4,13 @@ class ExpertiseController extends ApiController{
     getExpertises = (req, res) => {
         const findExpertise = require('../domain/expertise/find_expertise');
 
-        findExpertise()
+        // check for pagination
+        let entries  = req.query['entries'];
+        let pageIndex  = req.query['index'];
+
+        console.log(req.query);
+
+        findExpertise(entries, pageIndex)
         .then(expertise=>{
             return res.status(200).json({data:expertise});
         })
