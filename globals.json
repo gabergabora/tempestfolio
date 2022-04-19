@@ -5,6 +5,7 @@
         "login": "/auth/login",
         "setup": "/auth/setup",
         "mailverify": "/auth/mailverify",
+        "passwordreset": "/auth/passwordreset",
         "otp" : {
             "generate": "/auth/otp/generate",
             "verify": "/auth/otp/verify"

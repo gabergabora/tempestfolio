@@ -158,7 +158,7 @@ function renderProjectWidget(project) {
                 >
                 <div class="slot-content">
                 <div class="icon">
-                    <a href="#">
+                    <a href="/project/${_id}">
                     <i class="fas fa-eye"></i>
                     </a>
                 </div>

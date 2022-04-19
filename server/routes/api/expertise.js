@@ -1,6 +1,6 @@
 const multer = require('multer');
 const multerStorage = multer.memoryStorage();
-const multerUpload = multer({storage: multerStorage, errorHandling: 'manual'});
+const multerUpload = multer({storage: multerStorage});
 
 //Service
 const ExpertiseController = require('../../controllers/ExpertiseController');

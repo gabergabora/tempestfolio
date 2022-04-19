@@ -30,16 +30,17 @@
 									name="OTP"
 									id="inputOTP"
 									placeholder="000000"
+									value=""
 								/>
 							</div>
-							<!-- submit button -->
 							<br />
-							<button type="submit" id="sendOTP">Send OTP</button>
+							<button type="button" id="sendOTP">Send OTP</button>
 							<br />
 							<br />
+							<!-- Loader  -->
 							<div class="form-btn-loader-flex">
-								<button type="submit" id="verifyOTP">Verify</button>
-
+								<button type="button" id="verifyOTP">Verify</button>
+								<!-- Loader  -->
 								<span id="loader" class="loading hidden">
 									<div class="sk-chase">
 										<div class="sk-chase-dot"></div>
@@ -54,6 +55,8 @@
 									Verifying Email
 								</span>
 							</div>
+							<!-- Loader  -->
+
 						</form>
 						<div class="image" style="margin-top: 20px">
 							<a href="https://longbottondev.io">
@@ -71,10 +74,14 @@
 		<!-- Scripts -->
 		<!-- <script src="/js/main.js"></script> -->
 		<script>
-			const globals =  '<%= globals %>';
+			const app_home_url =  '<%= globals.app_home_url %>';
+			const otp_generate_path =  '<%= globals.auth_path.otp.generate %>';
+			const otp_verify_path =  '<%= globals.auth_path.otp.verify %>';
+
 			
-			const sendOtpUrl = `${globals.app_home_url}${globals.auth_path.otp.generate}`;
-			const verifyOtpUrl = `${globals.app_home_url}${globals.auth_path.otp.verify}`;
+			const sendOtpUrl = `${app_home_url}${otp_generate_path}`;
+			const verifyOtpUrl = `${app_home_url}${otp_verify_path}`;
+			const adminHomeUrl = `${app_home_url}/admin/`
 
 			const sendOtpButton = document.getElementById('sendOTP');
 			const verifyOtpButton = document.getElementById('verifyOTP');
@@ -134,66 +141,50 @@
 				showLoaders();
 				renderProcess('Brewing.. Hold still');
 
-				window.setTimeout(() => {
-					// Make Request
-					fetch(sendOtpUrl, {
+				fetch(sendOtpUrl, {
 						method: 'post',
-					})
-					.then((response) => response.json())
-					.then((data) => {
-						console.log(data);
-						if (data.status === 'failed') {
-							renderProcess('Error sending OTP');
-						} else {
-							renderProcess('OTP sent');
-						}
-						//FIX THIS********
-						window.setTimeout(() => {
-							enableButtons();
-							hideLoaders();
-							sendOtpButton.textContent = 'Resend OTP';
-						}, 2000);
-					})
-					.catch((err) => console.log(err));
-					// Make Request End
-				}, 3000);
+				})
+				.then((response) => response.json())
+				.then((data) => {
+					let message;
+
+					if(data.status){
+                        message = "An OTP code has been sent to. Please check your mail to verify your account";
+					}
+					else {
+						message = "could not verify email";
+					}
+
+					alert(message);
+
+					enableButtons();
+					hideLoaders();
+					sendOtpButton.textContent = 'Resend OTP';
+				})
 			});
 
 			verifyOtpButton.addEventListener('click', (e) => {
 				e.preventDefault();
 				disableButtons();
 
-				showLoaders();
-				renderProcess('Brewing.. Hold still');
-				window.setTimeout(() => {
-					// Make Request
-					let otp = document.getElementById('inputOTP').value;
-					fetch(verifyOtpUrl, {
+				let otp = document.getElementById('inputOTP').value;
+
+				fetch(verifyOtpUrl, {
 						method: 'post',
 						body: JSON.stringify({ otp: otp }),
 						headers: {
 							'Content-Type': 'application/json',
 						},
-					})
-						.then((response) => response.json())
-						.then((data) => {
-							renderProcess(data.message);
-
-							window.setTimeout(() => {
-								if (!data.isVerified) {
-									enableButtons();
-									hideLoaders();
-								} else {
-									renderProcess('redirecting..');
-									window.setTimeout(() => {
-										window.location = '/';
-									}, 2000);
-								}
-								// FIX THIS********
-							}, 2000);
-						});
-					// Make Request End
-				}, 3000);
+				})
+				.then((response) =>  response.json())
+				.then((data)=>{
+					if(!data) alert("Could not complete request at the moment");
+					else if (!data.isVerified) alert(data.message);
+					else {
+						alert("Email verfiication successful");
+						window.location = adminHomeUrl;
+					}
+				})
 			});
 		</script>
 	<%- include('./layouts/footer.ejs') %>

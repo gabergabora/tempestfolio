@@ -1,4 +1,5 @@
 const createError = require('http-errors');
+const logger = require('./logger');
 
 function handleError(app){
     // catch 404 and forward to error handler
@@ -12,7 +13,8 @@ function handleError(app){
 
         if(req.app.get('env') === 'development') {
             // set locals, only providing error in development
-            console.log(err.status);
+            logger.error(err.toString()+`stack: ${err.stack}`);
+            console.log(err);
         }
 
         // render the error page

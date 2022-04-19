@@ -3,6 +3,7 @@ const logger = require('../../../app/logger');
 const OTPService = require('../Services/otp/OTP');
 const OTPModel = require('../models/OTPModel');
 const AuthController = require('./AuthController');
+const AdminModel = require('../models/AdminModel');
 
 class MailVerifyController extends AuthController {
     OTPService;
@@ -13,7 +14,7 @@ class MailVerifyController extends AuthController {
     *  @method POST /
     */
     constructor(){
-        super();
+        super(AdminModel);
         this.OTPService = new OTPService(OTPModel, logger);
         this.logger = logger;
     }
@@ -21,10 +22,12 @@ class MailVerifyController extends AuthController {
     getMailVerify = (req, res) => {
         //Generate and send otp to email
         const admin = req.session.admin;
-        if (!admin) return res.redirect('/admin/auth/login/');
+        if (!admin) return res.redirect(this.LOGIN_ROUTE);
+
+        if(admin.mailVerified) res.redirect(this.ADMIN_HOME)
 
         this.AdminModel.findOne({ username: admin }).then((admin) => {
-            if (admin.mailVerified) return res.redirect('/admin/');
+            if (admin.mailVerified) return res.redirect(this.ADMIN_HOME);
 
             res.render('auth/verify', {});
         });
@@ -34,7 +37,7 @@ class MailVerifyController extends AuthController {
     otpGenerate = (req, res) => {
         //generate and mail otp 
 	    const admin = req.session.admin;
-	    if (!admin) return res.status(401).send();
+	    if (!admin) return res.status(401).send({});
 	    this.AdminModel.findOne({ username: admin })
         .then((admin)=>{
 
@@ -53,11 +56,10 @@ class MailVerifyController extends AuthController {
                     Please use the code <strong>${otp}</strong> to verify your control room account `
                 )
                 .then((info) => {
-                    console.log(info);
+                    logger.info(info.toString(), __filename)
                     res.json({ status: 'success'});
                 })
                 .catch((error) => {
-                    console.log(error);
                     this.logger.error(error.toString(), __filename);
                     res.json({ status: 'failed' });
                 });
@@ -69,11 +71,11 @@ class MailVerifyController extends AuthController {
 
 
     otpVerify = (req, res) => {
-        userCode = req.body.otp;
+        let userCode = req.body.otp || '';
 
         const admin = req.session.admin;
-        if (!admin) return res.status(401).send();
-    
+        if (!admin) return res.status(401).send({});
+
     
         this.AdminModel.findOne({ username: admin }).then((admin) => {
             const { _id } = admin;
@@ -83,15 +85,16 @@ class MailVerifyController extends AuthController {
                     if (status.isVerified) {
                         //Set user account to verified
                         admin.mailVerified = true;
-                        admin.save().catch((err) => {
+                        admin.save()
+                        .catch((error) => {
                             this.logger.error(error.toString(), __filename);
-                            return res.json({});
                         });
                     }
                     res.json(status);
                 })
-                .catch((err) => {
-                    this.logger.error(error.toString(), __filename);
+                .catch((error) => {
+                    console.log(error)
+                    // this.logger.error(error.toString(), __filename);
                     return res.status(500).json({});
                 });
         });
