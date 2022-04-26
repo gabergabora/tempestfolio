@@ -24,7 +24,7 @@ class ProjectController extends ApiController{
            return res.status(200).json({data:projects});
          })
   
-        .catch(err=>{
+        .catch(error=>{
            this.logError(error);
            return res.status(500).json({message:"could not complete request"});
         });
@@ -140,8 +140,6 @@ class ProjectController extends ApiController{
             return res.status(500).json({message: "could not complete request"});
         })
     }
-
-
 
 }
 

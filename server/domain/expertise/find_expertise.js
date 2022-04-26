@@ -3,7 +3,6 @@ const ExpertiseModel = require('../../models/ExpertiseModel');
 
 async function findExpertise(entries, pageIndex){
    const paginate = require('../api/paginate');
-   console.log(pageIndex);
 
    if(entries){
       entries;

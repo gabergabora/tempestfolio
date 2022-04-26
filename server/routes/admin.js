@@ -23,6 +23,10 @@ router.get('/project', function(req, res) {
   res.render('admin/project/index', {title : "project"});
 });
 
+router.get('/mail', function(req, res) {
+  res.render('admin/mail/index', {title : "mail"});
+});
+
 
 router.get('/project/edit', function(req, res){
    const projectId = req.query.id;

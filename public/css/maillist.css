@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,300;1,500;1,600;1,800&display=swap');
+
+:root{
+    --font-primary: 'Poppins', sans-serif;
+    --txt-cl-primary: #494949;
+    --m-cl-blue: #63B5D8;
+    --m-cl-pink: #E46060;
+    --m-cl-green: #89E49D;
+    --m-cl-dark: #585757;
+    --m-cl-yellow: #F4D153;
+}
+
+
+.avatar.blue{background:var(--m-cl-blue)}
+.avatar.pink{background:var(--m-cl-pink)}
+.avatar.green{background:var(--m-cl-green)}
+.avatar.dark{background:var(--m-cl-dark)}
+.avatar.yellow{background:var(--m-cl-yellow)}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-primary);
+}
+
+.mail-list-area {
+    border: 1px solid rgba(0, 0, 0, 0.131);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    /* height: 100vh;
+    overflow-y: scroll;
+    overflow-x: hidden; */
+    position: "relative";
+    
+}
+
+.mail-list-area .mailist-toolbar {
+    position: sticky;
+    top: 0; 
+    left: 0;
+    height: 50px; 
+    width: 100%; 
+    background:#fff; 
+    padding: 1em; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    border-bottom: 1px solid rgba(240, 219, 219, 0.02);
+    color: inherit;
+    box-shadow: 0 0 7px 3px #37353514;
+}
+
+.mail-list-area .mailist-toolbar .paginate-button {
+    margin: 0 5px;
+    color:rgba(110, 108, 108, 0.723);
+    cursor : pointer;
+    font-size: 2em;
+    /* transition: all 0.2s ease-in-out;  */
+}
+
+.mail-list-area .mailist-toolbar .paginate-button[disabled=true],
+.mail-list-area .mailist-toolbar .paginate-button[disabled=true]:hover {
+    color:rgba(110, 108, 108, 0.424);
+}
+
+.mail-list-area .mailist-toolbar .paginate-button:hover {
+    color:#e14343;
+}
+
+.mail-list-area .mailist-toolbar .right {
+}
+
+.mail-list-area .mailist-toolbar h3 {
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.mails {
+    margin-bottom: 20px;
+
+}
+
+.mail-slot{
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.131);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.083);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+
+    box-sizing: border-box;
+    padding: 1.2em;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+    background: #FFFFFF;
+}
+.mail-slot:last-child {
+    border-bottom: none;
+}
+
+.mail-slot.read{
+    background: #F9F9F9;
+}
+
+.mail-slot:hover,
+.mail-slot.active
+ {
+    background: #F3F7F8;
+}
+
+
+/*  */
+.mail-slot .mail-content{
+    display: flex;
+}
+
+.mail-slot .mail-content .avatar-container {
+    margin-right: 15px;
+}
+
+.mail-slot .mail-content .avatar-container .avatar{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.mail-slot .mail-content .mailinfo-container{}
+
+.mail-slot .mail-content .mailinfo-container .mail-head{
+   display: flex;
+   align-items: center;
+   margin-bottom: 2px;
+}
+
+.mail-slot .mail-content .mailinfo-container .mail-head .name, 
+.mail-slot .mail-content .mailinfo-container .mail-head .name h2 {
+    font-size: 1.12em;
+    font-weight: 600;
+    color: #2E2D2D;
+    margin: 0;
+    margin-right: 4px;
+
+}
+
+.mail-slot .mail-content .mailinfo-container .mail-time {
+    font-weight: 400;
+    font-size: 1.1em;
+    color: #676565;
+}
+
+.mail-slot .mail-content .mailinfo-container .mail-time.new {
+    display: flex;
+    align-items: center;
+}
+.mail-slot .mail-content .mailinfo-container .mail-time.new .mail-count {
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1em;
+    color: #948D8D;
+    margin-right: 4px;
+}
+.mail-slot .mail-content .mailinfo-container .mail-time.new .new-badge {
+    display: block;
+    background: #e14343;
+    border-radius: 16.9811px;
+    width: 52px;
+    height: 20px;
+    font-weight: 500;
+    font-size: 0.8em;
+    color: #FFFFFF;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mail-slot .mail-content .mailinfo-container .mail-address {
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.1em;
+    color: #919191;
+    margin-bottom: 7px;
+}
+
+.mail-slot.active .mail-content .mailinfo-container .mail-address,
+.mail-slot.read .mail-content .mailinfo-container .mail-address {
+    font-style: normal;
+    font-weight: 400;
+    color: #494949;
+}
+
+
+
+.mail-slot .mail-content .mailinfo-container .mail-extract {
+    font-weight: 300;
+    font-size: 0.88em;
+    color: #504C4C;
+}

@@ -89,6 +89,30 @@
         <!-- PPPPPPP -->
         <li class="app-sidebar__heading">UI Components</li>
         <li>
+          <a href="/admin/mail">
+            <i class="metismenu-icon pe-7s-note"> </i> 
+            <span>
+              Messages
+              <span id="message-count" 
+              style="
+              padding: 3px;
+              color: #fff;
+              text-align: center;
+              background: #e46060e7;
+              border-radius: 50%;
+              font-size: 10px;
+              font-weight: 500;
+              width: 20px;
+              height: 20px;
+              line-height: 20px;
+              visibility: hidden;
+              " 
+              >
+              </span>
+            </span>
+          </a>
+        </li>
+        <li>
           <a href="#">
             <i class="metismenu-icon pe-7s-diamond"></i>
             Elements
@@ -123,3 +147,44 @@
     </div>
   </div>
 </div>
+<!-- Component Based Javascript -->
+<script>
+   function fetchUnreadMails(callbackAction){
+    let url = "http://localhost:3000/api/mail?filter=read.false&entries=5";
+
+    const xhr  =  new XMLHttpRequest();
+
+        xhr.onload = function(){
+            if(this.status > 399){
+                return console.log("could not load mails at the moment")
+            }
+            
+            const mailsPage = (JSON.parse(this.responseText)).data;
+            callbackAction(mailsPage);
+        }
+
+        xhr.open('GET', url);
+        xhr.send();
+
+   }
+
+  //  fetchUnreadMails();
+   
+   (function loookOutForNewUnreadMails(){
+     setInterval(()=>{
+       fetchUnreadMails((mailsPage)=>{
+           let messageCountElem = document.getElementById('message-count');
+
+           if(mailsPage.chunk.length < 1){
+              messageCountElem.style.visibility = "hidden";
+           }
+           else{
+             messageCountElem.style.visibility = "visible";
+             messageCountElem.textContent = ( mailsPage.chunk.length > 4 ) ? "4+" : '+' + mailsPage.chunk.length; 
+           }
+
+       });
+      }, 1000);
+   })();
+
+</script>

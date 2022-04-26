@@ -10,7 +10,7 @@ function expertiseRoute(router){
     router.get('/expertise/', expertiseController.getExpertises);
     router.get('/expertise/:id', expertiseController.getSingleExpertises);
     router.post('/expertise/', multerUpload.single('icon'), expertiseController.addExpertise);
-    // router.put('/expertise/', multerUpload.single('icon'), expertiseController.updateExpertise);
+    router.put('/expertise/:id', multerUpload.single('icon'), expertiseController.updateExpertise);
     router.delete('/expertise/:id', expertiseController.removeExpertise);
     
 }

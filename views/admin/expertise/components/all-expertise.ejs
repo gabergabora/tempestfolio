@@ -51,7 +51,7 @@ const app_home_url = "<%= globals.app_home_url %>";
 
  function renderExpertiseComponent(expertise){
     let expertiseComponent = `
-    <div class="col-md-6">
+    <div class="col-md-6" style="cursor:pointer" onclick="loadSingleExpertise('${expertise._id}')">
         <div class="main-card mb-3 pb-0 card">
             <div class="card-body">
                 <h5

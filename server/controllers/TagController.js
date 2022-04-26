@@ -9,7 +9,7 @@ class TagController extends ApiController{
       .then(tags=>{
          return res.status(200).json({data:tags});
       })
-      .catch(err=>{
+      .catch(error=>{
          this.logError(error);
          return res.status(500).json({message:"could not complete request"});
       });
@@ -30,7 +30,7 @@ class TagController extends ApiController{
          return res.status(200).json({data:service.data}) 
       })
 
-      .catch(err => {
+      .catch(error=> {
          this.logError(error);
          return res.status(500).json({message:"could not complete request"});
       })

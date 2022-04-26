@@ -2,6 +2,10 @@ body{
 	scroll-behavior: smooth;
 }
 
+.nav-link .nav-link-icon {
+	font-size: 1.2rem;
+}
+
 input.bordered,
 textarea.bordered {
 	border: 1px solid #e6e6e6;

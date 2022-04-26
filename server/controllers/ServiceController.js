@@ -55,7 +55,7 @@ class ServiceController extends ApiController{
 
    addService = (req, res) => {
       const addService = require('../domain/service/add_service');
-      console.log(req.body)
+      
       //check if req data is empty
       if (!Object.keys(req.body).length)
             return res.status(400).json({message: 'empty request data' });

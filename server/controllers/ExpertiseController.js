@@ -8,8 +8,6 @@ class ExpertiseController extends ApiController{
         let entries  = req.query['entries'];
         let pageIndex  = req.query['index'];
 
-        console.log(req.query);
-
         findExpertise(entries, pageIndex)
         .then(expertise=>{
             return res.status(200).json({data:expertise});
@@ -69,31 +67,35 @@ class ExpertiseController extends ApiController{
         
     }
 
-    // updateExpertise = (req, res) => {
-    //     let addNewExpertise = require('../domain/expertise/add_new_expertise');
+    updateExpertise = (req, res) => {
+        let updateExpertise = require('../domain/expertise/update_expertise');
 
-    //     const expertiseData = {};
-    //     expertiseData.name = req.body.name;
-    //     expertiseData.rating = req.body.rating;
-    //     expertiseData.icon = req.file;
+        const expertiseID = req.params.id;
 
-    //    if(!(Object.keys(expertiseData))){
-    //         return res.status(400).json({message: "no data sent"});
-    //    }
+        if(!expertiseID) return res.status(400).json("no id sent");
 
-    //     addNewExpertise(expertiseData)
-    //     .then(expertise=>{
-    //         if(!expertise.status)return res.status(400).json({message: expertise.message});
+        const expertiseData = {};
+        expertiseData.name = req.body.name;
+        expertiseData.rating = req.body.rating;
+        expertiseData.icon = req.file;
 
-    //         return res.status(200).json({data: expertise.data});
-    //     })
-    //     .catch(error=>{
-    //        // log error
-    //        console.log(error);
-    //        return res.status(500).json({message: "Could not complete request"});
-    //      })
+       if(!(Object.keys(expertiseData))){
+            return res.status(400).json({message: "no data sent"});
+       }
+
+       updateExpertise(expertiseID, expertiseData)
+        .then(expertise=>{
+            if(!expertise.status)return res.status(400).json({message: expertise.message});
+
+            return res.status(200).json({data: expertise.data});
+        })
+        .catch(error=>{
+            console.error(error);
+           this.logError(error);
+           return res.status(500).json({message: "Could not complete request"});
+         })
         
-    // }
+    }
 
 
     removeExpertise = (req, res) => {

@@ -26,7 +26,7 @@ class ApiController {
            return res.status(200).json({data:resources});
         })
   
-        .catch(err=>{
+        .catch(error=>{
            return res.status(500).json({message:"could not complete request"});
         });
   

@@ -1,0 +1,128 @@
+<div class="mail-view-area">
+    <div class="mail-view">
+      <dv class="head">
+        <div class="avatar-area">
+          <div class="avatar"></div>
+        </div>
+        <div class="info-area">
+          <div class="name" id="mailName">Grid Dynamics</div>
+          <div class="time" id="mailTime">04-21-2022</div>
+        </div>
+      </dv>
+      <dv class="body">
+
+        <div id="mailSubject" class="subject">
+         You are employed
+        </div>
+        <div class="content" id="mailContent">
+          
+        </div>
+      </dv>
+      <dv class="foot">
+        <div class="line"></div>
+        <div class="content">
+          <div class="mail-address" id="mailAddress">admin@griddynamics.com</div>
+          <div class="action">
+            <button title="reply with gmail" id="replyMailAction">
+              <i class="fa fa-reply" aria-hidden="true"></i>
+            </button>
+            <button title="delete mail" id="deleteMailAction">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+            <button title="copy address to clipboard" >
+              <i class="fa fa-clipboard" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </dv>
+    </div>
+  </div>
+
+  <!-- Component Based Javascript -->
+  <script>
+    function viewMail(mail_id){
+      let url = `http://localhost:3000/api/mail/${mail_id}`;
+
+      const xhr  =  new XMLHttpRequest();
+
+      xhr.onload = function(){
+          if(this.status > 399){
+              return alert("could not load mails at the moment");
+          }
+          
+          const mail = (JSON.parse(this.responseText)).data;
+
+          //view mail
+          renderMailView(mail);
+
+          //update mail set read to true;
+          setMailToRead(mail_id);
+
+          return;
+      }
+
+      xhr.open('GET', url);
+      xhr.send();
+    }
+
+    function setMailToRead(mail_id){
+
+      let url = `http://localhost:3000/api/mail/${mail_id}/read`;
+
+      const xhr  =  new XMLHttpRequest();
+
+      xhr.onload = function(){
+          if(this.status > 399)return console.log("could not update mail status");
+        }
+
+      xhr.open('PUT', url);
+      xhr.send();
+    }
+
+
+
+    function renderMailView(mail){
+      const mailNameElem = document.getElementById('mailName');
+      const mailTimeElem = document.getElementById('mailTime');
+      const mailSubjectElem = document.getElementById('mailSubject');
+      const mailContentElem = document.getElementById('mailContent');
+      const mailAddressElem = document.getElementById('mailAddress');
+      const deleteMailAction = document.getElementById('deleteMailAction');
+      const replyMailAction = document.getElementById('replyMailAction');
+
+
+      const {_id, date, name, email, message, subject, read} = mail;
+
+      let time = getSensibleTime(parseInt(date));
+
+      mailName.innerHTML = name;
+      mailTimeElem.innerHTML = `${time.month.fullname} ${time.date}. ${time.hour}:${time.minute}`;
+      mailSubjectElem.innerHTML = subject;
+      mailContentElem.innerHTML = message;
+
+      deleteMailAction.setAttribute("onclick", `deleteMail('${_id}')`);
+      replyMailAction.setAttribute("onclick", `copyText('${email}')`);
+      
+    }
+
+    function copyText(text){
+      navigator.clipboard.writeText(text);
+    }
+
+    function deleteMail(mail_id){
+      if(confirm("Mail will be completely deleted. continue anyway?")){
+        let url = `http://localhost:3000/api/mail/${mail_id}`;
+
+        const xhr  =  new XMLHttpRequest();
+
+        xhr.onload = function(){
+            if(this.status > 399)return console.log("could not delete mail at the moment");
+
+            loadMailPage();
+        }
+
+        xhr.open('DELETE', url);
+        xhr.send();
+      }
+    }
+  </script>

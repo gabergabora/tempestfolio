@@ -1,0 +1,159 @@
+<div class="main-card mb-3 card">
+    <div class="card-body">
+        <h5 class="card-title">Add Skill</h5>
+        <form class="" id="add-skill" >
+            <div class="position-relative form-group">
+                <label class="">Edit SkillName</label
+                ><input
+                    name="title"
+                    id="edit-skill-name"
+                    placeholder="React App Development"
+                    type="text"
+                    class="form-control"
+                    style="
+                        border: 3px solid #f4f3f3;
+                        background: #f2f2f2;
+                        color: #333;
+                    "
+                />
+            </div>
+
+            <div class="position-relative form-group">
+                <label class=""
+                    >Icon Image in SVG</label
+                ><input
+                    type="file"
+                    style="
+                        display: block;
+                        padding: 5px;
+                        border: 1px solid rgba(204, 204, 204, 0.254);
+                    "
+                    name="icon"
+                    id="edit-skill-icon"
+                />
+            </div>
+
+            <div class="position-relative form-group">
+                <label class="">Rating / 100</label
+                ><input
+                    name="rating"
+                    id="edit-skill-rating"
+                    placeholder="00 "
+                    type="number"
+                    class="form-control"
+                    style="
+                        border: 3px solid #f4f3f3;
+                        background: #f2f2f2;
+                        color: #333;
+                    "
+                />
+            </div>
+
+            <button
+                id="update-skill"
+                class="mt-1 btn btn-outline-primary"
+                type="button"
+            >
+                + Update Skillname
+            </button>
+        </form>
+    </div>
+</div>
+<div style="font-size: 3em; margin-bottom: 1em;">
+    <!-- delete button -->
+    <span role="button" class="action-button" id="skill-delete" style="cursor:pointer">
+        <i class="icon fa fa-trash icon-gradient bg-love-kiss" aria-hidden="true"></i>
+    </span>
+</div>
+
+<!-- Component Based Javascript -->
+<script>
+function loadSingleExpertise(expertiseID) {
+    let editSkillName = document.getElementById("edit-skill-name");
+    let editSkillRating = document.getElementById("edit-skill-rating");
+    let editSkillIcon = document.getElementById("edit-skill-icon");
+    let updateSkillButton = document.getElementById("update-skill");
+    let deleteSkillButton = document.getElementById("skill-delete");
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", `${app_home_url}/api/expertise/${expertiseID}`);
+    xhr.send();
+
+    xhr.onload = function() {
+        if(this.status > 399){
+            alert("could not load data");
+        }
+        
+        let expertise = JSON.parse(this.responseText).data;
+
+        // load dom
+        editSkillName.value = expertise.name;
+        editSkillRating.value = expertise.rating;
+        updateSkillButton.setAttribute("onclick", `updateSkill('${expertise._id}')`);
+        updateSkillButton.textContent = `update ${expertise.name}`;
+
+        // delete skill
+        deleteSkillButton.setAttribute("onclick", `deleteSkill('${expertise._id}')`);
+        deleteSkillButton.setAttribute("title", `delete ${expertise.name}`);
+
+        return;
+    }
+}
+
+
+function updateSkill(expertiseID) {
+    let editSkillName = document.getElementById("edit-skill-name").value.trim();;
+    let editSkillRating = document.getElementById("edit-skill-rating").value.trim();
+    let editSkillIcon = document.getElementById("edit-skill-icon");
+    const editIcon = editSkillIcon.files[0];
+
+    // maintaining pagination 
+    let activePage = document.querySelector(".page-link.page-link-page.active").textContent;
+    
+    
+    const formData = new FormData();
+    formData.append('name', editSkillName);
+    formData.append('rating', editSkillRating);
+    formData.append('icon', editIcon);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("PUT", `${app_home_url}/api/expertise/${expertiseID}`);
+    xhr.send(formData);
+
+    xhr.onload = function() {
+        if(this.status < 399){
+            alert("skill updated");
+            loadPage(parseInt(activePage));
+        }
+        else{
+            alert("could not save changes at the moment");
+        }
+
+        return;
+    }
+}
+
+function deleteSkill(expertiseID){
+    if(confirm("Skill will be permanently deleted. Continue anyway?")){
+        const xhr = new XMLHttpRequest();
+        xhr.open("DELETE", `${app_home_url}/api/expertise/${expertiseID}`);
+        xhr.send();
+
+        xhr.onload = function() {
+            if(this.status > 399){
+            alert("Could not delete skill at the moment")
+            }
+            else{
+                alert("skill deleted");
+                loadPage();
+            }
+
+            return;
+        }
+    }
+   
+}
+
+ 
+
+</script>

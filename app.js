@@ -17,13 +17,9 @@ app.set('view engine', 'ejs');
 // Morgan logger
 (require('./app/providers/morgan'))(app);
 
-// service providers
-(require('./app/providers/cors'))(app);
-(require('./app/providers/bodyparser'))(app);
-(require('./app/providers/session'))(app);
-(require('./app/providers/flash'))(app);
-(require('./app/providers/cookieparser'))(app);
-
+//service providers
+const serviceProviders = require('./app/serviceproviders');
+serviceProviders(app);
 
 //Global variables
 let globalJsonVariables = fs.readFileSync('./globals.json');
@@ -37,7 +33,6 @@ app.use((req, res, next) => {
 });
 
 
-
 //Set Public Folder
 app.use('/', express.static(path.resolve(__dirname, 'public/')));
 
@@ -45,6 +40,8 @@ app.use('/', express.static(path.resolve(__dirname, 'public/')));
 const router = require(__dirname + '/server/routes/router');
 router(app);
 
-(require('./app/errorhandler'))(app);
+//Error handle
+const errorHandler = require('./app/errorhandler');
+errorHandler(app);
 
 module.exports = app;
