@@ -1,0 +1,203 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="main-card mb-3 card" style="opacity: 1">
+      <div class="card-body" style="opacity: 0.75">
+        <h5
+          style="
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          "
+        >
+          <p id="service-title" style="text-transform: capitalize">
+            Mini Mani Moe
+          </p>
+          <i
+            id="service-icon"
+            class="fa fa-rocket icon-gradient bg-mixed-hopes"
+            aria-hidden="true"
+            title="Copy to use address-card"
+          ></i>
+        </h5>
+
+        <div
+          style="
+            max-width: 100%;
+            border: 1px solid #cccccc40;
+            padding: 1rem;
+            margin-top: 20px;
+            font-size: 1rem;
+          "
+        >
+          <p style="margin-bottom: 0" id="service-take">
+            Select a service to view
+          </p>
+        </div>
+        <div class="action-buttons" style="margin-top: 15px">
+          <span role="button" class="action-button" id="service-visibility">
+            <i
+              class="icon fa fa-eye icon-gradient bg-arielle-smile"
+              aria-hidden="true"
+            ></i>
+          </span>
+          <span role="button" class="action-button" id="service-edit">
+            <i
+              class="icon fa fa-pen icon-gradient bg-ripe-malin"
+              aria-hidden="true"
+            ></i>
+          </span>
+          <span role="button" class="action-button" id="service-delete">
+            <i
+              class="icon fa fa-trash icon-gradient bg-love-kiss"
+              aria-hidden="true"
+            ></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Component Based Javascript -->
+<script>
+  function loadService(serviceID, serviceName) {
+    const serviceTitleHolder = document.getElementById("service-title");
+    const serviceTakeHolder = document.getElementById("service-take");
+    const serviceIcon = document.getElementById("service-icon");
+    const actionButtonDelete = document.getElementById("service-delete");
+    const actionButtonVisibility =
+      document.getElementById("service-visibility");
+    const actionButtonEdit = document.getElementById("service-edit");
+    serviceTitleHolder.textContent = serviceName;
+
+    const url = `${app_home_url}/api/service/${serviceID}`;
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url);
+    xhr.send();
+
+    xhr.onload = function () {
+      if (this.status > 399) {
+        serviceTakeHolder.innerHTML = `<p>
+                    Failed to Load Data
+                    </p>
+                    `;
+        return;
+      }
+
+      const responseData = JSON.parse(this.responseText);
+
+      const { _id, title, take, icon, visibility } = responseData.data;
+
+      serviceTitleHolder.textContent = title;
+      serviceTakeHolder.innerHTML = `<p> ${take} </p>`;
+      serviceIcon.className = `fa ${icon} icon-gradient bg-mixed-hopes`;
+
+      // Action Buttons
+      actionButtonDelete.setAttribute("onclick", `dropService('${_id}')`);
+      actionButtonEdit.setAttribute("onclick", `loadEditService('${_id}')`);
+
+      const visibilityPublicElem = `<i
+                            class="icon fa fa-eye icon-gradient bg-arielle-smile"
+                            aria-hidden="true"
+                            ></i
+                        >`;
+      const visibilityHiddenElem = `<i
+                            class="icon fa fa-eye-slash icon-gradient bg-heavy-rain"
+                            aria-hidden="true"
+                            ></i
+                        >`;
+
+      actionButtonVisibility.innerHTML = visibility
+        ? visibilityPublicElem
+        : visibilityHiddenElem;
+      actionButtonVisibility.setAttribute(
+        "onclick",
+        `toggleVisibility("${_id}", ${visibility})`
+      );
+    };
+  }
+
+  function toggleVisibility(serviceID, currentVisibility) {
+    setTimeout(function () {
+      const actionButtonVisibility =
+        document.getElementById("service-visibility");
+      const visibility = !currentVisibility;
+      formData = {
+        visibility: visibility,
+      };
+
+      const url = `${app_home_url}/api/service/${serviceID}`;
+      const xhr = new XMLHttpRequest();
+      xhr.open("PUT", url);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(JSON.stringify(formData));
+
+      console.log(formData);
+
+      xhr.onload = function () {
+        if (this.status === 200) {
+          const responseData = JSON.parse(this.responseText);
+          const visibilityPublicElem = `<i
+                            class="icon fa fa-eye icon-gradient bg-arielle-smile"
+                            aria-hidden="true"
+                            ></i
+                        >`;
+          const visibilityHiddenElem = `<i
+                            class="icon fa fa-eye-slash icon-gradient bg-heavy-rain"
+                            aria-hidden="true"
+                            ></i
+                        >`;
+
+          let { visibility, _id } = responseData.data;
+          actionButtonVisibility.innerHTML = visibility
+            ? visibilityPublicElem
+            : visibilityHiddenElem;
+          actionButtonVisibility.setAttribute(
+            "onclick",
+            `toggleVisibility("${_id}", ${visibility})`
+          );
+        }
+      };
+    }, 1000);
+  }
+
+  function dropService(serviceID) {
+    const serviceTitleHolder = document.getElementById("service-title");
+    const serviceTakeHolder = document.getElementById("service-take");
+    const actionButtonDelete = document.getElementById("service-delete");
+    const actionButtonVisibility =
+      document.getElementById("service-visibility");
+    const actionButtonEdit = document.getElementById("service-edit");
+
+    if (
+      confirm(
+        "This Service will be completely removed, If you don't want to render a service for the moment, you can choose to hide instaed. Continue anyway?"
+      )
+    ) {
+      const xhr = new XMLHttpRequest();
+      xhr.open("DELETE", `${app_home_url}/api/service/${serviceID}`);
+      xhr.send();
+
+      xhr.onload = function () {
+        const responseData = JSON.parse(this.responseText);
+
+        if ((this.status = 200)) {
+          const allServices = document.querySelectorAll(".service-widget");
+
+          // remove service widget with key
+          allServices.forEach((service) => {
+            if (service.getAttribute("key") === serviceID) {
+              service.remove();
+            }
+          });
+
+          serviceTitleHolder.textContent = "None Selected";
+          serviceTakeHolder.innerHTML = `<p> Select  Service to View </p>`;
+          actionButtonDelete.removeAttribute("onclick");
+          actionButtonVisibility.removeAttribute("onclick");
+          actionButtonEdit.removeAttribute("onclick");
+        }
+      };
+    }
+  }
+</script>

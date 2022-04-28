@@ -1,0 +1,55 @@
+<div class="main-card mb-3 card">
+  <div class="card-body">
+    <h5 class="card-title">Upload resume</h5>
+    <!-- <form action="" enctype="multipart/form-data">
+        </form> -->
+    <input type="file" id="selectResume" />
+    <button class="mt-1 btn btn-primary" type="button" onclick="uploadResume()">
+      Submit
+    </button>
+    <br />
+    <br />
+    <!-- <div id="resume-loader-holder" class="resume-loader-holder">
+            <div id="resume-loader" class="resume-loader"></div>
+            <br>
+            <div id="upload-message" class="upload-message">
+                uploading...
+            </div>
+        </div> -->
+    <hr />
+
+    <div class="active--resume">
+      <img src="/assets/images/pp1.jpeg" alt="" style="width: 50px" />
+    </div>
+  </div>
+</div>
+
+<!-- Component Based Javascript -->
+<script>
+  async function uploadResume() {
+    const fileInput = document.getElementById("selectResume");
+    const file = fileInput.files[0];
+    const formdata = new FormData();
+    formdata.append("resume", file);
+
+      const url = `${app_home_url}/api/resume/`;
+
+      const xhr =  new XMLHttpRequest();
+      xhr.onload = function(){
+        let response = JSON.parse(this.responseText);
+
+        if(this.status < 399){
+          alert("resume uploaded");
+          loadPage();
+        }
+        else alert(response.message);
+      }
+
+      xhr.open("POST", url);
+      xhr.send(formdata);
+
+  }
+
+   
+
+</script>

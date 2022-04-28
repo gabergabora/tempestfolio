@@ -1,0 +1,191 @@
+<%- include('./layouts/head.ejs') %>
+
+		<div class="wrapper" id="pg-login">
+			<div class="row">
+				<%- include('./layouts/background.ejs') %>
+				<div class="form">
+					<div class="wrap">
+						<div class="welcome">
+							<h2>Verify Your Email</h2>
+							<p class="motivational-quote">
+								Great talent finds happiness in execution
+								<span class="author"> ~Aristotle </span>
+							</p>
+							<br />
+
+							<p style="font-size: 15px; line-height: 1.7">
+								A One Time Password will been sent to your provided email
+								<br />
+								Enter OTP to verify your account
+							</p>
+						</div>
+						<form action="">
+							<h3 class="pointer">Enter OTP Code :</h3>
+							<div class="form-group input">
+								<label for="" class="label-hidden-v">
+									<h5>OTP code</h5>
+								</label>
+								<input
+									type="text"
+									name="OTP"
+									id="inputOTP"
+									placeholder="000000"
+									value=""
+								/>
+							</div>
+							<br />
+							<button type="button" id="sendOTP">Send OTP</button>
+							<br />
+							<br />
+							<!-- Loader  -->
+							<div class="form-btn-loader-flex">
+								<button type="button" id="verifyOTP">Verify</button>
+								<!-- Loader  -->
+								<span id="loader" class="loading hidden">
+									<div class="sk-chase">
+										<div class="sk-chase-dot"></div>
+										<div class="sk-chase-dot"></div>
+										<div class="sk-chase-dot"></div>
+										<div class="sk-chase-dot"></div>
+										<div class="sk-chase-dot"></div>
+										<div class="sk-chase-dot"></div>
+									</div>
+								</span>
+								<span id="process-tracker" class="loading hidden">
+									Verifying Email
+								</span>
+							</div>
+							<!-- Loader  -->
+
+						</form>
+						<div class="image" style="margin-top: 20px">
+							<a href="https://longbottondev.io">
+								<img
+									src="/login/images/5.jpg"
+									style="width: 150px; height: 100px"
+									alt=""
+								/>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Scripts -->
+		<!-- <script src="/js/main.js"></script> -->
+		<script>
+			const app_home_url =  '<%= globals.app_home_url %>';
+			const otp_generate_path =  '<%= globals.auth_path.otp.generate %>';
+			const otp_verify_path =  '<%= globals.auth_path.otp.verify %>';
+
+			
+			const sendOtpUrl = `${app_home_url}${otp_generate_path}`;
+			const verifyOtpUrl = `${app_home_url}${otp_verify_path}`;
+			const adminHomeUrl = `${app_home_url}/admin/`
+
+			const sendOtpButton = document.getElementById('sendOTP');
+			const verifyOtpButton = document.getElementById('verifyOTP');
+			const loader = document.getElementById('loader');
+			const processTracker = document.getElementById('process-tracker');
+
+			sendOtpButton.style.backgroundColor = '#ccc';
+			sendOtpButton.style.color = '#222';
+
+			//Dom functions
+			function hideLoaders() {
+				const loaders = document.querySelectorAll('.loading');
+				loaders.forEach((loader) => {
+					loader.classList.add('hidden');
+				});
+			}
+			function showLoaders() {
+				const loaders = document.querySelectorAll('.loading.hidden');
+				loaders.forEach((loader) => {
+					loader.classList.remove('hidden');
+				});
+			}
+
+			function hideLoadIcon() {
+				const loader = document.getElementById('loader');
+				if (!loader.classList.contains('hidden'))
+					loader.classList.add('hidden');
+			}
+			function showLoadIcon() {
+				const loader = document.getElementById('loader');
+				if (loader.classList.contains('hidden'))
+					loader.classList.remove('hidden');
+			}
+
+			function renderProcess(processMessage) {
+				const processTracker = document.getElementById('process-tracker');
+				processTracker.textContent = processMessage;
+			}
+
+			function disableButtons() {
+				sendOtpButton.disabled = 'true';
+				sendOtpButton.style.opacity = '.6';
+				verifyOtpButton.disabled = 'true';
+				verifyOtpButton.style.opacity = '.6';
+			}
+			function enableButtons() {
+				sendOtpButton.disabled = '';
+				sendOtpButton.style.opacity = '1';
+				verifyOtpButton.disabled = '';
+				verifyOtpButton.style.opacity = '1';
+			}
+
+			sendOtpButton.addEventListener('click', (e) => {
+				e.preventDefault();
+				disableButtons();
+
+				showLoaders();
+				renderProcess('Brewing.. Hold still');
+
+				fetch(sendOtpUrl, {
+						method: 'post',
+				})
+				.then((response) => response.json())
+				.then((data) => {
+					let message;
+
+					if(data.status){
+                        message = "An OTP code has been sent to. Please check your mail to verify your account";
+					}
+					else {
+						message = "could not verify email";
+					}
+
+					alert(message);
+
+					enableButtons();
+					hideLoaders();
+					sendOtpButton.textContent = 'Resend OTP';
+				})
+			});
+
+			verifyOtpButton.addEventListener('click', (e) => {
+				e.preventDefault();
+				disableButtons();
+
+				let otp = document.getElementById('inputOTP').value;
+
+				fetch(verifyOtpUrl, {
+						method: 'post',
+						body: JSON.stringify({ otp: otp }),
+						headers: {
+							'Content-Type': 'application/json',
+						},
+				})
+				.then((response) =>  response.json())
+				.then((data)=>{
+					if(!data) alert("Could not complete request at the moment");
+					else if (!data.isVerified) alert(data.message);
+					else {
+						alert("Email verfiication successful");
+						window.location = adminHomeUrl;
+					}
+				})
+			});
+		</script>
+	<%- include('./layouts/footer.ejs') %>
+

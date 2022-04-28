@@ -1,0 +1,135 @@
+<div class="main-card mb-3 card">
+  <div class="card-body">
+    <h5 class="card-title">Add New Service</h5>
+    <form class="" id="add--service">
+      <div class="position-relative form-group">
+        <label for="serviceTitle" class="">Title</label
+        ><input
+          name="title"
+          id="serviceTitle"
+          placeholder="Service Title"
+          type="text"
+          class="form-control"
+          style="border: 3px solid #f4f3f3; background: #f2f2f2; color: #333"
+        />
+      </div>
+
+      <div class="position-relative form-group">
+        <label for="exampleEmail" class="">
+          Icon
+          <br />
+          <small> use Font Awesome only </small>
+        </label>
+        <div style="position: relative">
+          <input
+            name="icon"
+            id="serviceIcon"
+            placeholder="fa-rocket"
+            type="text"
+            class="form-control"
+            value=""
+            style="border: 3px solid #f4f3f3; background: #f2f2f2; color: #333"
+          />
+          <span
+            id="add-icon-stager"
+            style="
+              display: inline-block;
+              position: absolute;
+              top: 50%;
+              right: 10px;
+              transform: translateY(-50%);
+            "
+          >
+            <i
+              id="add-icon-stager-icon"
+              class="fa fa-rocket"
+              style="font-size: 1rem"
+            ></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="position-relative form-group">
+        <label for="serviceDescription" class="">Description</label
+        ><textarea
+          name="description"
+          id="serviceDescription"
+          class="form-control"
+          rows="10"
+          style="border: 3px solid #f4f3f3; background: #f2f2f2; color: #333"
+        ></textarea>
+      </div>
+
+      <button
+        class="mt-1 btn btn-outline-primary"
+        type="button"
+        onclick="addService()"
+      >
+        + Add Service
+      </button>
+    </form>
+  </div>
+</div>
+
+<script type="text/javascript" src="/assets/scripts/formserialize.js"></script>
+
+<!-- Component Based  Javascript -->
+<script>
+  iconStage();
+
+  function iconStage() {
+    const iconInput = document.getElementById("serviceIcon");
+    const iconStager = document.getElementById("add-icon-stager");
+    const iconStagerIcon = document.getElementById("add-icon-stager-icon");
+    iconInput.oninput = function (e) {
+      const icon = e.target.value.trim();
+      iconStagerIcon.className = `fa ${icon}`;
+    };
+  }
+
+  function addService() {
+    const serviceWidgetsContainer = document.getElementById(
+      "service-widgets-container"
+    );
+    let serviceTitle = document.getElementById("serviceTitle").value;
+    let serviceIcon = document.getElementById("serviceIcon").value;
+    let serviceDescription =
+      document.getElementById("serviceDescription").value;
+
+    if (
+      !serviceTitle.trim() ||
+      !serviceIcon.trim() ||
+      !serviceDescription.trim()
+    )
+      return;
+
+    let formData = {
+      title: serviceTitle,
+      icon: serviceIcon,
+      take: serviceDescription,
+    };
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", `${app_home_url}/api/service/`);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(formData));
+
+    xhr.onload = function () {
+      if (!this.status > 399) return alert(`Could not add ${serviceTitle}`);
+
+      alert(`Service Added`);
+
+      const responseData = JSON.parse(this.responseText);
+      serviceWidgetsContainer.innerHTML = "";
+
+      loadPage();
+
+      // clean up form
+      serviceTitle = "";
+      serviceIcon = "";
+      serviceDescription = "";
+
+      return;
+    };
+  }
+</script>

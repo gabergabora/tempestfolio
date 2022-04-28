@@ -1,0 +1,187 @@
+<div class="row" id="resWidgetsHolder">
+  <!-- Secure Template -->
+
+  <!-- <div class="col-md-6">
+    <div class="resume--holder" style="margin-bottom: 20px; min-width: 240px">
+      <div class="widget-content-wrapper" style="">
+        <div class="widget-content-left">
+          <img
+            src="/assets/images/pp1.jpeg"
+            alt=""
+            style="height: 200px; width: 200px"
+          />
+        </div>
+
+        <div
+          class=""
+          style="
+            margin-top: 10px;
+            font-size: 12px;
+            width: 200px; /* padding: 0 0 0 10px; */
+            overflow: hidden;
+          "
+        >
+          ayodele-oluuwaniyii-resume.pdf
+        </div>
+
+        !--  --
+        <div class="action-buttons" style="margin-top: 15px">
+          <span role="button" class="action-button" id="service-visibility">
+            <i
+              class="icon fa fa-share icon-gradient bg-arielle-smile"
+              aria-hidden="true"
+              title="view"
+            ></i>
+          </span>
+          <span role="button" class="action-button" id="service-edit">
+            <i
+              class="icon fa fa-arrow-down icon-gradient bg-ripe-malin"
+              aria-hidden="true"
+              title="download"
+            ></i>
+          </span>
+          <span role="button" class="action-button" id="service-delete">
+            <i
+              class="icon fa fa-trash icon-gradient bg-love-kiss"
+              aria-hidden="true"
+              title="delete"
+            ></i>
+          </span>
+
+          <span role="button" class="action-button" id="service-delete">
+            <i
+              class="icon fa fa-user icon-gradient bg-love-kiss"
+              aria-hidden="true"
+              title="set active"
+            ></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+  <script>
+    // Global variables
+    const app_home_url = "<%= globals.app_home_url %>";
+
+    loadPage();
+
+    function loadPage() {
+      const resWidgetsHolder = document.getElementById("resWidgetsHolder");
+      resWidgetsHolder.innerHTML = "";
+
+      async function fetchResumes() {
+        const url = `${app_home_url}/api/resume/`;
+
+        let requestObject = await fetch(url);
+        let response = await requestObject.json();
+        let resumes = response.data;
+
+        if (!resumes.length) {
+          resWidgetsHolder.innerHTML = `<p style="text-align:center">You have no resume yet. Upload a resume immediately </p>`;
+        }
+
+        resumes.forEach((resume) => {
+          resWidgetsHolder.innerHTML += renderResumeWidget(resume);
+        });
+
+        return;
+      }
+
+      fetchResumes()
+        .then()
+        .catch((e) => {
+          return (resWidgetsHolder.innerHTML = `<p style="text-align:center"> Could Not Load Data at the moment Please check your connection and reload your browser</p>`);
+        });
+    }
+
+    function renderResumeWidget(resume) {
+      const active = `${resume.active}` == "true" ? "active" : "";
+
+      const resumeWidget = `
+                <div class="col-md-6">
+                    <div class="resume--holder ${active}" style="margin-bottom: 20px; min-width: 240px">
+                        <div class=" widget-content-wrapper" style="">
+                            <div class=" widget-content-left">
+                                <iframe src="${resume.url}" alt="${resume.fileName}" style="height:200px;width: 200px; pointer-events:none; border:1px solid #cccccc87; overflow: hidden !important;" scrolling="no"
+                                pdf-viewer-update-enabled="false">
+                                </iframe>
+                            </div>
+
+                            <div class="" style="margin-top: 10px;font-size: 12px;width: 200px;/* padding: 0 0 0 10px; */overflow: hidden;">
+                                ${resume.fileName}
+                            </div>
+
+                            <!--  -->
+                            <div class="action-buttons" style="margin-top: 15px">
+                                <span role="button" class="action-button" id="service-visibility">
+                                    <a href="${resume.url}" target="_blank">
+                                        <i class="icon fa fa-share icon-gradient bg-arielle-smile" aria-hidden="true" title="view ${resume.fileName}"></i>
+                                    </a>
+                                </span>
+                                <span role="button" class="action-button" id="service-edit">
+                                    <a href="${resume.url}" download="true">
+                                        <i class="icon fa fa-arrow-down icon-gradient bg-ripe-malin" aria-hidden="true" title="download"></i>
+                                    </a>
+                                </span>
+                                <span role="button" class="action-button" id="service-delete" onclick="deleteResume('${resume._id}')">
+                                    <i class="icon fa fa-trash icon-gradient bg-love-kiss" aria-hidden="true" title="delete ${resume.fileName}"></i>
+                                </span>
+
+                                <span role="button" class="action-button" id="service-set-active" onclick="setActiveResume('${resume._id}')">
+                                    <i class="icon fa fa-user icon-gradient bg-love-kiss" aria-hidden="true" title="set active"></i>
+                                </span>
+                            </div>
+                        </div>
+                        
+                        </div>
+                </div>`;
+
+      return resumeWidget;
+    }
+
+    function deleteResume(resumeID) {
+      async function fetchDeleteResume() {
+        const url = `${app_home_url}/api/resume/${resumeID}`;
+        const method = "delete";
+        const options = { method };
+
+        let requestObject = await fetch(url, options);
+
+        if (requestObject.status > 399) alert("An error occured");
+        else alert("Resume deleted successfully");
+      }
+
+      if (
+        confirm("This Resume will be completely removed,  Continue anyway?")
+      ) {
+        fetchDeleteResume()
+          .then(() => loadPage())
+          .catch((e) => {
+            return alert("could not delete resume at the moment");
+          });
+      }
+    }
+
+    function setActiveResume(resumeID) {
+      async function fetchSetActiveResume() {
+        const url = `${app_home_url}/api/resume/${resumeID}/setactive`;
+        const method = "put";
+        const options = { method };
+
+        let requestObject = await fetch(url, options);
+
+        if (requestObject.status > 399) alert("An error occured");
+      }
+
+      fetchSetActiveResume()
+        .then((data) => {
+          loadPage();
+        })
+        .catch(() => {
+          return alert("something went wrong");
+        });
+    }
+  </script>
+</div>

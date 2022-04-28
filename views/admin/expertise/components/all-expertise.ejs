@@ -1,0 +1,210 @@
+<div class="col-md-12" >
+    <div class="row" id="expertise" class="mb-3" style="min-height: 584px;"></div>
+
+    <div class="col-lg-12">
+        <nav class="" aria-label="Page navigation example">
+          <ul class="pagination" id="pagination"></ul>
+        </nav>
+      </div>
+      <div style="display: block; height: 100px"></div>
+</div>
+
+<!-- Component Based Javascript -->
+<script>
+const app_home_url = "<%= globals.app_home_url %>";
+
+ function loadPage(index){
+        const expertiseHolder = document.getElementById("expertise");
+        expertiseHolder.innerHTML = "";
+
+        let entries = 4;
+        let pageIndex = index || 1;
+
+        const url = `${app_home_url}/api/expertise?entries=${entries}&index=${pageIndex}`;
+        const xhr  =  new XMLHttpRequest();
+        xhr.open("GET", url);
+        xhr.send();
+    
+        xhr.onload = function(){
+            if(this.status < 399) {
+               const response =  JSON.parse(this.responseText);
+
+               // render pagination
+               paginate(response.data);
+
+               let skills = response.data.chunk;
+
+               if(!skills.length) return expertiseHolder.innerHTML = "<p>You have no skill registered yet</p>";
+
+
+               skills.forEach(skill=>{
+                   expertiseHolder.innerHTML += renderExpertiseComponent(skill);
+               })
+
+            
+            }else{
+                return expertiseHolder.innerHTML = "<p>Could not load data at the moment</p>";
+            }
+        }
+ }
+ 
+
+ function renderExpertiseComponent(expertise){
+    let expertiseComponent = `
+    <div class="col-md-6" style="cursor:pointer" onclick="loadSingleExpertise('${expertise._id}')">
+        <div class="main-card mb-3 pb-0 card">
+            <div class="card-body">
+                <h5
+                    style="
+                        display: flex;
+                        flex-direction: column;
+                        align-items: start;
+                        justify-content: space-between;
+                    "
+                >
+                    <p
+                        class="font-weight-bold text-secondary mb-2"
+                        style="font-size: 1.5rem; text-transform: capitalize"
+                    >
+                       ${expertise.name}
+                    </p>
+
+                    <small>
+                        <div style="opacity: 0.7; margin-left: 0px">
+                            <span
+                                class="dot"
+                                style="
+                                    display: inline-block;
+                                    width: 5px;
+                                    height: 5px;
+                                    border-radius: 50%;
+                                    background: lightseagreen;
+                                    margin-left: 0px 3px;
+                                "
+                            ></span>
+                            <span class="technology" style="font-size: 1.42rem"
+                                >
+                                ${expertise.rating}
+                                %</span
+                            >
+                        </div>
+                    </small>
+                </h5>
+
+                <div class="skill-icon">
+                    <img
+                        src="${expertise.icon.url}"
+                        alt=""
+                        style="height: 150px"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+`
+
+     return expertiseComponent;
+ }
+
+
+
+ function paginate(data) {
+    let { entries, count, page } = data;
+    const pages = Math.ceil(count / entries);
+
+    const pagination = document.getElementById("pagination");
+    const pageNextButton = `   <li class="page-item">
+                    <span
+                        role="button"
+                        class="page-link page-link-next"
+                        aria-label="Next"
+                        id="pageNext"
+                        onclick="getNextPage()"
+                        style="background: #ffffff52;"
+                        >
+                        <span aria-hidden="true">»</span>
+                        <span class="sr-only">Next</span>
+                        </span>
+                </li>`;
+
+    const pagePrevButton = `  <li class="page-item">
+                    <span
+                        role="button"
+                        class="page-link  page-link-prev"
+                        aria-label="Prev"
+                        id="pagePrev"
+                        onclick="getPrevPage()"
+                        style="background: #ffffff52;"
+
+                   >
+                        <span aria-hidden="true">«</span>
+                        <span class="sr-only">Previous</span>
+                    </span>
+                </li>`;
+
+    pagination.innerHTML = "";
+    pagination.innerHTML += pagePrevButton;
+
+    let i = 1;
+    for (; i <= pages; ) {
+      let active = i === page ? true : false;
+      let isFirst = i === 1 ? "page-link-page-first" : "";
+      let isLast = i === pages ? "page-link-page-last" : "";
+
+      pagination.innerHTML += `<li class="page-item ${active ? "active" : ""}">
+                    <span role="button" class="page-link page-link-page ${
+                      active ? "active" : ""
+                    } ${isFirst} ${isLast}" pageindex="${i}"  active="${active}" onclick="loadPage(${i})" >${i}</a>
+                </li>`;
+
+      i++;
+    }
+
+    pagination.innerHTML += pageNextButton;
+  }
+
+  function getPrevPage() {
+    const pageLinks = document.querySelectorAll(".page-item .page-link-page");
+    const pageLinkFirst = document
+      .querySelector(".page-item .page-link-page-first")
+      .getAttribute("pageindex");
+
+    pageLinks.forEach((pageLink) => {
+      let active = pageLink.getAttribute("active");
+      let pageIndex = parseInt(pageLink.getAttribute("pageindex"));
+
+      if (active === "true") {
+        let newPageIndex = pageIndex - 1;
+        if (newPageIndex < parseInt(pageLinkFirst)) return;
+        loadPage(newPageIndex);
+        return;
+      }
+    });
+    return;
+  }
+
+  function getNextPage() {
+    const pageLinks = document.querySelectorAll(".page-item .page-link-page");
+    const pageLinkLast = document
+      .querySelector(".page-item .page-link-page-last")
+      .getAttribute("pageindex");
+
+    pageLinks.forEach((pageLink) => {
+      let active = pageLink.getAttribute("active");
+      let pageIndex = parseInt(pageLink.getAttribute("pageindex"));
+
+      if (active === "true") {
+        let newPageIndex = pageIndex + 1;
+        if (newPageIndex > parseInt(pageLinkLast)) return;
+        loadPage(newPageIndex);
+        return;
+      }
+    });
+    return;
+  }
+
+
+ loadPage();
+
+
+</script>

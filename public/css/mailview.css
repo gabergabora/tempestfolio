@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,300;1,500;1,600;1,800&display=swap');
+
+:root{
+    --font-primary: 'Poppins', sans-serif;
+    --txt-cl-primary: #494949;
+    --m-cl-blue: #63B5D8;
+    --m-cl-pink: #E46060;
+    --m-cl-green: #89E49D;
+    --m-cl-dark: #585757;
+    --m-cl-yellow: #F4D153;
+}
+
+div {
+  display: block;
+}
+
+.mail-view {
+    padding: 5em;
+    padding-top: 7em;
+}
+
+.mail-view .head{
+  display: flex;
+  align-items: center;
+  margin-bottom: 45px;
+}
+
+.mail-view .head .avatar-area {
+    margin-right: 15px;
+}
+
+.avatar{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: var(--m-cl-pink);
+}
+
+.mail-view .head .info-area {}
+
+.mail-view .head .info-area .name {
+    font-size: 1.5em;
+    font-weight: 600;
+    color: #2E2D2D;
+    margin-bottom: 4px;
+}
+
+.mail-view .head .info-area .time {
+    font-weight: 400;
+    font-size: 1.2em;
+    color: #676565;
+}
+
+.mail-view .body {
+    display: block;
+    font-family: var(--font-primary);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1em;
+    line-height: 30px;
+    color: #494949;
+}
+
+.mail-view .body .subject {
+    margin-bottom: 30px; 
+    font-size: 1.1em; 
+    font-weight: 600;
+}
+
+
+.mail-view .foot {
+    display: block;
+    width: 100%;
+    margin: 150px 0;
+}
+
+.mail-view .foot .line {
+    display: block;
+    border-top: 1px solid rgba(161, 157, 157, 0.219)
+}
+
+.mail-view .foot .content {
+    min-height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mail-view .foot .mail-address {
+    font-size: 1em;
+    color: #E46060;
+    cursor: pointer;
+}
+
+.mail-view .foot .action button {
+    border: none;
+    background: none;
+    margin: 0 7px;
+    cursor: pointer;
+    font-size: inherit;
+    color: #494949;
+    transition: all .05s ease-in-out;
+}
+
+.mail-view .foot .action button#replyMailAction:active {
+    color:#E46060;
+}

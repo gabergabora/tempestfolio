@@ -1,0 +1,262 @@
+<div class="mail-list-area">
+    <div class="mailist-toolbar">
+    <div class="left">
+      <div class="mail-filter-actions">
+        <h3>All Mails</h3>
+      </div>
+    </div>
+    <div class="right">
+      <span class="paginate-button" id="paginate-button-prev" role="button">
+        <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+      </span>
+
+      <span class="paginate-button"  id="paginate-button-next" role="button">
+        <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+      </span>
+    </div>
+
+    </div>
+    <div class="mails" id="mailListWidgetHolder">
+
+      <!-- <div class="mail-slot active">
+        <div class="mail-content">
+          <div class="avatar-container">
+            <div class="avatar blue"></div>
+          </div>
+
+          <div class="mailinfo-container">
+            <div class="mail-head">
+              <div class="name">
+                <h2>Rufai Qudus</h2>
+              </div>
+              <div class="mail-time"></div>
+            </div>
+            <div class="mail-address">raksjavac@gmail</div>
+            <div class="mail-extract">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Eveniet ipsa dolores quisquam
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+    </div>
+  </div>
+
+  <!-- Component Based Javascript -->
+  <script>
+    window.savedMailState = [];
+
+    function loadMailPage(index){
+        let entries = 10;
+        let pageIndex = index || 1;
+
+        let url = `http://localhost:3000/api/mail?entries=${entries}&index=${pageIndex}`;
+
+        const xhr  =  new XMLHttpRequest();
+
+        xhr.onload = function(){
+            if(this.status > 399){
+                return console.log("could not load mails at the moment");
+                return renderMailListWidget(null);
+
+            }
+            
+            const mailsPage = (JSON.parse(this.responseText)).data;
+            const mails =  mailsPage.chunk;
+            
+            renderMailPagination(mailsPage);
+            return renderMailListWidget(mails);
+
+        }
+
+        xhr.open('GET', url);
+        xhr.send();
+    }
+
+
+  // widgets
+
+  function renderMailPagination(paginationData){
+    /* paginationData.count;
+    // paginationData.entries;
+    //  paginationData.page; */
+
+    const paginteButtonPrev = document.getElementById("paginate-button-prev");
+    const paginteButtonNext = document.getElementById("paginate-button-next");
+
+    let maxPage = Math.ceil(paginationData.count / paginationData.entries);
+    let prevPage = paginationData.page - 1;
+    let nextPage = paginationData.page + 1;
+
+    prevPage = (prevPage > 0) ? prevPage : null;
+    nextPage = (nextPage > 0 && nextPage <= maxPage ) ? nextPage : null;
+
+    let prevPageDisabled = prevPage ? false : true;
+    let nextPageDisabled = nextPage ? false : true;
+
+    paginteButtonPrev.setAttribute("onclick", `getPage(${prevPage})`);
+    paginteButtonPrev.setAttribute("disabled", prevPageDisabled);
+
+    paginteButtonNext.setAttribute("onclick", `getPage(${nextPage})`);
+    paginteButtonNext.setAttribute("disabled", nextPageDisabled);
+  }
+
+  function getPage(page){
+    if(!page) return;
+    loadMailPage(page);
+  }
+
+  function renderMailListWidget(mails){
+    let mailListWidgetHolder = document.getElementById("mailListWidgetHolder");
+        mailListWidgetHolder.innerHTML = "";
+      
+    if(!mails){
+      mailListWidgetHolder.innerHTML = "<p>Could not load mails at the moment</p>";
+    }
+
+    if(!Array.isArray(mails)) return console.error("Cannot process mails as its not iterable");
+
+    mails.forEach(mail => mailListWidgetHolder.innerHTML += mailSlotWidget(mail));
+  }
+
+  function mailSlotWidget(mail){
+
+    const {_id, date, name, email, message, subject, read} = mail;
+    
+    let isNewMessage = ( read || ((parseInt(date) + (1000*60*60)) < (new Date).getTime()) )?false:true;
+
+    const dynamicAvaterColor = ['blue', 'pink', 'green', 'dark', 'yellow'];
+
+    let avatarDynamicColor = dynamicAvaterColor[(Math.floor( (Math.random() * dynamicAvaterColor.length) +1 ))];
+
+
+    const mailSlot = `<div class="mail-slot ${read?'read':'unread'}"  clickable="true" onclick="viewMail('${_id}')">
+        <div class="mail-content">
+          <div class="avatar-container">
+            <div class="avatar ${avatarDynamicColor}"></div>
+          </div>
+
+          <div class="mailinfo-container">
+            <div class="mail-head">
+              <div class="name">
+                <h2>${name}</h2>
+              </div>
+              ${!isNewMessage?
+                 `<div class="mail-time">
+                  ${((new Date(parseInt(date))).toLocaleDateString()).replaceAll(/\//g, '-')}
+                  </div>`
+                :
+                `<div class="mail-time new">
+                  <span class="mail-count"></span>
+                  <span class="new-badge">new</span>
+                 </div>`
+              }
+              
+            </div>
+            <div class="mail-address">${email}</div>
+            <div class="mail-extract">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Eveniet ipsa dolores quisquam
+            </div>
+          </div>
+        </div>
+      </div>`
+
+      return mailSlot;
+  }
+
+  function getSensibleTime(timestring){
+    timestring = (typeof timestring ==="String") ? parseInt(timestring) : timestring;
+
+    const date = new Date(timestring);
+
+    const globalMonthNames = [
+      {
+        fullname: "january",
+        shortname: "jan",
+        monthNumber: 1,
+      },
+      {
+        fullname: "february",
+        shortname: "feb",
+        monthNumber: 2,
+      },
+      {
+        fullname: "march",
+        shortname: "mar",
+        monthNumber: 3,
+      },
+      {
+        fullname: "april",
+        shortname: "apr",
+        monthNumber: 4,
+      },
+      {
+        fullname: "may",
+        shortname: "may",
+        monthNumber: 5,
+      },
+      {
+        fullname: "june",
+        shortname: "jun",
+        monthNumber: 6,
+      },
+      {
+        fullname: "july",
+        shortname: "jul",
+        monthNumber: 7,
+      },
+      {
+        fullname: "august",
+        shortname: "aug",
+        monthNumber: 8,
+      },
+      {
+        fullname: "september",
+        shortname: "sep",
+        monthNumber: 9,
+      },
+      {
+        fullname: "october",
+        shortname: "oct",
+        monthNumber: 10,
+      },
+      {
+        fullname: "november",
+        shortname: "nov",
+        monthNumber: 11,
+      },
+      {
+        fullname: "december",
+        shortname: "dec",
+        monthNumber: 12,
+      },
+    ]
+  
+    let day = date.getDay();
+    let monthDay = date.getDate();
+    let month = date.getUTCMonth();
+    let year = date.getFullYear();
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+
+    return {
+      day,
+      date: monthDay,
+      month: globalMonthNames[month],
+      year,
+      hour,
+      minute
+    }
+
+  }
+
+  // (function reloadMailsEveryTenSeconds(){
+  //   setInterval(loadMailPage, 10000);
+  // })();
+
+  loadMailPage();
+
+
+</script>

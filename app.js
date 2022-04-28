@@ -1,40 +1,70 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+require('dotenv').config();
+const createError = require('http-errors');
+const path = require('path');
+const fs = require('fs');
+const express = require('express');
+const errorHandler = require('./app/errorhandler');
 
-var indexRouter = require('./routes/index');
+const app = express();
 
-var app = express();
+//database
+(require('./app/db')).connect();
 
-// view engine setup
+
+// Set node environment
+app.set('env', process.env.NODE_ENV);
+
+
+// view engine setup/
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// Morgan logger
+(require('./app/providers/morgan'))(app);
 
-app.use('/', indexRouter);
+//service providers
+const serviceProviders = require('./app/serviceproviders');
+serviceProviders(app);
+
+//Global variables
+let globalJsonVariables = fs.readFileSync('./globals.json');
+let globals = JSON.parse(globalJsonVariables);
+
+app.use((req, res, next) => {
+	res.locals.errorMsg = req.flash('error') || false;
+	res.locals.successMsg = req.flash('success') || false;
+	res.locals.globals = globals;
+	next();
+});
+
+
+//Set Public Folder
+app.use('/', express.static(path.resolve(__dirname, 'public/')));
+
+//Router
+const router = require(__dirname + '/server/routes/router');
+router(app);
+
+
+//Error handler
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+    next(createError(404));
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  console.error(err);
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+app.use(async function(err, req, res, next) {
+	await errorHandler.handleError(err, req, res);
+	next();
 });
+
+// process.on("uncaughtException", error => {
+// 	process.exit(1);
+// });
+  
+// process.on("unhandledRejection", (reason) => {
+// 	process.exit(1);
+// });
+
 
 module.exports = app;

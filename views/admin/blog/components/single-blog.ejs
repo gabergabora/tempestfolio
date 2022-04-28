@@ -1,0 +1,302 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="main-card mb-3 card" id="blog-holder">
+            <div class="card-body">
+                <h5
+                    style="
+                        display: flex;
+                        flex-direction: column;
+                        align-items: start;
+                        justify-content: space-between;
+                    "
+                >
+                    <a id="blog-title"
+                        href="https://medium.com"
+                        class="font-weight-bold text-secondary mb-2"
+                        style="
+                            font-size: 1.1rem;
+                            text-decoration: underline;
+                            text-transform: capitalize;
+                        "
+                    >
+                        The big let down of Node Js
+                    </a>
+                    <small>
+                        <div style="opacity: 0.7; margin-left: 0px">
+                            <span
+                                class="dot"
+                                style="
+                                    display: inline-block;
+                                    width: 5px;
+                                    height: 5px;
+                                    border-radius: 50%;
+                                    background: lightseagreen;
+                                    margin-left: 0px 3px;
+                                "
+                            ></span>
+                            <span id="blog-tag" class="technology" style="font-size: 13px"
+                                >Node</span
+                            >
+                            <span id="blog-date" class="technology" style="font-size: 13px"
+                                >08/21</span
+                            >
+                        </div>
+                    </small>
+                </h5>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div
+                            class="img-hero"
+                            style="
+                                height: 300px;
+                                max-height: 100%;
+                                margin-bottom: 15px;
+                                background:#423f3f;
+                                width: fit-content;
+                                min-width: 500px;
+                            "
+                        >
+                            <img
+                                id="blog-image"
+                                style="height: 100%; max-width: 100%; min-width: 500px;"
+                                src="/assets/images/5c4fe3b160c6248c37d9d987caeb7172.jpg"
+                                alt=""
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    style="
+                        max-width: 100%;
+                        width: 500px;
+                        border: 1px solid #cccccc40;
+                        padding: 1rem;
+                        margin-top: 10px;
+                        font-size: 1rem;
+                    "
+                >
+                    <p
+                        id="blog-extract"
+                        style="
+                            margin-bottom: 0;
+                            opacity: 0.9;
+                            font-size: 15px;
+                        "
+                    >
+                        Buygames is a gaming e-commerce website built using
+                        PHP, Apache, AWS, Twilio and all. It uses paypal for
+                        transactions, Keeps users preferences and
+                        recommendations, Admin Control room for maintenance.
+                        Still on maintenance and mouth watering features
+                        are ...
+                        
+                    </p>
+                </div>
+
+                <br />
+                <div class="tags" style="font-size: 13px">
+                    <div
+                        class="mb-1"
+                        style="opacity: 0.8; font-size: 14px"
+                    >
+                        tags
+                    </div>
+                    <div
+                        id="blog-tags"
+                        style="
+                            padding: 10px;
+                            border: 1px solid rgba(204, 204, 204, 0.172);
+                        "
+                    >
+                        <span
+                            style="display: inline-block; margin-right: 5px"
+                        >
+                            <span
+                                class="dot"
+                                style="
+                                    display: inline-block;
+                                    width: 7px;
+                                    height: 7px;
+                                    border-radius: 50%;
+                                    background: rgba(132, 132, 132, 0.54);
+                                "
+                            ></span>
+                            Node js
+                        </span>
+                    </div>
+                </div>
+                <br />
+
+                <div class="authors mt-2">
+                    <div class="mb-1" style="opacity: 0.8">
+                        Author/Contributors
+                    </div>
+                    <div
+                        style="
+                            margin-bottom: 10px;
+                            display: inline-block;
+                            padding: 10px;
+                            border: 1px solid rgba(204, 204, 204, 0.172);
+                            margin-bottom: 3px;
+                        "
+                    >
+                        <div class="widget-content p-0">
+                            <div class="widget-content-wrapper">
+                                <div class="widget-content-left mr-3">
+                                    <div class="widget-content-left">
+                                        <img
+                                            width="40"
+                                            class="rounded-circle"
+                                            src="/assets/images/pp1.jpeg"
+                                            alt=""
+                                        />
+                                    </div>
+                                </div>
+                                <div class="widget-content-left flex2">
+                                    <div class="widget-heading">
+                                        Oluwaniyii Ayodele
+                                    </div>
+                                    <div class="widget-subheading opacity-7">
+                                        CEO@longbottonDev
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons" style="margin-top: 15px">
+                    <a
+                           role="button"
+                           class="action-button"
+                           id="blog-visit"
+                           href="#"
+                           target="_blank"
+
+                    >
+                        <i
+                            class="icon fa fa-share icon-gradient bg-arielle-smile"
+                            aria-hidden="true"
+                            ></i
+                        >
+                    </a>
+                    <span
+                            role="button"
+                             class="action-button"
+                            id="blog-edit"
+                    >
+                        <i
+                            class="icon fa fa-pen icon-gradient bg-ripe-malin"
+                            aria-hidden="true"
+                            ></i
+                        >
+                    </span>
+                    <span
+                           role="button"
+                           class="action-button"
+                           id="blog-delete"
+                    >
+                        <i
+                            class="icon fa fa-trash icon-gradient bg-love-kiss"
+                            aria-hidden="true"
+                            ></i
+                        >
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Component Based Javascript -->
+<script>
+function loadBlog(blogID){
+    const blogsContainer = document.getElementById('blog-holder');
+    const blogTitle = document.getElementById('blog-title');
+    const blogTag = document.getElementById('blog-tag');
+    const blogDate = document.getElementById('blog-date');
+    const blogImage = document.getElementById('blog-image');
+    const blogExtract = document.getElementById('blog-extract');
+    const blogVisit = document.getElementById('blog-visit');
+    const blogTags = document.getElementById('blog-tags');
+    const actionButtonDelete = document.getElementById('blog-delete');
+    const actionButtonVisibility = document.getElementById('blog-visibility');
+    const actionButtonEdit = document.getElementById('blog-edit');
+
+    const url = `${app_home_url}/api/blog/${blogID}`;
+    const xhr  =  new XMLHttpRequest();
+    xhr.open("GET", url);
+    xhr.send();
+
+    xhr.onload = function(){
+        if(this.status > 399) {
+            blogsContainer.innerHTML =  `<p>
+                    Failed to Load Data
+                    </p>
+                    `
+             return;
+        }
+
+        const response =JSON.parse(this.responseText);
+        const blog = response.data;
+
+        const {_id, title, tags, date, image, extract, link} = blog;
+
+        blogTitle.textContent = title;
+        blogTag.textContent = tags[0];
+        blogDate.textContent = date;
+        blogExtract.textContent = extract + " ...";
+        blogVisit.setAttribute("href", link);
+        blogVisit.setAttribute("title", `Visit - ${title}`);
+
+        blogImage.setAttribute("src", image);
+
+        // render blog tags
+        blogTags.innerHTML = "";
+
+        tags.forEach(tag => {
+            blogTags.innerHTML  += `
+                    <span style="display: inline-block; margin-right: 5px">
+                                    <span
+                                        class="dot"
+                                        style="
+                                            display: inline-block;
+                                            width: 7px;
+                                            height: 7px;
+                                            border-radius: 50%;
+                                            background: rgba(132, 132, 132, 0.54);
+                                        "
+                                    ></span>
+                                    ${tag}
+                                </span>
+            `
+        });
+
+    // Action Buttons
+    actionButtonDelete.setAttribute("onclick", `dropBlog('${_id}')`);
+    actionButtonEdit.setAttribute("onclick", `loadEditBlog('${_id}')`);
+
+    }
+}
+
+function dropBlog(blogID){
+    if(confirm("This Blog will be completely removed, Continue anyway?")) {
+        const xhr  =  new XMLHttpRequest();
+                xhr.open("DELETE", `${app_home_url}/api/blog/${blogID}`);
+                xhr.send(); 
+
+                xhr.onload= function(){
+                const responseData =JSON.parse(this.responseText);
+            
+                    if(responseData.status) {
+                        alert("Blog deleted successfully"); 
+                        loadPage();                         
+                    }
+                }
+    }
+   
+}
+
+</script>

@@ -1,0 +1,41 @@
+<% if( errors ) { %>
+<div
+	style="
+		display: block;
+		background: rgba(235, 163, 163, 0.376);
+		border: 1px solid rgba(235, 163, 163, 0.376);
+		color: rgb(58, 31, 31);
+		color: rgb(73, 29, 29);
+		padding: 0.8rem;
+		border-radius: 4px;
+	"
+>
+	<%= errors[0] %>
+</div>
+<br />
+<% } %>
+
+<!--  -->
+<% if ( successMsg.length > 0 ) { %>
+<div class="alert alert-success mounted">
+	<span class="icon"></span>
+	<%= successMsg %>
+</div>
+<% } %>
+
+<!--  -->
+<% if ( errorMsg.length > 0 ) { %>
+<div class="alert alert-error mounted">
+	<span class="icon"></span>
+	<%= errorMsg %>
+</div>
+<% } %>
+
+<script>
+	mountedAlerts = document.querySelectorAll('.alert.mounted');
+	mountedAlerts.forEach((alertModal) => {
+		window.setTimeout(() => {
+			alertModal.classList.replace('mounted', 'unmounted');
+		}, 4000);
+	});
+</script>

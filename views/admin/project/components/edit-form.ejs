@@ -1,0 +1,248 @@
+<div class="col-md-4">
+    <div class="main-card mb-3 card">
+        <div class="card-body">
+            <h5 class="card-title">Edit project</h5>
+            <form class="" id="add-project-form">
+                <div class="position-relative form-group">
+                    <label for="project-title" class="">Title</label
+                    ><input
+                        name="project-title"
+                        id="project-title"
+                        placeholder="Project Title"
+                        type="text"
+                        class="form-control bordered"
+                    />
+                </div>
+
+                <div class="position-relative form-group">
+                    <label for="project-category" class="">Category</label
+                    ><input
+                        name="project-category"
+                        id="project-category"
+                        placeholder="Project Category"
+                        type="text"
+                        class="form-control bordered"
+                    />
+                </div>
+
+                <div class="position-relative form-group">
+                    <label for="project-description" class="">Note</label
+                    ><textarea
+                        name="project-description"
+                        id="project-description"
+                        class="form-control bordered"
+                        rows="10"
+                    ></textarea>
+                </div>
+
+                <div class="image-upload">
+                    <label for="project-video-link" class="">Video link</label
+                    ><input
+                        name="project-video-link"
+                        id="project-video-link"
+                        class="form-control bordered"
+                        rows="10"
+                    />
+                </div>
+
+                <div class="image-upload">
+                    <label for="project-img-hero" class="">Main Image</label>
+                    <input
+                        name="project-img-hero"
+                        id="project-img-hero"
+                        rows="10"
+                        type="file"
+                        style="
+                            display: block;
+                            padding: 5px;
+                            border: 1px solid rgba(204, 204, 204, 0.254);
+                        "
+                    />
+                </div>
+
+                <div class="image-upload">
+                    <label for="project-img-1" class="">Other Images 1</label>
+                    <input
+                        name="project-img-1"
+                        id="project-img-1"
+                        type="file"
+                        style="
+                            display: block;
+                            padding: 5px;
+                            border: 1px solid rgba(204, 204, 204, 0.254);
+                        "
+                    />
+                </div>
+
+                <div class="image-upload">
+                    <label for="project-img-2" class="">Other Images 2</label>
+                    <input
+                        name="project-img-2"
+                        id="project-img-2"
+                        type="file"
+                        style="
+                            display: block;
+                            padding: 5px;
+                            border: 1px solid rgba(204, 204, 204, 0.254);
+                        "
+                    />
+                </div>
+
+                <div class="image-upload">
+                    <label for="project-img-3" class="">Other Images 3</label>
+                    <input
+                        name="project-img-3"
+                        id="project-img-3"
+                        type="file"
+                        style="
+                            display: block;
+                            padding: 5px;
+                            border: 1px solid rgba(204, 204, 204, 0.254);
+                        "
+                    />
+                </div>
+
+                <div class="position-relative form-group">
+                    <label for="project-github-link" class="">Github link</label
+                    ><input
+                        name="project-github-link"
+                        id="project-github-link"
+                        placeholder=""
+                        type="text"
+                        class="form-control bordered"
+                    />
+                </div>
+
+                <div class="position-relative form-group">
+                    <label for="project-external-url" class=""
+                        >External Url link</label
+                    ><input
+                        name="project-external-url"
+                        id="project-external-url"
+                        placeholder=""
+                        type="text"
+                        class="form-control bordered"
+                    />
+                </div>
+
+                <div class="tag-select-container" id="tag-select-container">
+                    <label for="tags" class="mt-2">Tags</label
+                        >
+                     <div id="tags-holder"></div>
+                </div>
+
+                <br />
+
+                <button class="mt-1 btn btn-outline-primary" type="button" onclick="editProject('<%= projectId %>')">
+                    + Update Project
+                </button>
+                <button class="mt-1 btn btn-secondary" type="reset">
+                    Clear
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function editProject(projectId){
+        const projectImageHero = document.getElementById('project-img-hero').files[0];
+        const projectImage1 = document.getElementById('project-img-1').files[0];
+        const projectImage2 = document.getElementById('project-img-2').files[0];
+        const projectImage3 = document.getElementById('project-img-3').files[0];
+        const projectTitle = document.getElementById('project-title').value.trim();
+        const projectCategory = document.getElementById('project-category').value.trim();
+        const projectDescription = document.getElementById('project-description').value.trim();
+        const projectVideoLink = document.getElementById('project-video-link').value.trim();
+        const projectGithubLink = document.getElementById('project-github-link').value.trim();
+        const projectExternalUrl = document.getElementById('project-external-url').value.trim();
+        const tags = getActiveTags();
+
+        const url = `${app_home_url}/api/project/${projectId}`;
+
+
+        const formData = new FormData();
+        formData.append("imageHero", projectImageHero);
+        formData.append("project_img_1", projectImage1);
+        formData.append("project_img_2", projectImage2);
+        formData.append("project_img_3", projectImage3);
+        formData.append("title", projectTitle);
+        formData.append("category", projectCategory);
+        formData.append("description", projectDescription);
+        formData.append("video", projectVideoLink);
+        formData.append("github", projectGithubLink);
+        formData.append("externalUrl", projectExternalUrl);
+        formData.append("tags", tags);
+        formData.append("date", new Date().toString());
+
+
+        const xhr = new XMLHttpRequest();
+              xhr.open("PUT", url)
+              xhr.send(formData);
+
+              xhr.onload = function(){
+                const response = JSON.parse(this.response)
+                
+                if(this.status > 399) return alert(response.message);
+
+                alert("project added");
+                loadEditProject(`${projectId}`);
+              }
+    }
+
+
+function renderAddProjectTags(tags){
+    const tagsContainer = document.querySelector('#tags-holder');
+    tagsContainer.innerHTML = "";
+
+    tags.forEach(tag => {
+        const newTagElement = `
+        <span 
+        class="tag"
+        name="${tag.name}"
+        key="${tag._id}"
+        role="button"
+        active="false"
+        onclick="toggleActiveTag(this)"
+          > 
+        ${tag.name} 
+        </span>`;
+
+        tagsContainer.innerHTML += newTagElement;
+    });
+}
+
+   function loadTags(){
+    const xhr  =  new XMLHttpRequest();
+    xhr.open("GET", `${app_home_url}/api/tag`);
+    xhr.send();
+
+    xhr.onload = function(){
+        const responseData =JSON.parse(this.responseText);
+        renderAddProjectTags(responseData.data)
+    }
+}
+
+loadTags();
+
+function toggleActiveTag(tagElem){
+     const isActive = tagElem.getAttribute("active") === "true" ? true :  false ; 
+     const flipActive = !isActive ; 
+    tagElem.setAttribute("active", flipActive);
+    if(flipActive) tagElem.className = "tag active";
+    else tagElem.className = "tag";
+}
+
+function getActiveTags(){
+    const activeTags = [];
+    const tags = document.querySelectorAll("span.tag");
+    Array.from(tags).forEach(tag=>{
+        if( tag.getAttribute("active") === "true" ) {
+            activeTags.push(tag.getAttribute("name").toLocaleLowerCase())
+        }
+    })
+
+    return activeTags;
+}
+
+</script>

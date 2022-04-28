@@ -1,0 +1,216 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="row" id="expWidgetsHolder" style="min-height: 277px;"></div>
+    </div>
+    
+    <div class="col-lg-12">
+        <nav class="" aria-label="Page navigation example">
+            <ul class="pagination" id="pagination"></ul>
+        </nav>
+    </div>
+    <div style="display: block; height: 100px"></div>
+</div>
+
+<!-- Component Based Javascript -->
+<script>
+  // Global variables
+  const app_home_url = "<%= globals.app_home_url %>";
+  const widgetThemes = [
+    {
+      theme: "bg-premium-dark",
+      icon: "warning",
+    },
+
+    {
+      theme: "bg-arielle-smile",
+      icon: "white",
+    },
+
+    {
+      theme: "bg-happy-green",
+      icon: "white",
+    },
+
+    {
+      theme: "bg-midnight-bloom",
+      icon: "warning",
+    },
+  ];
+
+  loadPage();
+
+  function loadPage(index) {
+    const expWidgetsHolder = document.getElementById("expWidgetsHolder");
+    expWidgetsHolder.innerHTML = "";
+
+    const entries = 4;
+    let pageIndex = index || 1;
+
+    async function fetchExperiencespage() {
+      const url = `${app_home_url}/api/experience/?entries=${entries}&index=${pageIndex}`;
+      let requestObject = await fetch(url);
+      let response = await requestObject.json();
+
+      return response.data;
+    }
+
+    fetchExperiencespage()
+      .then((response) => {
+        let experiences = response.chunk;
+        if (!experiences.length) {
+          return (expWidgetsHolder.innerHTML = `<p>You have no registered experience Start by adding an experience</p>`);
+        }
+
+        // render pagination
+        paginate(response);
+
+        // Render services
+        experiences.forEach((experience, i) => {
+          // rotate widgetThemes
+          let j = i;
+
+          if (i > widgetThemes.length - 1) {
+            j = i - widgetThemes.length;
+          }
+
+          expWidgetsHolder.innerHTML += renderExpWidget(
+            experience,
+            widgetThemes[j]
+          );
+        });
+      })
+      .catch((e) => {
+        return (expWidgetsHolder.innerHTML = `<p>Could Not Load Data at the moment Please check your connection and reload your browser </p>`);
+      });
+  }
+
+  function paginate(data) {
+    let { entries, count, page } = data;
+    const pages = Math.ceil(count / entries);
+
+    const pagination = document.getElementById("pagination");
+    const pageNextButton = `   <li class="page-item">
+                        <span
+                            role="button"
+                            class="page-link page-link-next"
+                            aria-label="Next"
+                            id="pageNext"
+                            onclick="getNextPage()"
+                            style="background: #ffffff52;"
+                            >
+                            <span aria-hidden="true">»</span>
+                            <span class="sr-only">Next</span>
+                            </span>
+                    </li>`;
+    const pagePrevButton = `  <li class="page-item">
+                        <span
+                            role="button"
+                            class="page-link  page-link-prev"
+                            aria-label="Prev"
+                            id="pagePrev"
+                            onclick="getPrevPage()"
+                            style="background: #ffffff52;"
+    
+                       >
+                            <span aria-hidden="true">«</span>
+                            <span class="sr-only">Previous</span>
+                        </span>
+                    </li>`;
+
+    pagination.innerHTML = "";
+    pagination.innerHTML += pagePrevButton;
+
+    let i = 1;
+    for (; i <= pages; ) {
+      let active = i === page ? true : false;
+      let isFirst = i === 1 ? "page-link-page-first" : "";
+      let isLast = i === pages ? "page-link-page-last" : "";
+
+      pagination.innerHTML += `<li class="page-item ${active ? "active" : ""}">
+                        <span role="button" class="page-link page-link-page ${
+                          active ? "active" : ""
+                        } ${isFirst} ${isLast}" pageindex="${i}"  active="${active}" onclick="loadPage(${i})" >${i}</a>
+                    </li>`;
+
+      i++;
+    }
+
+    pagination.innerHTML += pageNextButton;
+  }
+
+  function getPrevPage() {
+    const pageLinks = document.querySelectorAll(".page-item .page-link-page");
+    const pageLinkFirst = document
+      .querySelector(".page-item .page-link-page-first")
+      .getAttribute("pageindex");
+
+    pageLinks.forEach((pageLink) => {
+      let active = pageLink.getAttribute("active");
+      let pageIndex = parseInt(pageLink.getAttribute("pageindex"));
+
+      if (active === "true") {
+        let newPageIndex = pageIndex - 1;
+        if (newPageIndex < parseInt(pageLinkFirst)) return;
+        loadPage(newPageIndex);
+        return;
+      }
+    });
+    return;
+  }
+
+  function getNextPage() {
+    const pageLinks = document.querySelectorAll(".page-item .page-link-page");
+    const pageLinkLast = document
+      .querySelector(".page-item .page-link-page-last")
+      .getAttribute("pageindex");
+
+    pageLinks.forEach((pageLink) => {
+      let active = pageLink.getAttribute("active");
+      let pageIndex = parseInt(pageLink.getAttribute("pageindex"));
+
+      if (active === "true") {
+        let newPageIndex = pageIndex + 1;
+        if (newPageIndex > parseInt(pageLinkLast)) return;
+        loadPage(newPageIndex);
+        return;
+      }
+    });
+    return;
+  }
+
+  function renderExpWidget(exp, theme) {
+    const expRow = `<div class="col-md-6" key="${exp._id} "style="cursor:pointer">
+                        <div class="card mb-3 widget-content ${theme["theme"]}" 
+                           title="load ${exp.title}" onclick="loadExperience('${exp._id}')">
+                            <div class="widget-content-wrapper text-white">
+                                <div class="widget-content-left">
+                                    <h5 class="" style="
+                                            color: #fff;
+                                            font-size: 17px;
+                                            font-weight: 500;
+                                            line-height: 1.5;
+                                        ">
+                                        ${exp.title}
+                                    </h5>
+                                    <div class="widget-numbers text-${theme["icon"]}">
+                                        <span>
+                                            <i class="fa ${exp.icon}" aria-hidden="true" title="Click to view ${exp.title}" 
+                                            style="font-size: 29px"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="widget-content-right" style="max-width: 45%">
+                                    <div>
+                                          ${exp.company}
+                                    </div>
+                                    <div>
+                                        ${"09-2020"} : ${"09-2021"}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>`;
+
+    return expRow;
+  }
+</script>

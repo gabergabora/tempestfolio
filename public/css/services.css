@@ -1,0 +1,102 @@
+section#services {
+	background: var(--cl-light);
+	padding: 3em 10px;
+}
+section#services > * {
+	-webkit-transition: all 0.5s ease-out;
+	transition: all 0.5s ease-out;
+}
+
+section#services .section-heading {
+	width: 600px;
+	max-width: 100%;
+	padding: 10px;
+	margin: auto;
+	text-align: center;
+	margin-top: 2em;
+}
+
+section#services .section-heading .title {
+	font-weight: 600;
+}
+
+section#services .grid-board {
+	margin-top: 3.5em;
+	margin-bottom: 3.5em;
+	display: -ms-grid;
+	display: grid;
+	grid-gap: 1em;
+	-ms-grid-columns: 1fr;
+	grid-template-columns: 1fr;
+}
+
+section#services .grid-board .card {
+	padding: 1.5em;
+	-webkit-box-shadow: 0 0 3px rgb(60 72 88 / 15%) !important;
+	box-shadow: 0 0 3px rgb(60 72 88 / 15%) !important;
+	border: none;
+	border-radius: 12px;
+	background-color: var(--cl-white);
+	-webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+	transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+	-webkit-box-shadow: -0.0625rem 0 0.625rem 0 rgb(0 0 0 / 7%),
+		0.3125rem 1.25rem 2.5rem 0 rgb(0 0 0 / 4%) !important;
+	box-shadow: -0.0625rem 0 0.625rem 0 rgb(0 0 0 / 7%),
+		0.3125rem 1.25rem 2.5rem 0 rgb(0 0 0 / 4%) !important;
+}
+
+section#services .grid-board .card .service-icon,
+section#services .grid-board .card .service-text-title,
+section#services .grid-board .card .services-text-content {
+	margin-bottom: 10px;
+}
+
+section#services .grid-board .card .service-icon {
+	color: var(--cl-primary);
+}
+
+section#services .grid-board .card .service-text-title {
+	font-weight: 600;
+}
+
+section#services .grid-board .card .service-link a {
+	text-decoration: none;
+	display: inline-block;
+	-webkit-transition: all 0.3s ease-out;
+	transition: all 0.3s ease-out;
+	color: var(--cl-primary);
+}
+
+section#services .grid-board .card .service-link a:hover {
+	color: var(--cl-purple);
+}
+
+/* section#services .grid-board .card {} */
+
+/* section#services .section-heading {} */
+
+@media screen and (min-width: 480px) {
+	section#services .section-heading {
+		margin-top: 3.5em;
+	}
+
+	section#services .grid-board {
+		-ms-grid-columns: 1fr;
+		grid-template-columns: 1fr;
+	}
+}
+
+@media screen and (min-width: 768px) {
+	section#services .grid-board {
+		-ms-grid-columns: 1fr 1fr;
+		grid-template-columns: 1fr 1fr;
+	}
+}
+@media screen and (min-width: 1024px) {
+	section#services .grid-board {
+		-ms-grid-columns: 1fr 1fr 1fr;
+		grid-template-columns: 1fr 1fr 1fr;
+	}
+}
+@media screen and (min-width: 1200px) {
+}

@@ -1,0 +1,218 @@
+<div class="main-card mb-3 card">
+    <div class="card-body">
+        <h5 class="card-title">Edit Experience</h5>
+        <form id="edit--experience" class="">
+            <div class="position-relative form-group">
+                <input
+                    name="title"
+                    id="edit--experience--title"
+                    type="text"
+                    class="form-control"
+                    value=""
+                    style="
+                        border: 3px solid #f4f3f3;
+                        background: #f2f2f2;
+                        color: #333;
+                    "
+                />
+            </div>
+
+            <div class="position-relative form-group">
+                <input
+                    name="company"
+                    id="edit--experience--company"
+                    placeholder="Company"
+                    type="text"
+                    class="form-control"
+                    value=""
+                    style="
+                        border: 3px solid #f4f3f3;
+                        background: #f2f2f2;
+                        color: #333;
+                    "
+                />
+            </div>
+
+            <div class="position-relative form-group">
+                <label for="exampleEmail" class="">
+                    Icon
+                    <br>
+                    <small>
+                        use Font Awesome only
+                    </small>
+                    </label
+                >
+                <div style="position: relative;">
+                    <input
+                        name="icon"
+                        id="edit--experience--icon"
+                        placeholder="fa-rocket"
+                        type="text"
+                        class="form-control"
+                        value=""
+                        style="
+                            border: 3px solid #f4f3f3;
+                            background: #f2f2f2;
+                            color: #333;
+                        "
+                    />
+                    <span id="edit-icon-stager" style="display: inline-block; position: absolute; top:50%; right: 10px; transform: translateY(-50%);">
+                        <i id="edit-icon-stager-icon" class="fa fa-rocket" style="font-size: 1rem;"></i>
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="position-relative form-group">
+                <label for="exampleEmail" class="">From</label
+                >
+                    <input
+                    name="from"
+                    id="edit--experience--from"
+                    type="month"
+                    class="form-control"
+                    value=""
+                    style="
+                        border: 3px solid #f4f3f3;
+                        background: #f2f2f2;
+                        color: #333;
+                    "
+                />
+
+            </div>
+
+            <div class="position-relative form-group">
+                <label for="exampleEmail" class="">To</label
+                ><input
+                    name="to"
+                    id="edit--experience--to"
+                    type="month"
+                    class="form-control"
+                    value=""
+                    style="
+                        border: 3px solid #f4f3f3;
+                        background: #f2f2f2;
+                        color: #333;
+                    "
+                />
+            </div>
+
+            <div class="position-relative form-group">
+                <textarea
+                    name="experience"
+                    id="edit--experience--description"
+                    class="form-control"
+                    rows="10"
+                    value=""
+                    style="
+                        border: 3px solid #f4f3f3;
+                        background: #f2f2f2;
+                        color: #333;
+                    "
+                ></textarea>
+            </div>
+            
+            <div class="position-relative form-group">
+                <label for="exampleEmail" class="">
+                    Company Link
+                    <br>
+                    </label>
+                    <input
+                    name="company_link"
+                    id="edit--experience--company--link"
+                    type="text"
+                    class="form-control"
+                    style="
+                        border: 3px solid #f4f3f3;
+                        background: #f2f2f2;
+                        color: #333;
+                    "
+                />
+            </div>
+
+            <span id="edit--experience--button" class="mt-1 btn btn-outline-primary" role="button">
+                + Save Edit
+            </span>
+        </form>
+    </div>
+</div>
+
+<!-- Component Based Javascript -->
+<script src="/assets/scripts/formserialize.js"></script>
+<script>
+ function iconStage(){
+   const iconInput = document.getElementById("edit--experience--icon");
+   const iconStager = document.getElementById("edit-icon-stager");
+   const iconStagerIcon = document.getElementById("edit-icon-stager-icon");
+               iconInput.oninput = function(e){
+                   const icon = e.target.value.trim();
+                   iconStagerIcon.className = `fa ${icon}`;
+               }
+ }
+
+ iconStage();
+
+
+ function loadEditExperience(experienceID){
+     //fill in form
+     //save
+     const editExpTitle = document.getElementById("edit--experience--title")
+     const editExpCompany = document.getElementById("edit--experience--company")
+     const editExpIcon = document.getElementById("edit--experience--icon")
+     const editExpFrom = document.getElementById("edit--experience--from")
+     const editExpTo = document.getElementById("edit--experience--to")
+     const editExpDesc = document.getElementById("edit--experience--description")
+     const editExpCompanyLink = document.getElementById("edit--experience--company--link")
+     const editExpButton = document.getElementById("edit--experience--button")
+     editExpDesc.innerText = "";
+
+
+    const url = `${app_home_url}/api/experience/${experienceID}`;
+    const xhr  =  new XMLHttpRequest();
+    xhr.open("GET", url);
+    xhr.send();
+
+    xhr.onload = function(){
+        if(this.status > 399) return  alert("Something went wrong");
+        const responseData =JSON.parse(this.responseText);
+
+        const {_id, title, company, company_link,  experience, from, to, icon} = responseData.data;
+        editExpTitle.value = title;
+        editExpCompany.value =company;
+        editExpIcon.value = icon;
+        editExpCompanyLink.value = company_link;
+        editExpFrom.value = from;
+        editExpTo.value = to;
+
+        editExpDesc.append(`${experience}`);
+        editExpButton.setAttribute("onclick", `saveEditExperience('${_id}')`);
+
+    }
+ }
+
+ function saveEditExperience(experienceID){
+    let serializedData;
+   const {title, icon, company, company_link, from, to, experience} = serializedData = serialize("#edit--experience", "json");
+
+   if(!title || !icon || !company || !from, !to, !experience)  {
+      return alert("Title, Icon, Company, From, To and Experience field are required");
+   }
+
+   const xhr  =  new XMLHttpRequest();
+    xhr.open("PUT", `${app_home_url}/api/experience/${experienceID}`);
+    xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.send(JSON.stringify(serializedData));
+    xhr.onload = function(){
+        if(this.status > 399) return alert(`Error adding ${title}`);
+
+        const responseData =JSON.parse(this.responseText);
+
+        alert(`Saved ${title} successfully`);
+        loadPage();
+        loadExperience(experienceID);
+        loadEditExperience(experienceID);
+    }
+
+ }
+
+</script>

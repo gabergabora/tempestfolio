@@ -1,0 +1,87 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700&display=swap");
+
+:root {
+	/* colors */
+	--cl-white: #fff;
+	--cl-light: #f8f9fa;
+	--cl-dark: #212529;
+	--cl-gray: #6c757d;
+	--cl-gray-light: #f6f7fa;
+	--cl-gray-dark: #343a40;
+
+	--cl-bs-primary: #007bff;
+	--cl-bs-danger: #dc3545;
+	--cl-bs-success: #198754;
+	--cl-bs-info: #0dcaf0;
+	--cl-bs-warning: #ffc107;
+
+	--cl-blue: #0d6efd;
+	--cl-indigo: #6610f2;
+	--cl-purple: #6f42c1;
+	--cl-pink: #d63384;
+	--cl-red: #dc3545;
+	--cl-orange: #fd7e14;
+	--cl-yellow: #ffc107;
+	--cl-green: #198754;
+	--cl-teal: #20c997;
+	--cl-cyan: #0dcaf0;
+
+	--cl-primary: var(--cl-blue);
+	--cl-secondary: #8492a6;
+
+	--ff-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+		Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
+		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	--ff-nunito: "Nunito", sans-serif;
+	--ff-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+		"Courier New", monospace;
+
+	--cl-gradient: linear-gradient(
+		180deg,
+		rgba(255, 255, 255, 0.15),
+		rgba(255, 255, 255, 0)
+	);
+
+	/* font sizes */
+	--fs-lg: 2.1em;
+	--fs-lg-smc: 1.9em;
+	--fs-md: 1.3em;
+	--fs-sm: 1em;
+	--fs-tiny: 0.83em;
+	--fs-v-tiny: 0.7em;
+
+	/* font weights */
+	--fw-700: 700;
+	--fw-600: 600;
+	--fw-400: 400;
+	--fw-300: 300;
+	--fw-100: 100;
+
+	/* --min-height: 1500px; */
+}
+
+@media screen and (max-width: 1200px) {
+	:root {
+		--fs-lg: var(--fs-lg-smc);
+	}
+}
+@media screen and (max-width: 1024px) {
+}
+@media screen and (max-width: 768px) {
+}
+@media screen and (max-width: 480px) {
+}
+
+/* 
+@media screens
+    320 - 480px :Mobile
+    481 - 768px :ipads, Tablets
+    769 - 1024 :Small screens, laptops
+    1025 - 1200px :Desktp, large screens
+    1201 - and more, Extra large screens, Tv
+*/
+
+/* @media screen and (min-width: 480px) {}
+@media screen and (min-width: 768px) {}
+@media screen and (min-width: 1024px) {}
+@media screen and (min-width: 1200px) {} */

@@ -1,0 +1,190 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="main-card mb-3 card">
+            <div id="data-success" class="card-body render" style="display: none;">
+                <h5
+                    style="
+                        font-size: 1.5rem;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                    "
+                >
+                    <div>
+                       <p id="exp-title">Database Manager</p>
+
+                        <small style="font-size: 17px;" id="exp-company">
+                            07 Wears
+                        </small>
+
+                        <span style="font-size: 12px; opacity: .691;">
+                            <span id="exp-from">2019</span>
+                            -
+                            <span id="exp-to">currently</span>
+                        </span>
+                    </div>
+                    <i
+                        class="fa fa-rocket icon-gradient bg-love-kiss"
+                        aria-hidden="true"
+                        id="exp-icon"
+                        style="font-size: 40px;"
+                        ></i
+                    >
+                </h5>
+
+                <div
+                    style="
+                        max-width: 100%;
+                        border: 1px solid #cccccc40;
+                        padding: 1rem;
+                        margin-top: 20px;
+                        font-size: 1rem;
+                    "
+                >
+                    <p id="exp-take" style="margin-bottom: 0">
+                        Lorem ipsum dolor sit amet consectetur adipisicing
+                        elit. Similique, dolorem libero aspernatur, expedita
+                        optio ex, molestiae odit sed dolor velit tempora
+                        earum! Ipsum, incidunt tempora.
+                    </p>
+                </div>
+                <div class="action-buttons" style="margin-top: 15px">
+                        <span
+                            role="button"
+                            class="action-button"
+                            id="exp-delete"
+                            title="Drop"
+                        >
+                        <i
+                            class="icon fa fa-trash icon-gradient bg-love-kiss"
+                            aria-hidden="true"
+                            ></i
+                        >
+                    </span>
+
+                    <span
+                            role="button"
+                             class="action-button"
+                            id="exp-edit"
+                            title="Edit"
+
+                    >
+                        <i
+                            class="icon fa fa-pen icon-gradient bg-ripe-malin"
+                            aria-hidden="true"
+                            ></i
+                        >
+                    </span>
+                   
+                    <a
+                    href="#"
+                    target="_blank"
+                    class="action-button"
+                    id="exp-company-visit"
+                    title="visit company"
+                    style="text-decoration: none;"
+             >
+                 <i
+                     class="icon fa fa-home icon-gradient bg-arielle-smile"
+                     aria-hidden="true"
+                     ></i
+                 >
+             </a>
+                </div>
+            </div>
+            <div  id="no-data" class="card-body render"  style="display: none;">
+                <h2 class="card-title" style="opacity: .65; text-align: center; vertical-align: middle;">
+                    You have not registered an experience yet
+                    <br>
+                    Start by adding an experience
+                </h2>
+            </div>
+            <div  id="load-error" class="card-body render"  style="display: none;">
+                <h2 class="card-title" style="opacity: .65; text-align: center; vertical-align: middle;">
+                    <span>
+                        <i class="fa fa-fw" aria-hidden="true"></i>
+                    </span>
+                    Could not  to load data
+                </h2>
+            </div>
+            <div id="idle-render"class="card-body render">
+                <h2 class="card-title" style="opacity: .65; text-align: center; vertical-align: middle;">
+                   Red lorry Yellow Lorry
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Component Based Javascript -->
+<script>
+ function loadExperience(experienceID){
+    const expCompany = document.getElementById("exp-company");
+    const expTitle = document.getElementById("exp-title");
+    const expFrom= document.getElementById("exp-from");
+    const expTo = document.getElementById("exp-to");
+    const expIcom = document.getElementById("exp-icon");
+    const expTake = document.getElementById("exp-take");
+
+    const actionButtonDelete = document.getElementById('exp-delete');
+    const actionButtonVisit = document.getElementById('exp-company-visit');
+    const actionButtonEdit = document.getElementById('exp-edit');
+
+    const url = `${app_home_url}/api/experience/${experienceID}`;
+    const xhr  =  new XMLHttpRequest();
+    xhr.open("GET", url);
+    xhr.send();
+
+    xhr.onload = function(){
+        if(this.status > 399) return  render("load-error");
+        const responseData =JSON.parse(this.responseText);
+
+        render("data-success");
+          const {_id, title, company, company_link,  experience, from, to, icon} = responseData.data;
+
+        expCompany.textContent = company;
+        expTitle.textContent = title;
+        expFrom.textContent = from;
+        expTo.textContent = to;
+        expTake.textContent = experience;
+        expIcom.className = `icon fa ${icon} icon-gradient bg-love-kiss`
+    
+          //Action Buttons
+          actionButtonDelete.setAttribute("title", `Drop ${title}`);
+          actionButtonDelete.setAttribute("onclick", `dropExperience('${_id}')`);
+          actionButtonEdit.setAttribute("title", `Edit ${title}`);
+          actionButtonEdit.setAttribute("onclick", `loadEditExperience('${_id}')`);
+          actionButtonVisit.setAttribute("title", `Visit ${company}`);
+          actionButtonVisit.setAttribute("href", company_link);
+    }
+     return console.log(experienceID);
+ }
+
+ function render(elementID){
+   const renders = document.querySelectorAll(".render");
+   renders.forEach(render=>{
+       if(render.id === elementID){
+           render.style.display = "block";
+       }else {
+        render.style.display = "none";
+       }
+   })
+   return ;
+ }
+
+ function dropExperience(expID){
+    if(confirm("This Experience will be completely removed,  Continue anyway?")){
+        const xhr  =  new XMLHttpRequest();
+        xhr.open("DELETE", `${app_home_url}/api/experience/${expID}`);
+        xhr.send(); 
+        xhr.onload= function(){
+            if(this.status > 399) return alert("An error occured");
+            const {status, message} = JSON.parse(this.responseText);
+            if(!this.status) return alert("Could not drop experience");
+            loadPage();
+            render("idle-render");
+        }
+        
+    }
+ }
+</script>

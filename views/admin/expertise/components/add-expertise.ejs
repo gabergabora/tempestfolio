@@ -1,0 +1,95 @@
+<div class="main-card mb-3 card">
+    <div class="card-body">
+        <h5 class="card-title">Add Skill</h5>
+        <form class="" id="add-skill" >
+            <div class="position-relative form-group">
+                <label for="exampleEmail" class="">Skill Name</label
+                ><input
+                    name="title"
+                    id="skill-name"
+                    placeholder="React App Development"
+                    type="text"
+                    class="form-control"
+                    style="
+                        border: 3px solid #f4f3f3;
+                        background: #f2f2f2;
+                        color: #333;
+                    "
+                />
+            </div>
+
+            <div class="position-relative form-group">
+                <label for="exampleText" class=""
+                    >Icon Image in SVG</label
+                ><input
+                    type="file"
+                    style="
+                        display: block;
+                        padding: 5px;
+                        border: 1px solid rgba(204, 204, 204, 0.254);
+                    "
+                    name="icon"
+                    id="skill-icon"
+                />
+            </div>
+
+            <div class="position-relative form-group">
+                <label for="exampleText" class="">Rating / 100</label
+                ><input
+                    name="rating"
+                    id="skill-rating"
+                    placeholder="00 "
+                    type="number"
+                    class="form-control"
+                    style="
+                        border: 3px solid #f4f3f3;
+                        background: #f2f2f2;
+                        color: #333;
+                    "
+                />
+            </div>
+
+            <button
+                class="mt-1 btn btn-outline-primary"
+                type="button"
+                onclick="addExpertise()"
+            >
+                + Add Skill
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Component Based Javascript -->
+<script>
+function addExpertise() {
+    // start loader
+    const skillName = document.getElementById("skill-name").value.trim();
+    const skillRating = document.getElementById("skill-rating").value.trim();
+    const skillIcon = document.getElementById("skill-icon");
+    const icon = skillIcon.files[0];
+
+    const formData = new FormData();
+    formData.append('name', skillName);
+    formData.append('rating', skillRating);
+    formData.append('icon', icon);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", `${app_home_url}/api/expertise/`);
+    xhr.send(formData);
+
+    xhr.onload = function() {
+        if(this.status < 399){
+            alert("new skill added");
+            loadSkills();
+        }
+        else{
+            alert("Failed to add skill");
+        }
+    }
+}
+
+ 
+
+</script>
+

@@ -1,0 +1,38 @@
+/* 
+This stylesheet is to override original style of html elements
+in order to conform with animations without affecting the original styling
+*/
+
+section#hero {
+	position: relative;
+}
+section#hero div.background {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: var(--cl-primary);
+	background-image: url("../../images/hero-bg.jpg");
+	background-attachment: fixed;
+	background-attachment: scroll;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	animation: slide 05s 1s ease-in-out forwards infinite;
+	/* z-index: 10; */
+}
+
+/* style="background-image: url('./assets/images/hero-bg.jpg')"  */
+
+/* @keyframes slide {
+	from {
+		top: 0;
+	}
+	to {
+		top: -100%;
+	}
+} */
+
+/* transform: translateY(0px); */
+/* transform: translateY(-100%); */

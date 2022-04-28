@@ -1,0 +1,146 @@
+<div class="main-card mb-3 card">
+  <div class="card-body">
+    <h5 class="card-title">Edit Service</h5>
+    <form id="edit--service" class="">
+      <div class="position-relative form-group">
+        <input
+          name="title"
+          id="edit--service--title"
+          type="text"
+          class="form-control"
+          value=""
+          style="border: 3px solid #f4f3f3; background: #f2f2f2; color: #333"
+        />
+      </div>
+
+      <div class="position-relative form-group">
+        <label for="exampleEmail" class="">
+          Icon
+          <br />
+          <small> use Font Awesome only </small>
+        </label>
+        <div style="position: relative">
+          <input
+            name="icon"
+            id="edit--service--icon"
+            placeholder="fa-rocket"
+            type="text"
+            class="form-control"
+            value=""
+            style="border: 3px solid #f4f3f3; background: #f2f2f2; color: #333"
+          />
+          <span
+            id="edit-icon-stager"
+            style="
+              display: inline-block;
+              position: absolute;
+              top: 50%;
+              right: 10px;
+              transform: translateY(-50%);
+            "
+          >
+            <i
+              id="edit-icon-stager-icon"
+              class="fa fa-rocket"
+              style="font-size: 1rem"
+            ></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="position-relative form-group">
+        <textarea
+          name="take"
+          id="edit--service--description"
+          class="form-control"
+          rows="10"
+          value=""
+          style="border: 3px solid #f4f3f3; background: #f2f2f2; color: #333"
+        ></textarea>
+      </div>
+
+      <span
+        id="edit--service--button"
+        class="mt-1 btn btn-outline-primary"
+        role="button"
+      >
+        + Save Edit
+      </span>
+    </form>
+  </div>
+</div>
+
+<!-- Component Based  Javascript -->
+<script src="/assets/scripts/formserialize.js"></script>
+<script>
+  iconStage();
+  function iconStage() {
+    const iconInput = document.getElementById("edit--service--icon");
+    const iconStager = document.getElementById("edit-icon-stager");
+    const iconStagerIcon = document.getElementById("edit-icon-stager-icon");
+    iconInput.oninput = function (e) {
+      const icon = e.target.value.trim();
+      iconStagerIcon.className = `fa ${icon}`;
+    };
+  }
+
+  function loadEditService(serviceID) {
+    const editServiceTitle = document.getElementById("edit--service--title");
+    const editServiceIcon = document.getElementById("edit--service--icon");
+    const editServiceDesc = document.getElementById(
+      "edit--service--description"
+    );
+    const editServiceButton = document.getElementById("edit--service--button");
+    editServiceDesc.innerText = "";
+
+    const url = `${app_home_url}/api/service/${serviceID}`;
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url);
+    xhr.send();
+
+    xhr.onload = function () {
+      if (this.status > 399) return alert("Something went wrong");
+      const responseData = JSON.parse(this.responseText);
+
+      const { _id, title, take, icon } = responseData.data;
+
+      editServiceTitle.value = title;
+      editServiceIcon.value = icon;
+
+      editServiceDesc.append(`${take}`);
+      editServiceButton.setAttribute("onclick", `saveEditService('${_id}')`);
+    };
+  }
+
+  function saveEditService(serviceID) {
+    let serializedData;
+    const { title, icon, take } = (serializedData = serialize(
+      "#edit--service",
+      "json"
+    )); // from public javascript
+
+    let activePage = document.querySelector(".page-item .active");
+
+    let pageIndex = parseInt(activePage.getAttribute("pageindex"));
+
+    if (!title || !icon || !take) {
+      return alert("Title, Icon and Take fields are required");
+    }
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("PUT", `${app_home_url}/api/service/${serviceID}`);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(serializedData));
+
+    xhr.onload = function () {
+      if (this.status > 399) return alert(`Error adding ${title}`);
+
+      const responseData = JSON.parse(this.responseText);
+
+      alert(`Saved ${title} successfully`);
+      loadPage(pageIndex);
+      loadService(serviceID);
+      loadEditService(serviceID, title);
+    };
+  }
+</script>

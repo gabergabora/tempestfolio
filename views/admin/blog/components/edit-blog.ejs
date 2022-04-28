@@ -1,0 +1,215 @@
+<div class="main-card mb-3 card">
+    <div class="card-body">
+        <h5 class="card-title">Edit Blog</h5>
+        <form class="" id="editBlog">
+            <div class="position-relative form-group">
+                <label for="editBlogTitle" class="">Title</label
+                ><input
+                    name="title"
+                    id="editBlogTitle"
+                    type="text"
+                    class="form-control bordered"
+                />
+            </div>
+
+            <div class="position-relative form-group">
+                <label for="editBlogDate" class="">Date</label
+                ><input
+                    name="date"
+                    id="editBlogDate"
+                    type="date"
+                    class="form-control bordered"
+                />
+            </div>
+
+            <div class="blog-link">
+                <label for="editBlogLink" class=""
+                    >Blog External link</label
+                ><input
+                    name="link"
+                    id="editBlogLink"
+                    class="form-control bordered"
+                    rows="10"
+                />
+            </div>
+
+            <div class="position-relative form-group">
+                <label for="editBlogExtract" class="mt-2">Extract</label
+                ><textarea
+                    name="extract"
+                    id="editBlogExtract"
+                    class="form-control bordered"
+                    rows="10"
+                ></textarea>
+            </div>
+
+            <div class="image-upload">
+                <label for="editBlogHeroImage" class="">Image Hero link</label
+                ><input
+                    name="image-hero"
+                    id="editBlogHeroImage"
+                    placeholder="http://your-blog-image-link"
+                    class="form-control bordered"
+                    rows="10"
+                />
+            </div>
+
+            <!--  -->
+            <div class="tag-select-container" id="edit-tag-select-container">
+                <label for="tags" class="mt-2">Tags</label
+                    >
+                 <div id="edit-tags-holder"></div>
+            </div>
+            <!--  -->
+            
+            <br />
+
+            <button
+                id="saveEditBlog"
+                class="mt-1 btn btn-outline-primary"
+                type="button"
+            >
+                + Save Edit
+            </button>
+        </form>
+    </div>
+</div>
+
+<!--  -->
+<script>
+
+function loadEditBlog(blogID){
+    let editBlogTitle = document.querySelector("input#editBlogTitle");
+    let editBlogDate = document.querySelector("input#editBlogDate");
+    let editBlogLink = document.querySelector("input#editBlogLink");
+    let editBlogHeroImage = document.querySelector("input#editBlogHeroImage");
+    let editBlogExtract = document.querySelector("textarea#editBlogExtract");
+    let saveEditBlogBtn = document.querySelector("#saveEditBlog");
+    let editTags;
+
+    const url = `${app_home_url}/api/blog/${blogID}`;
+    const xhr  =  new XMLHttpRequest();
+    xhr.open("GET", url);
+    xhr.send();
+
+    xhr.onload = function(){
+        if(this.status > 399){
+            return alert("Unable to complete request");
+        }
+
+         const responseData =  JSON.parse(this.responseText);
+
+          if(!responseData.data){
+                blogsHolder.innerHTML = alert("The resource you are trying to load seems to be unavailable");
+                    return;
+            }
+
+            const blog = responseData.data;
+
+            editBlogTitle.value = blog.title;
+            editBlogDate.value = blog.date;
+            editBlogLink.value = blog.link;
+            editBlogHeroImage.value = blog.image;
+            editBlogExtract.value = blog.extract;
+            editTags = blog.tags;
+            saveEditBlogBtn.setAttribute("onclick", `editBlog('${blogID}')`);
+            //load edit tags
+            loadEditTags(editTags);
+    }
+
+
+}
+
+function editBlog(blogID){
+    const editBlogTitle = document.querySelector("input#editBlogTitle").value.trim();
+    const editBlogDate = document.querySelector("input#editBlogDate").value.trim();
+    const editBlogLink = document.querySelector("input#editBlogLink").value.trim();
+    const editBlogHeroImage = document.querySelector("input#editBlogHeroImage").value.trim();
+    const editBlogExtract = document.querySelector("textarea#editBlogExtract").value.trim();
+    const editTags = getActiveEditTags() ;
+
+
+    if(!editBlogTitle || !editBlogDate||  !editBlogLink || !editBlogExtract || !editBlogHeroImage) return alert("Please fill all input");
+    if(!editTags.length > 0) return alert("please select at least one tag");
+    if(blogExtract.length > 700) return alert("Blog extract should be a minimum of 25 characters");
+
+    const formData = {
+        title: editBlogTitle,
+        image: editBlogHeroImage,
+        link: editBlogLink,
+        extract: editBlogExtract,
+        tags: editTags,
+        date: editBlogDate
+    }
+
+    const xhr  =  new XMLHttpRequest();
+    xhr.open("PUT", `${app_home_url}/api/blog/${blogID}`);
+    xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.send(JSON.stringify(formData));
+
+    xhr.onload = function(){
+        const blogsHolder = document.getElementById('blogsHolder');        
+            if(this.status < 399){
+                    const responseData =JSON.parse(this.responseText);
+                    alert(`Blog updated`);
+                    loadBlog(blogID);
+            }
+            else {
+                alert(`Could not update blog`);
+            }
+    }
+}
+
+
+function loadEditTags(tagsOwned){
+    const xhr  =  new XMLHttpRequest();
+    xhr.open("GET", `${app_home_url}/api/tag/`);
+    xhr.send();
+
+    xhr.onload = function(){
+        const responseData =JSON.parse(this.responseText);
+        renderEditBlogTags(responseData.data, tagsOwned)
+    }
+}
+
+function renderEditBlogTags(tags, tagsOwned){
+    const tagsContainer = document.querySelector('#editBlog #edit-tag-select-container #edit-tags-holder');
+    tagsContainer.innerHTML = "";
+
+    tags.forEach(tag => {
+        let active = tagsOwned.includes((tag.name).toLocaleLowerCase())?"active":"";
+        const newTagElement = `
+        <span 
+        class="tag ${active}"
+        name="${tag.name}"
+        key="${tag._id}"
+        role="button"
+        active="false"
+        onclick="toggleActiveTag(this)"
+          > 
+        ${tag.name} 
+        </span>`;
+
+        tagsContainer.innerHTML += newTagElement;
+    });
+}
+
+function toggleActiveTag(tagElem){
+     const isActive = tagElem.getAttribute("active") === "true" ? true :  false ; 
+     const flipActive = !isActive ; 
+    tagElem.setAttribute("active", flipActive);
+    if(flipActive) tagElem.className = "tag active";
+    else tagElem.className = "tag";
+}
+
+function getActiveEditTags(){
+    const activeTags = [];
+    const tags = document.querySelectorAll("#edit-tags-holder span.tag.active");
+    Array.from(tags).forEach(tag=>{
+            activeTags.push(tag.getAttribute("name").toLocaleLowerCase())
+    })
+
+    return activeTags;
+}
+
+</script>
