@@ -15,7 +15,7 @@ async function addNewExpertise(expertise){
     });
 
     try{
-        const value = await schema.validateAsync(expertiseData);
+        await schema.validateAsync(expertiseData);
     }
     catch(error){
         const {_original, details} = error;

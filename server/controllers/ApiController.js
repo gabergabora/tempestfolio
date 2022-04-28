@@ -1,12 +1,6 @@
-const logger = require('../../app/logger');
-
 class ApiController {
    response;
     
-    constructor(){
-      this.logger = logger
-    }
-
     /** Since most find routes do not have unique request validation
      * we can decide to handle get requests from the api controller
      * and override in special domain find
@@ -32,9 +26,6 @@ class ApiController {
   
      }
 
-     logError = (error) => {
-       this.logger.error(error.toString(), this.constructor.name);
-     }
 }
 
 

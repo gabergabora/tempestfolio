@@ -1,7 +1,7 @@
 const ApiController = require('./ApiController');
 
 class MailController extends ApiController{  
-  getMessages = (req, res) => {
+  getMessages = (req, res, next) => {
     const findMessages = require('../domain/message/find_messages');
 
     // check for pagination
@@ -16,10 +16,7 @@ class MailController extends ApiController{
       const acceptableFilterVerbs = ["read"];
   
       for(let filter of filterSpec){
-        const splittedFilter = (filter.split("."));
-  
-        let filterVerb = splittedFilter[0];
-        let filterValue = splittedFilter[1];
+        const [filterVerb, filterValue] = (filter.split("."));
   
         if(acceptableFilterVerbs.includes(filterVerb)){
           filterData[filterVerb] = filterValue;
@@ -32,14 +29,12 @@ class MailController extends ApiController{
     .then(messages=>{
         return res.status(200).json({data:messages});
     })
-
     .catch(error=>{
-        this.logError(error);
-        return res.status(500).json({message:"could not complete request"});
+        next(error);
     });
   }
 
-  getSingleMessage = (req, res) => {
+  getSingleMessage = (req, res, next) => {
     const findOneMessage = require('../domain/message/find_one_message');
   
     let messageID = req.params['id'] || null;
@@ -53,30 +48,33 @@ class MailController extends ApiController{
     })
 
     .catch(error=>{
-        this.logError(error);
-        return res.status(500).json({message:"could not complete request"});
+      next(error);
     });
   }
   
-  addMessage = (req, res) => {
+  addMessage = (req, res, next) => {
     const addNewMessage = require('../domain/message/add_new_message');
 
-    addNewMessage(req.body)
+    const messageData = req.body;
+
+    if(!(Object.values(messageData))) return res.status(400).json({message: "no data sent"});
+
+    addNewMessage()
     .then(message=>{
         if(!message.status)return res.status(400).json({message: message.message});
 
         return res.status(200).json({data: message.data});
     })
     .catch(error=>{
-       this.logError(error);
-       return res.status(500).json({message: "Could not complete request"});
+       next(error);
      })
   }
 
-  readMessage = (req, res) => {
+  readMessage = (req, res, next) => {
     let readMessage = require('../domain/message/read_message');
 
-    const messageID = req.params.id;
+    const messageID = req.params.id || null;
+
     if(!messageID) return res.status(400).json("no id sent");
 
     readMessage(messageID)
@@ -86,16 +84,16 @@ class MailController extends ApiController{
         return res.status(200).json({data: message.data});
     })
     .catch(error=>{
-        this.logError(error);
-        return res.status(500).json({message: "could not complete request"});
+      next(error);
     })
 
   }
 
-  deleteMessage = (req, res) => {
+  deleteMessage = (req, res, next) => {
     let deleteMessage = require('../domain/message/delete_message');
 
-    const messageID = req.params.id;
+    const messageID = req.params.id || null;
+
     if(!messageID) return res.status(400).json("no id sent");
 
     deleteMessage(messageID)
@@ -105,8 +103,7 @@ class MailController extends ApiController{
         return res.status(200).json({data: {}});
     })
     .catch(error=>{
-        this.logError(error);
-        return res.status(500).json({message: "could not complete request"});
+      next(error);
     })
   }
 

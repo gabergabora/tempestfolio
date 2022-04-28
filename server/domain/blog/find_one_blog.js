@@ -2,10 +2,7 @@ const BlogModel = require('../../models/BlogModel');
 
 
  async function findOneBlog(blog_id){
-
-    let blog = await BlogModel.findById(blog_id);
-    
-    return blog;
+    return await BlogModel.findById(blog_id);
 }
 
 module.exports = findOneBlog;

@@ -1,7 +1,6 @@
 class OTP{
-   constructor(Model, logger){
+   constructor(Model){
        this.Model = Model;
-       this.logger = logger;
    }
 
     verify(userCode, userID) {
@@ -14,19 +13,14 @@ class OTP{
             .then(doc=>{
                 if(!doc) resolve({ isVerified, message });
 
-                console.log(doc);
-
-
                 const { otp, expiry, created } = doc;
-
-                // console.log(otp, dov);
 
                 //run tests
                 if (this.isExpired(created, expiry)) {
                     //has expired
                     message = 'Session Expired';
                 } else {
-                //     // return success
+                    // return success
                     isVerified = true;
                     message = 'Verification successful';
                 }
@@ -34,10 +28,9 @@ class OTP{
                 resolve({ isVerified, message });
             })
                
-                .catch((error) => {
-                    this.logger.error(error.toString(), __filename);
-                    reject();
-                });
+            .catch((error) => {
+                reject(error);
+            });
         });
     }
 
@@ -55,16 +48,10 @@ class OTP{
                 .save()
                 .then((doc) => resolve(doc.otp))
                 .catch((error) => {
-                    this.logger.error(error.toString(), __filename);
-                    reject();
+                    reject(error);
                 });
         });
     }
-
-    // clear(uid){
-    //     this.Model.deleteAll({});
-    // }
-
 
     //Generates random OTP code
     generateCode(maxLength) {

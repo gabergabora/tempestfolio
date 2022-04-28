@@ -16,7 +16,6 @@ async function createNewProject(project){
     let projectHero = imageHero == "undefined" ? imageHero : imageHero[0];
     let projectMedias = [project_img_1, project_img_2, project_img_3];
     let projectMediasErrors = [];
-    let validMedias = [];
 
 
     //Run all validations First
@@ -55,10 +54,10 @@ async function createNewProject(project){
     // Validate Medias
 
     // Main Image
-    if(!projectHero || projectHero == "undefined") 
+    if(!projectHero || projectHero === "undefined") 
         return {status: false, message: `frontpage media is required`};
 
-    if (!allowedProjectFileTypes.includes(getFileExtension(projectHero['originalname'])) )
+    if ( !allowedProjectFileTypes.includes(getFileExtension(projectHero['originalname'])) )
         return {status: false, message: `frontpage media ${projectHero['originalname']} is of unsupported file type`};
 
 

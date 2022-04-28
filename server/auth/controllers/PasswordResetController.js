@@ -34,13 +34,12 @@ class PasswordResetController extends AuthController {
 
         })
         .catch((error) =>{
-            logger.error(error.toString(), __filename);
             next(error);
         })
        
     }
 
-    setupPasswordReset = async (req, res) => {
+    setupPasswordReset = async (req, res, next) => {
         try {
           const admin = await AdminModel.findOne();
 
@@ -74,8 +73,7 @@ class PasswordResetController extends AuthController {
           res.render('auth/password-reset');
 
         } catch (error) {
-            logger.error(error.toString(), __filename);
-            throw error;
+            next(error);
         }
 
     }
@@ -110,7 +108,6 @@ class PasswordResetController extends AuthController {
             res.redirect(this.LOGIN_ROUTE);
 
         }catch(error){
-            logger.error(error.toString(), __filename);
             next(error);
         }
 

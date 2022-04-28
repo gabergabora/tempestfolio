@@ -1,9 +1,7 @@
 const TagModel = require('../../models/TagModel');
 
  async function findTags(){
-    let tags = await TagModel.find();
-
-    return tags;
+    return await TagModel.find();
 }
 
 module.exports = findTags;

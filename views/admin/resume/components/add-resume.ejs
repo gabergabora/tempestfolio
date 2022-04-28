@@ -26,37 +26,30 @@
 
 <!-- Component Based Javascript -->
 <script>
-  function uploadResume() {
-    // start loader
+  async function uploadResume() {
     const fileInput = document.getElementById("selectResume");
     const file = fileInput.files[0];
     const formdata = new FormData();
     formdata.append("resume", file);
 
-    if (!file) return alert("Select a resume document");
-
-    async function fetchUploadResume() {
       const url = `${app_home_url}/api/resume/`;
-      let method = "post";
-      let data = formdata;
-      let options = { method, body: data };
 
-      let requestObject = await fetch(url, options);
-      let requestStatus = requestObject.status;
-      let resume = await requestObject.json();
+      const xhr =  new XMLHttpRequest();
+      xhr.onload = function(){
+        let response = JSON.parse(this.responseText);
 
-      return console.log(resume);
-      if (!resume) return alert("Something went wrong");
-    }
+        if(this.status < 399){
+          alert("resume uploaded");
+          loadPage();
+        }
+        else alert(response.message);
+      }
 
-    fetchUploadResume()
-      .then(() => {
-        // end loader
-        loadPage();
-      })
-      .catch(() => {
-        // end loader
-        alert("could not upload resume at the moment");
-      });
+      xhr.open("POST", url);
+      xhr.send(formdata);
+
   }
+
+   
+
 </script>

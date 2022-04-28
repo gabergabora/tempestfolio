@@ -1,14 +1,19 @@
 require('dotenv').config();
-// require('express-group-routes');
-
+const createError = require('http-errors');
 const path = require('path');
 const fs = require('fs');
 const express = require('express');
+const errorHandler = require('./app/errorhandler');
 
 const app = express();
 
 //database
 (require('./app/db')).connect();
+
+
+// Set node environment
+app.set('env', process.env.NODE_ENV);
+
 
 // view engine setup/
 app.set('views', path.join(__dirname, 'views'));
@@ -40,8 +45,26 @@ app.use('/', express.static(path.resolve(__dirname, 'public/')));
 const router = require(__dirname + '/server/routes/router');
 router(app);
 
-//Error handle
-const errorHandler = require('./app/errorhandler');
-errorHandler(app);
+
+//Error handler
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    next(createError(404));
+});
+
+app.use(async function(err, req, res, next) {
+	await errorHandler.handleError(err, req, res);
+	next();
+});
+
+// process.on("uncaughtException", error => {
+// 	process.exit(1);
+// });
+  
+// process.on("unhandledRejection", (reason) => {
+// 	process.exit(1);
+// });
+
 
 module.exports = app;

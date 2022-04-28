@@ -1,29 +1,25 @@
 const ApiController = require('./ApiController');
 
 class ExperienceController extends ApiController  {
-   getExperiences = (req, res) => {
+   getExperiences = (req, res, next) => {
       const findExperiences = require('../domain/experience/find_experiences');
 
       // check for pagination
       let entries  = req.query['entries'];
       let pageIndex  = req.query['index'];
-      // lastId = req.query['lastId'];
 
       findExperiences(entries, pageIndex)
-
       .then(experiences=>{
          return res.status(200).json({data:experiences});
       })
-
       .catch(error=>{
-         this.logError(error);
-         return res.status(500).json({message:"could not complete request"});
+         next(error);
       });
 
    }
 
 
-   getSingleExperience = (req, res) => {
+   getSingleExperience = (req, res, next) => {
       const findOneExperience = require('../domain/experience/find_one_experience');
 
       let ExperinceID = req.params['id'] || null;
@@ -39,46 +35,42 @@ class ExperienceController extends ApiController  {
          return res.status(200).json({data:experience});
       })
       .catch(error=>{
-         this.logError(error);
-         return res.status(500).json({message:"could not complete request"});
+         next(error);
       });
 
    }
 
 
-   addExperience = (req, res) => {
+   addExperience = (req, res, next) => {
       const addExperience = require('../domain/experience/add_experience');
 
       //check if req data is empty
-      if (!Object.keys(req.body).length)
+      if (!(Object.values(req.body)).length)
             return res.status(404).json({message: 'empty request data' });
    
          let experience = req.body;
 
          addExperience(experience)
-         
          .then(experience=>{
             if(!experience.status)
                return res.status(400).json({message:experience.message});
 
             return res.status(200).json({data:experience.data}) 
          })
-
          .catch(error => {
-            this.logError(error);
-            return res.status(500).json({message:"could not add service at the moment"});
+           next(error);
         })
 
    }
 
-   updateExperience = (req, res) => {
+   updateExperience = (req, res, next) => {
         const updateExperience = require('../domain/experience/update_experience');
         
-        let experienceID = req.params['id'];
+        let experienceID = req.params['id'] || null;
         let data = req.body;
 
-        if(!(Object.values(data)).length) return res.status(400).json("no data sent");
         if(!experienceID) return res.status(400).json("no id sent");
+        if(!(Object.values(data)).length) return res.status(400).json("no data sent");
 
         updateExperience(experienceID, data)
 
@@ -90,13 +82,12 @@ class ExperienceController extends ApiController  {
         })
 
         .catch(error=>{
-           this.logError(error);
-           return res.status(500).json({message: "Could not complete request"});
+           next(error);
         })
 
    }
 
-   deleteExperience = (req, res) =>{
+   deleteExperience = (req, res, next) =>{
       const deleteExperience = require('../domain/experience/delete_experience');
 
       let experienceID = req.params['id'] || null;
@@ -106,8 +97,7 @@ class ExperienceController extends ApiController  {
       deleteExperience(experienceID)
       .then(deleted=> { return res.status(200).json({data:{}}) })
       .catch(error=> { 
-         this.logError(error);
-         return res.status(500).json({message:"could not delete service at the moment"});
+         next(error);
       })
    }
 

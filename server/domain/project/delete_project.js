@@ -2,9 +2,6 @@ const Imagekit = require('../../libs/imagekit/Imagekit');
 const ProjectModel = require('../../models/ProjectModel');
 
 async function deleteProject(project_id){
-   if(!project_id)
-       throw new Error("find_one_service requires param project_id");
-
    let project = await ProjectModel.findById(project_id);
 
    if(!project) return {status: false};
@@ -16,7 +13,6 @@ async function deleteProject(project_id){
     
     for(let i=0; i<projectMedias.length; i++){
         let mediaId = projectMedias['file_id']
-        console.log(mediaId);
 
         deleteMedia.push(Imagekit.deleteFile(mediaId))
     }

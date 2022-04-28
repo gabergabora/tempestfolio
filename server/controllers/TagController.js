@@ -2,7 +2,7 @@ const ApiController = require('./ApiController');
 
 
 class TagController extends ApiController{
-   getTags = (req, res) => {
+   getTags = (req, res, next) => {
       const fetchTags = require('../domain/tags/fetch_tags');
 
       fetchTags()
@@ -10,13 +10,12 @@ class TagController extends ApiController{
          return res.status(200).json({data:tags});
       })
       .catch(error=>{
-         this.logError(error);
-         return res.status(500).json({message:"could not complete request"});
+         next(error);
       });
    }
 
 
-   createTag = (req, res) => {
+   createTag = (req, res, next) => {
       const createTag = require('../domain/tags/create_tag');
 
       const tagName = req.body.name;
@@ -31,17 +30,16 @@ class TagController extends ApiController{
       })
 
       .catch(error=> {
-         this.logError(error);
-         return res.status(500).json({message:"could not complete request"});
+         next(error);
       })
 
    };
 
 
-   editTag = (req, res) => {
+   editTag = (req, res, next) => {
       const editTag = require('../domain/tags/edit_tag');
 
-      const tagID = req.params.id;
+      const tagID = req.params.id || null;
       const tagname = req.body.name
 
       if(!tagID || !tagname) return res.status(400).json("tag id and name are required");
@@ -53,16 +51,15 @@ class TagController extends ApiController{
          return res.status(200).json({data:tag});
       })
       .catch(error=>{
-         this.logError(error);
-         return res.status(500).json({message:"could not complete request"})
+         next(error);
       })
    }
 
 
-   deleteTag = (req, res) => {
+   deleteTag = (req, res, next) => {
       const deleteTag = require('../domain/tags/delete_tag');
 
-      const tagID = req.params.id;
+      const tagID = req.params.id || null;
 
       if(!tagID) return res.status(400).json("no id sent");
 
@@ -71,8 +68,7 @@ class TagController extends ApiController{
          return res.status(200).json({data:{}});
       })
       .catch(error=>{
-         this.logError(error);
-         return res.status(500).json({message:"could not complete request"})
+         next(error);
       })
    }
 

@@ -1,18 +1,17 @@
 <div class="mail-view-area">
-    <div class="mail-view">
+    <div class="mail-view" id="mailView" style="visibility:hidden">
       <dv class="head">
         <div class="avatar-area">
           <div class="avatar"></div>
         </div>
         <div class="info-area">
-          <div class="name" id="mailName">Grid Dynamics</div>
-          <div class="time" id="mailTime">04-21-2022</div>
+          <div class="name" id="mailName"></div>
+          <div class="time" id="mailTime"></div>
         </div>
       </dv>
       <dv class="body">
 
         <div id="mailSubject" class="subject">
-         You are employed
         </div>
         <div class="content" id="mailContent">
           
@@ -21,7 +20,7 @@
       <dv class="foot">
         <div class="line"></div>
         <div class="content">
-          <div class="mail-address" id="mailAddress">admin@griddynamics.com</div>
+          <div class="mail-address" id="mailAddress"></div>
           <div class="action">
             <button title="reply with gmail" id="replyMailAction">
               <i class="fa fa-reply" aria-hidden="true"></i>
@@ -82,11 +81,12 @@
 
 
     function renderMailView(mail){
+      const mailViewContainer = document.getElementById('mailView');
       const mailNameElem = document.getElementById('mailName');
+      const mailAddressElem = document.getElementById('mailAddress');
       const mailTimeElem = document.getElementById('mailTime');
       const mailSubjectElem = document.getElementById('mailSubject');
       const mailContentElem = document.getElementById('mailContent');
-      const mailAddressElem = document.getElementById('mailAddress');
       const deleteMailAction = document.getElementById('deleteMailAction');
       const replyMailAction = document.getElementById('replyMailAction');
 
@@ -95,7 +95,9 @@
 
       let time = getSensibleTime(parseInt(date));
 
-      mailName.innerHTML = name;
+      mailView.style.visibility = "visible";
+      mailNameElem.innerHTML = name;
+      mailAddressElem.innerHTML = email;
       mailTimeElem.innerHTML = `${time.month.fullname} ${time.date}. ${time.hour}:${time.minute}`;
       mailSubjectElem.innerHTML = subject;
       mailContentElem.innerHTML = message;

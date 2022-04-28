@@ -1,7 +1,7 @@
 const TagModel = require('../../models/TagModel');
 
 async function editTag(tag_id, tagname){
-    return TagModel.findByIdAndUpdate(tag_id, {name: tagname}, {new: true});
+    return await TagModel.findByIdAndUpdate(tag_id, {name: tagname}, {new: true});
 }
 
 

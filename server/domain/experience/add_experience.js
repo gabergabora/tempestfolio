@@ -19,7 +19,7 @@ async function addExperience(experience_data){
 
 
     try{
-        const value = await schema.validateAsync(experience_data);
+        await schema.validateAsync(experience_data);
     }
     catch(error){
 

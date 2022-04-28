@@ -20,10 +20,9 @@ async function updateBlog(blog_id, data){
 
 
     try{
-        const value = await schema.validateAsync(data);
+        await schema.validateAsync(data);
     }
     catch(error){
-
       const {_original, details} = error;
       const errorMessage =  (details[0]['message']).replace(/\"/g, "");
 

@@ -2,23 +2,20 @@ const ApiController = require('./ApiController');
 
 class ResumeController extends ApiController{
 
-  getResumes = (req, res) => {
+  getResumes = (req, res, next) => {
       let findResumes = require('../domain/resume/find_resumes');
 
       findResumes()
-
       .then(resumes => {
         return res.status(200).json({data: resumes});
       })
-
       .catch(error => {
-        this.logError(error);
-        return res.status(500).json({message: "Could not complete request"});
+        next(error);
       })
   }
 
 
-  getOneResume = (req, res) => {
+  getOneResume = (req, res, next) => {
 
     let findOneResume = require('../domain/resume/find_one_resume');
     
@@ -27,21 +24,17 @@ class ResumeController extends ApiController{
     if(!resumeID) return res.status(500).json({message: "no resume id sent"});
 
     findOneResume(resumeID)
-
     .then(resume=>{
       if(!resume) return res.status(400).json({message: "no resume with id found"});
       return res.status(200).json({data: resume});
-
     })
-
-    .catch(error => {
-        this.logError(error);
-      return res.status(500).json({message: "Could not complete request"});
+    .catch(error=>{
+      next(error);
     })
   }
 
 
-  uploadResume = (req, res) => {
+  uploadResume = (req, res, next) => {
 
     let uploadResume = require('../domain/resume/upload_resume');
 
@@ -53,20 +46,19 @@ class ResumeController extends ApiController{
 
     .then(resumeDetails=>{
       if(!resumeDetails.uploaded)
-        return res.status(400).json({data: resumeDetails.error});
+        return res.status(400).json({message: resumeDetails.error});
 
       return res.status(200).json({data: resumeDetails});
     })
 
     .catch(error => {
-      this.logError(error);
-      return res.status(500).json({message: "Could not complete request"});
+      next(error);
     })
 
   }
 
 
-  setActiveResume = (req, res) => {
+  setActiveResume = (req, res, next) => {
 
     let setResumeActive = require('../domain/resume/set_resume_active');
     
@@ -75,20 +67,17 @@ class ResumeController extends ApiController{
     if(!resumeID) return res.status(500).json({message: "no resume id sent"});
 
     setResumeActive(resumeID)
-
     .then(resume=>{
         if(!resume) return res.status(400).json({message: "no resume with id found"});
 
         return res.status(200).json({data: resume});
     })
-    
     .catch(error=>{
-      this.logError(error);
-      return res.status(500).json({message:"could not complete request"});
+      next(error);
     })
   }
 
-  deleteResume = (req, res) => {
+  deleteResume = (req, res, next) => {
 
     let deleteResune = require('../domain/resume/delete_resume');
 
@@ -101,9 +90,8 @@ class ResumeController extends ApiController{
         return res.status(200).json({data:{}});
     })
     .catch(error=>{
-        this.logError(error);
-        return res.status(500).json({message: "could not complete request"})
-      })
+      next(error);
+    })
   }
 
 }

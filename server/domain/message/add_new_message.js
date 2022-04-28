@@ -13,7 +13,7 @@ async function addNewMessage(messageData){
     });
 
     try{
-        const value = await schema.validateAsync({name, email, subject, message} );
+        await schema.validateAsync({name, email, subject, message} );
     }
     catch(error){
         const {_original, details} = error;

@@ -1,8 +1,6 @@
 const paginate = require('../api/paginate');
 
  async function findResources(model, entries=null, pageIndex=null){
-    model;
-
     if(entries){
         entries;
         pageIndex = pageIndex || 1;

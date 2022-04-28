@@ -2,7 +2,6 @@ const indexRouter = require('./index');
 const adminRouter = require('./admin'); 
 const apiRouter = require('./api'); 
 const authRouter = require('./auth'); 
-
 const ensureAuthenticatedMiddleware = require('../middlewares/ensureAuthenticated');
 
 

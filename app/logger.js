@@ -26,13 +26,14 @@ const logger = winston.createLogger({
   });
 
 
+/*
 // Transport to console on development environment
 if (env !== 'production') {
     logger.add(new winston.transports.Console({
       format: winston.format.simple(),
     }));
 }
-
+*/
 
 module.exports = logger ;
 

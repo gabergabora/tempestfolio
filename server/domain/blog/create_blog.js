@@ -15,7 +15,7 @@ async function createBlog(data){
     })
 
     try{
-        const value = await schema.validateAsync(data);
+        await schema.validateAsync(data);
     }
     catch(error){
 

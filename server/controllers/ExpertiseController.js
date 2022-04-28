@@ -1,7 +1,7 @@
 const ApiController = require('./ApiController');
 
 class ExpertiseController extends ApiController{
-    getExpertises = (req, res) => {
+    getExpertises = (req, res, next) => {
         const findExpertise = require('../domain/expertise/find_expertise');
 
         // check for pagination
@@ -14,13 +14,13 @@ class ExpertiseController extends ApiController{
         })
 
         .catch(error=>{
-            this.logError(error);
-            return res.status(500).json({message:"could not complete request"});
+            next(error);
         });
 
     }
 
-    getSingleExpertises = (req, res) => {
+    
+    getSingleExpertises = (req, res, next) => {
         const findOneExpertise = require('../domain/expertise/find_one_expertise');
   
         let expertiseID = req.params['id'] || null;
@@ -34,15 +34,13 @@ class ExpertiseController extends ApiController{
         })
 
         .catch(error=>{
-            this.logError(error);
-            return res.status(500).json({message:"could not complete request"});
+            next(error);
         });
 
     }
 
 
-
-    addExpertise = (req, res) => {
+    addExpertise = (req, res, next) => {
         let addNewExpertise = require('../domain/expertise/add_new_expertise');
 
         const expertiseData = {};
@@ -50,27 +48,24 @@ class ExpertiseController extends ApiController{
         expertiseData.rating = req.body.rating;
         expertiseData.icon = req.file;
 
-       if(!(Object.keys(expertiseData))){
-            return res.status(400).json({message: "no data sent"});
-       }
+       if(!(Object.values(expertiseData))) return res.status(400).json({message: "no data sent"});
 
         addNewExpertise(expertiseData)
         .then(expertise=>{
-            if(!expertise.status)return res.status(400).json({message: expertise.message});
+            if(!expertise.status) return res.status(400).json({message: expertise.message});
 
             return res.status(200).json({data: expertise.data});
         })
         .catch(error=>{
-           this.logError(error);
-           return res.status(500).json({message: "Could not complete request"});
+            next(error);
          })
         
     }
 
-    updateExpertise = (req, res) => {
+    updateExpertise = (req, res, next) => {
         let updateExpertise = require('../domain/expertise/update_expertise');
 
-        const expertiseID = req.params.id;
+        const expertiseID = req.params.id || null;
 
         if(!expertiseID) return res.status(400).json("no id sent");
 
@@ -79,29 +74,26 @@ class ExpertiseController extends ApiController{
         expertiseData.rating = req.body.rating;
         expertiseData.icon = req.file;
 
-       if(!(Object.keys(expertiseData))){
-            return res.status(400).json({message: "no data sent"});
-       }
+       if(!expertiseID) return res.status(400).json("no id sent");
+       if(!(Object.values(expertiseData))) return res.status(400).json({message: "no data sent"});
 
        updateExpertise(expertiseID, expertiseData)
         .then(expertise=>{
-            if(!expertise.status)return res.status(400).json({message: expertise.message});
+            if(!expertise.status) return res.status(400).json({message: expertise.message});
 
             return res.status(200).json({data: expertise.data});
         })
         .catch(error=>{
-            console.error(error);
-           this.logError(error);
-           return res.status(500).json({message: "Could not complete request"});
+            next(error);
          })
         
     }
 
 
-    removeExpertise = (req, res) => {
+    removeExpertise = (req, res, next) => {
         let deleteExpertise = require('../domain/expertise/delete-expertise');
 
-        const expertiseID = req.params.id;
+        const expertiseID = req.params.id || null;
         
         if(!expertiseID) return res.status(400).json("no id sent");
 
@@ -112,8 +104,7 @@ class ExpertiseController extends ApiController{
             return res.status(200).json({data: {}});
         })
         .catch(error=>{
-            this.logError(error);
-            return res.status(500).json({message: "could not complete request"});
+            next(error);
         })
     }
 

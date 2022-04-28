@@ -7,7 +7,7 @@ const AdminModel = require('../models/AdminModel');
 
 class MailVerifyController extends AuthController {
     OTPService;
-    loffer;
+    logger;
 
     /*
     *  @description SETUP Route
@@ -15,89 +15,79 @@ class MailVerifyController extends AuthController {
     */
     constructor(){
         super(AdminModel);
-        this.OTPService = new OTPService(OTPModel, logger);
+        this.OTPService = new OTPService(OTPModel);
         this.logger = logger;
     }
 
-    getMailVerify = (req, res) => {
+    getMailVerify = (req, res, next) => {
         //Generate and send otp to email
-        const admin = req.session.admin;
-        if (!admin) return res.redirect(this.LOGIN_ROUTE);
+        const sessionAdmin = req.session.admin;
+        if (!sessionAdmin) return res.redirect(this.LOGIN_ROUTE);
 
-        if(admin.mailVerified) res.redirect(this.ADMIN_HOME)
+        if(sessionAdmin.mailVerified) res.redirect(this.ADMIN_HOME)
 
-        this.AdminModel.findOne({ username: admin }).then((admin) => {
+        this.AdminModel.findOne({ username: admin })
+        .then((admin) => {
             if (admin.mailVerified) return res.redirect(this.ADMIN_HOME);
 
             res.render('auth/verify', {});
-        });
+        })
+        .catch((error) => next(error))
     };
 
 
-    otpGenerate = (req, res) => {
+    otpGenerate = async (req, res, next) => {
         //generate and mail otp 
-	    const admin = req.session.admin;
-	    if (!admin) return res.status(401).send({});
-	    this.AdminModel.findOne({ username: admin })
-        .then((admin)=>{
+        try {
+            const sessionAdmin = req.session.admin;
+            if (!sessionAdmin) return res.status(401).send({});
 
-			const { _id, username, email } = admin;
+            let adminData = await this.AdminModel.findOne({ username: sessionAdmin });
+            if(!adminData) res.status(400).json({message: "could not find any admin registered account"});
 
-            // Clear all otp related to user in database
-			// OTP.clear(_id);
+            let { _id, username, email } = adminData;
 
-            this.OTPService.create(_id)
-            .then(otp => {
-                //send otp mail
-                Mailer.mail(
-                    email,
-                    `HI ${username}, Thank you for choosing Longbotton
-                    <br />
-                    Please use the code <strong>${otp}</strong> to verify your control room account `
-                )
-                .then((info) => {
-                    logger.info(info.toString(), __filename)
-                    res.json({ status: 'success'});
-                })
-                .catch((error) => {
-                    this.logger.error(error.toString(), __filename);
-                    res.json({ status: 'failed' });
-                });
-            })
+            let otpCode = await this.OTPService.create(_id);
+            let mailMessage = `HI ${username}, Thank you for choosing Longbotton <br /> Please use the code <strong>${otpCode}</strong> to verify your control room account`;
+            
+            let mailInfo = await Mailer.mail(email, mailMessage);
+            logger.info(mailInfo.toString(), __filename);
 
-        })
+            res.json({status: success});
+
+        }
+        catch(error){
+            next(error);
+        }
 
     }
 
-
-    otpVerify = (req, res) => {
+    otpVerify = async (req, res, next) => {
         let userCode = req.body.otp || '';
 
-        const admin = req.session.admin;
-        if (!admin) return res.status(401).send({});
+        const sessionAdmin = req.session.admin;
+        if (!sessionAdmin) return res.status(401).send({});
 
-    
-        this.AdminModel.findOne({ username: admin }).then((admin) => {
-            const { _id } = admin;
+        try {
+           let adminData = await this.AdminModel.findOne({ username: sessionAdmin });
+           if(!admin) res.status(400).json({message: "could not find any admin registered account"});
 
-            this.OTPService.verify(userCode, _id)
-                .then((status) => {
-                    if (status.isVerified) {
-                        //Set user account to verified
-                        admin.mailVerified = true;
-                        admin.save()
-                        .catch((error) => {
-                            this.logger.error(error.toString(), __filename);
-                        });
-                    }
-                    res.json(status);
-                })
-                .catch((error) => {
-                    console.log(error)
-                    // this.logger.error(error.toString(), __filename);
-                    return res.status(500).json({});
-                });
-        });
+           let otpVerificationStatus = await this.OTPService.verify(userCode, admin._id);
+
+           if(otpVerificationStatus.isVerified){
+                //Set user account to verified
+                admin.mailVerified = true;
+                await admin.save();
+            }
+
+           // return response
+           res.json(otpVerificationStatus);
+
+        }
+        catch(error) {
+           next(error);
+        }
+              
     };
 
 }

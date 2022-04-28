@@ -46,7 +46,7 @@ class Imagekit {
 		return new Promise((resolve, reject)=>{
 			Imagekit.imagekitErrandBoy.deleteFile(fileId, function(error, result) {
 				if(error) {
-					logger.error("Imagekit file to be deletd does not exist", __filename);
+					logger.error("Imagekit file to be deleted does not exist", __filename);
 					resolve();
 				}
 				else {

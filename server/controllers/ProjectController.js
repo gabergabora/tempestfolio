@@ -1,9 +1,8 @@
 const ApiController = require('./ApiController');
 
 class ProjectController extends ApiController{
-    getProjects = (req, res) => {
+    getProjects = (req, res, next) => {
         const findProjects = require('../domain/project/find_projects');
-
 
         // check for pagination
         let entries  = req.query['entries'];
@@ -25,13 +24,12 @@ class ProjectController extends ApiController{
          })
   
         .catch(error=>{
-           this.logError(error);
-           return res.status(500).json({message:"could not complete request"});
+           next(error);
         });
 
     }
 
-    getSingleProject = (req, res) => {
+    getSingleProject = (req, res, next) => {
         const findOneProjects = require('../domain/project/find_one_project');
 
         const projectID = req.params.id || null;
@@ -46,14 +44,13 @@ class ProjectController extends ApiController{
          })
   
         .catch(error=>{
-           this.logError(error);
-           return res.status(500).json({message:"could not complete request"});
+            next(error);
         });
 
     }
 
 
-    newProject = (req, res) => {
+    newProject = (req, res, next) => {
         let createNewProject = require('../domain/project/create_new_project.js');
 
         const projectData = req.body;
@@ -70,16 +67,15 @@ class ProjectController extends ApiController{
             return res.status(200).json({data: project.data});
         })
         .catch(error=>{
-           this.logError(error);
-           return res.status(500).json({message: "Could not complete request"});
+           next(error);
          })
 
     }
 
 
-    editProject = (req, res) => {
+    editProject = (req, res, next) => {
         let editProject = require('../domain/project/edit_project');
-        const projectID = req.params.id;
+        const projectID = req.params.id || null;
         const projectData = req.body;
         const projectImages = req.files;
 
@@ -92,17 +88,16 @@ class ProjectController extends ApiController{
             return res.status(200).json({data: project.data});
         })
         .catch(error=>{
-           this.logError(error);
-           return res.status(500).json({message: "Could not complete request"});
+          next(error);
          })
     }
 
 
-    updateVisibility = (req, res) => {
+    updateVisibility = (req, res, next) => {
         let changeProjectVisibility = require('../domain/project/change_project_visibility');
 
+        const projectID = req.params.id || null;
         const visibility = req.body['visibility'];
-        const projectID = req.params.id;
 
         if(!projectID || visibility == undefined)
             return res.status(400).json({message: "project id and visibility are required"});
@@ -113,19 +108,17 @@ class ProjectController extends ApiController{
     
             return res.status(200).json({data: project});
         })
-        
         .catch(error=>{
-          this.logError(error);
-          return res.status(500).json({message:"could not complete request"});
+          next(error);
         })
 
     }
 
 
-    dropProject = (req, res) => {
+    dropProject = (req, res, next) => {
         let deleteProject = require('../domain/project/delete_project');
 
-        const projectID = req.params.id;
+        const projectID = req.params.id || null;
        
         if(!expertiseID) return res.status(400).json("no id sent");
 
@@ -136,8 +129,7 @@ class ProjectController extends ApiController{
             return res.status(200).json({data: {}});
         })
         .catch(error=>{
-            this.logError(error);
-            return res.status(500).json({message: "could not complete request"});
+          next(error);
         })
     }
 
