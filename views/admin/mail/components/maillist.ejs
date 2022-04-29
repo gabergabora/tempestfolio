@@ -51,7 +51,7 @@
         let entries = 10;
         let pageIndex = index || 1;
 
-        let url = `http://${app_home_url}/api/mail?entries=${entries}&index=${pageIndex}`;
+        let url = `${app_home_url}/api/mail?entries=${entries}&index=${pageIndex}`;
 
         const xhr  =  new XMLHttpRequest();
 

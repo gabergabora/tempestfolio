@@ -139,7 +139,7 @@
 <!-- Component Based Javascript -->
 <script>
    function fetchUnreadMails(callbackAction){
-    let url = `http://${app_home_url}/api/mail?filter=read.false&entries=5`;
+    let url = `${app_home_url}/api/mail?filter=read.false&entries=5`;
 
     const xhr  =  new XMLHttpRequest();
 
