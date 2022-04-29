@@ -51,7 +51,7 @@
         let entries = 10;
         let pageIndex = index || 1;
 
-        let url = `http://localhost:3000/api/mail?entries=${entries}&index=${pageIndex}`;
+        let url = `http://${app_home_url}/api/mail?entries=${entries}&index=${pageIndex}`;
 
         const xhr  =  new XMLHttpRequest();
 
@@ -252,9 +252,9 @@
 
   }
 
-  // (function reloadMailsEveryTenSeconds(){
-  //   setInterval(loadMailPage, 10000);
-  // })();
+  (function reloadMailsEveryTenSeconds(){
+    setInterval(loadMailPage, 10000);
+  })();
 
   loadMailPage();
 

@@ -16,11 +16,13 @@ function logError(err, req){
 
 async function handleErrorProduction(err, req, res){
     if(!err.status || err.status > 499 ){
+        // Log error 
         logError(err, req);
-        res.status(500).send();
+        // return a user friendly response about the error
+        res.status(500).render('errors/404');
 
-        // process.kill(process.pid, 'SIGTERM');
-        process.exit();
+        // safely exit application
+        process.kill(process.pid, 'SIGTERM');
     }
 }
 
@@ -47,10 +49,8 @@ async function handleErrorDebug (err, req, res, displayErrorDetails=true){
 
 
 async function handleError (err, req, res) {
-    if(req.app.get('env') === "development") 
-        await handleErrorDebug(err, req, res, true);
-    else 
-        await handleErrorProduction(err, req, res);
+    if(req.app.get('env') === "development") await handleErrorDebug(err, req, res, true);
+    else await handleErrorProduction(err, req, res);
 }
 
 
