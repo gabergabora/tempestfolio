@@ -1,4 +1,4 @@
-const baseurl = 'https://temportfolio.herokuapp.com/';
+const baseurl = 'https://temportfolio.herokuapp.com';
 
 async function loadServices(){
         const serviceContianer = $('#service-widget-holder')
