@@ -1,5 +1,3 @@
-const baseurl = 'http://localhost:3000';
-
 async function loadServices(){
         const serviceContianer = $('#service-widget-holder')
         const resourceUrl = `${baseurl}/api/service?visible=true`;
@@ -38,7 +36,6 @@ async function loadExperties(){
 
     (expertise.data).forEach(skill => {
         expertiseContianer.innerHTML += renderExpertiseWidget(skill);
-        console.log(skill)
     });
 }
 

@@ -1,72 +1,8 @@
 <div class="row" id="resWidgetsHolder">
-  <!-- Secure Template -->
+</div>
 
-  <!-- <div class="col-md-6">
-    <div class="resume--holder" style="margin-bottom: 20px; min-width: 240px">
-      <div class="widget-content-wrapper" style="">
-        <div class="widget-content-left">
-          <img
-            src="/assets/images/pp1.jpeg"
-            alt=""
-            style="height: 200px; width: 200px"
-          />
-        </div>
-
-        <div
-          class=""
-          style="
-            margin-top: 10px;
-            font-size: 12px;
-            width: 200px; /* padding: 0 0 0 10px; */
-            overflow: hidden;
-          "
-        >
-          ayodele-oluuwaniyii-resume.pdf
-        </div>
-
-        !--  --
-        <div class="action-buttons" style="margin-top: 15px">
-          <span role="button" class="action-button" id="service-visibility">
-            <i
-              class="icon fa fa-share icon-gradient bg-arielle-smile"
-              aria-hidden="true"
-              title="view"
-            ></i>
-          </span>
-          <span role="button" class="action-button" id="service-edit">
-            <i
-              class="icon fa fa-arrow-down icon-gradient bg-ripe-malin"
-              aria-hidden="true"
-              title="download"
-            ></i>
-          </span>
-          <span role="button" class="action-button" id="service-delete">
-            <i
-              class="icon fa fa-trash icon-gradient bg-love-kiss"
-              aria-hidden="true"
-              title="delete"
-            ></i>
-          </span>
-
-          <span role="button" class="action-button" id="service-delete">
-            <i
-              class="icon fa fa-user icon-gradient bg-love-kiss"
-              aria-hidden="true"
-              title="set active"
-            ></i>
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
-
+<!-- Component Based Javascript -->
   <script>
-    // Global variables
-    const app_home_url = "<%= globals.app_home_url %>";
-
-    loadPage();
-
     function loadPage() {
       const resWidgetsHolder = document.getElementById("resWidgetsHolder");
       resWidgetsHolder.innerHTML = "";
@@ -149,7 +85,7 @@
 
         let requestObject = await fetch(url, options);
 
-        if (requestObject.status > 399) alert("An error occured");
+        if (!requestObject.ok > 399) alert("An error occured");
         else alert("Resume deleted successfully");
       }
 
@@ -163,6 +99,7 @@
           });
       }
     }
+
 
     function setActiveResume(resumeID) {
       async function fetchSetActiveResume() {
@@ -183,5 +120,7 @@
           return alert("something went wrong");
         });
     }
+
+    loadPage();
   </script>
-</div>
+

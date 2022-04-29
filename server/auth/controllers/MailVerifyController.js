@@ -26,7 +26,7 @@ class MailVerifyController extends AuthController {
 
         if(sessionAdmin.mailVerified) res.redirect(this.ADMIN_HOME)
 
-        this.AdminModel.findOne({ username: admin })
+        this.AdminModel.findOne({ username: sessionAdmin })
         .then((admin) => {
             if (admin.mailVerified) return res.redirect(this.ADMIN_HOME);
 
@@ -51,9 +51,9 @@ class MailVerifyController extends AuthController {
             let mailMessage = `HI ${username}, Thank you for choosing Longbotton <br /> Please use the code <strong>${otpCode}</strong> to verify your control room account`;
             
             let mailInfo = await Mailer.mail(email, mailMessage);
-            logger.info(mailInfo.toString(), __filename);
+            logger.info(JSON.stringify(mailInfo), __filename); // mailifo is not convertible to string
 
-            res.json({status: success});
+            res.json({status: 'success'});
 
         }
         catch(error){
