@@ -19,7 +19,7 @@ async function handleErrorProduction(err, req, res){
         // Log error 
         logError(err, req);
         // return a user friendly response about the error
-        res.status(500).render('errors/404');
+        res.status(500).render('errors/500');
 
         // safely exit application
         process.kill(process.pid, 'SIGTERM');
