@@ -27,6 +27,10 @@ router.get('/mail', function(req, res) {
   res.render('admin/mail/index', {title : "mail"});
 });
 
+router.get('/editor', function(req, res) {
+  res.render('admin/cke5', {title : "mail"});
+});
+
 
 router.get('/project/edit', function(req, res){
    const projectId = req.query.id;

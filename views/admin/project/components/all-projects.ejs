@@ -161,7 +161,7 @@ function loadPage(index=null, loadSingle=null){
     const entries = tableEntries;
     let pageIndex = index || 1;
 
-    const url = `${app_home_url}/api/project?entries=${entries}&page=${pageIndex}`;
+    const url = `${app_home_url}/api/project?entries=${entries}&index=${pageIndex}`;
 
     fetch(url)
     .then(response => response.json())
