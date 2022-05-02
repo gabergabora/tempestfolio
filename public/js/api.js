@@ -1,5 +1,3 @@
-const baseurl = 'https://temportfolio.herokuapp.com';
-
 async function loadServices(){
         const serviceContianer = $('#service-widget-holder')
         const resourceUrl = `${baseurl}/api/service?visible=true`;
