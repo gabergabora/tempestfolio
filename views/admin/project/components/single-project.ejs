@@ -286,7 +286,9 @@
     projectTitle.innerHTML = title;
     projectCategory.innerHTML = category;
     projectVisibility.innerHTML = visibility ? "Visible" : "Hidden";
-    projectDescription.innerHTML = description;
+
+    console.log(desc);
+    projectDescription.innerHTML = parseCkescapedData(description);
 
     let projectDateObject = new Date(parseInt(date));
     let projectDateMin = projectDateObject.toLocaleString();
@@ -340,7 +342,7 @@
  function renderProjectMedia(media){
      const elem = `
      <a href="${media.url}" target="_blank" title="${media.original_name}" style="display:block; width:200px; margin-bottom:7px; border:4px solid #34566f70; border-radius:4px;">
-        <img class="image-selector" src="${media.thumb}" style="width: 100%; height: auto">
+        <img class="image-selector" src="${media.thumb}" style="max-width: 700px; height: 400px">
      </a>
      `
 
@@ -443,6 +445,13 @@ function changeProjectVisibility(projectID, visibility){
 
         alert("could not complete request at the moment");
     })
+}
+
+function parseCkescapedData(data){
+    let parseData = data.replace(/&lt;/g, '<');
+    parseData = parseData.replace(/&gt;/g, '>');
+
+    return parseData;
 }
 
 // icon fa fa-eye-slash icon-gradient bg-heavy-rain

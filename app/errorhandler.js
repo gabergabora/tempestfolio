@@ -15,7 +15,10 @@ function logError(err, req){
 
 
 async function handleErrorProduction(err, req, res){
-    if(!err.status || err.status > 499 ){
+    if(err.status === 404){
+        res.status(500).render('errors/404');
+    }
+    else if(!err.status || err.status > 499 ){
         // Log error 
         logError(err, req);
         // return a user friendly response about the error

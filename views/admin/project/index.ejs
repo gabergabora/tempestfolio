@@ -1,10 +1,17 @@
 <!-- Header -->
 <%- include('../includes/header.ejs') %>
 
+<!--  specific page addons -->
+<script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script src="/build/ckeditor.js"></script>
+<!--  specific page addons -->
+
 <!-- Setting global Javascript variables -->
 <script>
     const app_home_url = "<%= globals.app_home_url %>";
 </script>
+
+<!--  -->
 <div class="app-main__inner">
     <!-- titile -->
     <!-- titile -->
@@ -28,17 +35,25 @@
     <!-- Main -->
     <div class="row">
         <!--  -->
-        <div class="col-md-8">
-            <%- include('./components/all-projects.ejs') %>
+        <div class="col-md-6">
 
-            <!-- Single project start -->
-            <div class="col-md-12">
-                <%- include('./components/single-project.ejs') %>
+            <div class="row">
+                <div class="col-md-12">
+                    <%- include('./components/all-projects.ejs') %>
+                </div>
+
+                <!-- Single project start -->
+                <div class="col-md-12">
+                    <%- include('./components/single-project.ejs') %>
+                </div>
             </div>
+
            
         </div>
-        <!-- All projects  table end -->
-        <%- include('./components/add-project.ejs') %>
+        <div class="col-md-6">
+            <!-- All projects  table end -->
+            <%- include('./components/add-project.ejs') %>
+        </div>
        
     </div>
     <!-- Main -->
@@ -48,10 +63,6 @@
 
 <%- include('../includes/footer.ejs') %>
 <!-- Footer -->
-
-<!--  specific page addons -->
-<script src="http://maps.google.com/maps/api/js?sensor=true"></script>
-<!--  specific page addons -->
 
 <!-- Foot -->
 <%- include('../includes/foot.ejs') %>
