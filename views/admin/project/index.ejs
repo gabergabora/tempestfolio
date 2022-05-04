@@ -2,7 +2,6 @@
 <%- include('../includes/header.ejs') %>
 
 <!--  specific page addons -->
-<script src="http://maps.google.com/maps/api/js?sensor=true"></script>
 <script src="/build/ckeditor.js"></script>
 <!--  specific page addons -->
 
@@ -10,6 +9,7 @@
 <script>
     const app_home_url = "<%= globals.app_home_url %>";
 </script>
+
 
 <!--  -->
 <div class="app-main__inner">
@@ -60,6 +60,35 @@
     <!-- Main -->
     <!-- Main -->
 </div>
+
+<script>
+    // Ckeditor build
+    ClassicEditor.create( document.querySelector( '.--use-ckeditor' ), {
+        licenseKey: '',
+	} )
+    .then( ckeditor => {
+        window.ckeditor = ckeditor;
+    } )
+    .catch( error => {
+        console.error( 'Oops, something went wrong!' );
+        console.error( 'Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:' );
+        console.warn( 'Build id: 6ipdhxgd5iyr-ai837debbwht' );
+        console.error( error );
+    } );
+
+
+    function getCkeditorData(escaped=false){
+    let ckeditorData = window.ckeditor.getData({format: 'string'});
+
+    if(escaped){
+        ckeditorData = ckeditorData.replace(/"/g, '\"');
+        ckeditorData = ckeditorData.replace(/</g, '&lt;');
+        ckeditorData = ckeditorData.replace(/>/g, '&gt;');
+    }
+
+        return ckeditorData;
+    }
+</script>
 
 <%- include('../includes/footer.ejs') %>
 <!-- Footer -->

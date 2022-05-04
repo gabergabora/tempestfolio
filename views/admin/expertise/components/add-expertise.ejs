@@ -68,6 +68,8 @@ function addExpertise() {
     const skillRating = document.getElementById("skill-rating").value.trim();
     const skillIcon = document.getElementById("skill-icon");
     const icon = skillIcon.files[0];
+    let activePage = document.querySelector(".page-link.page-link-page.active").textContent;
+
 
     const formData = new FormData();
     formData.append('name', skillName);
@@ -79,12 +81,16 @@ function addExpertise() {
     xhr.send(formData);
 
     xhr.onload = function() {
-        if(this.status < 399){
-            alert("new skill added");
-            loadSkills();
+        if(this.status > 399){
+            let response = JSON.parse(this.responseText)
+            alert(response.message);
+        }
+        else if(this.status > 499){
+            alert("Failed to add skill");
         }
         else{
-            alert("Failed to add skill");
+            alert("new skill added");
+            loadPage(parseInt(activePage));
         }
     }
 }

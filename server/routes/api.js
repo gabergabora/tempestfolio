@@ -9,6 +9,8 @@ const router = express.Router();
 (require('./api/blog'))(router);
 (require('./api/mail'))(router);
 (require('./api/tag'))(router);
+(require('./api/profile'))(router);
+(require('./api/admin.js'))(router);
 
 
 module.exports = router;
