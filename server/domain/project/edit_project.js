@@ -7,7 +7,7 @@ const { validate } = require('../../models/ProjectModel');
 
 const allowedProjectHeroTypes = ["png", "jpg", "jpeg", "webp"];
 const allowedProjectFileTypes = [...allowedProjectHeroTypes, "gif"];
-const invalidProperty = ['_id']
+const accessiblePropertis = ['title', 'category', 'description', 'tags', 'video', 'github', 'externalUrl'];
 
 
 async function editProject(project_id, editProjectData){
@@ -16,15 +16,17 @@ async function editProject(project_id, editProjectData){
 
     // destructure project
     const {title, category, description, tags, video, github, externalUrl, imageHero, project_img_1, project_img_2, project_img_3} = editProjectData;
-    
+
     let projectData = {title, category, description, tags, video, github, externalUrl};
-    let projectHero = imageHero == "undefined" ? null : imageHero[0];
+    let projectHero = imageHero === "undefined" ? null : imageHero[0];
     let projectMedias = [project_img_1, project_img_2, project_img_3];
 
     
     (Object.keys(projectData)).forEach(property=>{
-        if( projectData[property] && !invalidProperty.includes(property) ){
-            project[property] = projectData[property];
+        let propertyValue = projectData[property];
+
+        if( propertyValue && accessiblePropertis.includes(property) ){
+            project[property] = propertyValue;
         }
     });
 
@@ -56,34 +58,34 @@ async function editProject(project_id, editProjectData){
     }
 
     // Other Images
-    let projectSavedMedias = project.imgs;
-
     for(let i = 0; i < projectMedias.length; i++){
-        let media = (projectMedias[i]) ? (projectMedias[i])[0] : null;
-        let projectMedia = projectSavedMedias[i];
+
+
+        let updateMedia = (projectMedias[i]) === "undefined" ? null : (projectMedias[i])[0];
+        let projectSavedMedia = (project.imgs)[i];
 
         let isUploadConditionMet = false;
 
-        if(media){
-            if(!projectMedia)
+        if(updateMedia){
+            if(!projectSavedMedia)
                 isUploadConditionMet = true;
 
-            else if(projectMedia.original_name !== media.originalname)
+            else if(projectSavedMedia.original_name !== updateMedia.originalname) // we are not uploading the same image
                 isUploadConditionMet = true;
 
             if(isUploadConditionMet){
                 //validate media
-                if(!validateMedia(media)){
-                    return {status:false, message: `${media.originalname} media file is of unsupported file type`};
+                if(!validateMedia(updateMedia)){
+                    return {status:false, message: `${updateMedia.originalname} media file is of unsupported file type`};
                 }
         
                 // delete previous image remotely if available
-                if(projectMedia){
+                if(projectSavedMedia){
                     await Imagekit.deleteFile(projectMedia.file_id);
                 }
         
                 // upload and update media
-                projectSavedMedias[i] = await uploadProjectMedia(media);
+                (project.imgs)[i] = await uploadProjectMedia(media);
             }
         }
 

@@ -206,9 +206,7 @@
 <!-- Component Based Javascript -->
 <script>
 const globals = JSON.parse('<%- JSON.stringify(globals) %>');
-const app_home_url = globals.app_home_url;
 const projectId = '<%= projectId %>';
-
 
 
 function loadEditProject(projectId){
@@ -256,7 +254,7 @@ function loadEditProject(projectId){
     projectTitle.innerHTML = title;
     projectCategory.innerHTML = category;
     projectVisibility.innerHTML = visibility ? "Visible" : "Hidden";
-    projectDescription.innerHTML = description;
+    projectDescription.innerHTML = parseCkescapedData(description);
 
     let projectDateObject = new Date(parseInt(date));
     let projectDateMin = projectDateObject.toLocaleString();
@@ -348,6 +346,12 @@ function loadEditProject(projectId){
     return tagElem;
  }
 
+function parseCkescapedData(data){
+    let parseData = data.replace(/&lt;/g, '<');
+    parseData = parseData.replace(/&gt;/g, '>');
+
+    return parseData;
+}
 
 loadEditProject(projectId);
 
