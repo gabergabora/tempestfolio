@@ -436,12 +436,11 @@ function changeProjectVisibility(projectID, visibility){
 
     .then(response => response.json())
     .then(body=>{
-        loadProjects(projectID);
+        loadPage();
     })
    
     .catch(error=>{
-        console.log(error);
-
+        console.error(error);
         alert("could not complete request at the moment");
     })
 }
