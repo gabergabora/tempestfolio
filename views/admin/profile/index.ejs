@@ -1,0 +1,55 @@
+<!-- Header -->
+<%- include('../includes/header.ejs') %>
+
+<!--  specific page addons -->
+<!-- ionicons -->
+<script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+<!-- styles -->
+<link rel="stylesheet" href="/css/profileedit.css" />
+<link rel="stylesheet" href="/login/css/addons.css" />
+<script type="text/javascript" src="/assets/scripts/formserialize.js"></script>
+<!--  specific page addons -->
+
+<!-- Setting global Javascript variables -->
+<script>
+  const app_home_url = "<%= globals.app_home_url %>";
+</script>
+<div class="app-main__inner">
+  <!-- titile -->
+  <!-- titile -->
+  <div class="app-page-title">
+    <div class="page-title-wrapper">
+      <div class="page-title-heading">
+        <div class="page-title-icon">
+          <i class="pe-7s-arc icon-gradient bg-mean-fruit"> </i>
+        </div>
+        <div>
+          Profile
+          <div class="page-title-subheading">
+           The details here are specific to what will be displayed to your site visitors
+           <br>
+           They are different from your account opening data but can be both
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Main -->
+  <!-- Main -->
+  <!-- Main -->
+  <div class="row">
+    <div class="col-md-6-">
+      <%- include('./components/profile.ejs') %>
+    </div>
+  </div>
+
+ 
+  <!-- Main -->
+  <!-- Main -->
+  <!-- Main -->
+</div>
+
+<!-- Footer -->
+
+<!-- Foot -->
+<%- include('../includes/foot.ejs') %>

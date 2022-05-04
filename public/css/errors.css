@@ -267,6 +267,7 @@ h6 {
 
 .error-content .error-action .home-link > * {
 	display: inline-block;
+	font-size: 14px;
 }
 
 .error-content .error-action .home-link .iconify {

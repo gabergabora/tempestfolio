@@ -3,7 +3,7 @@ const Imagekit = require('../../libs/imagekit/Imagekit');
 const ExpertiseModel = require('../../models/ExpertiseModel');
 
 
-async function addNewExpertise(expertise_id, updateData){
+async function updateExpertise(expertise_id, updateData){
    const {name, rating, icon} = updateData;
 
    const expertise =  await ExpertiseModel.findById(expertise_id);
@@ -96,4 +96,4 @@ function uploadMedia (file){
 }
 
 
-module.exports = addNewExpertise;
+module.exports = updateExpertise;

@@ -1,0 +1,205 @@
+<div class="main-card mb-3 card">
+  <div class="card-body">
+    <div class="wrapper">
+
+      <!-- Image display -->
+      <div class="image-display">
+        <div
+          id="dpDisplay"
+          class="imageholder"
+        ></div>
+      </div>
+      <!-- Image display -->
+
+      <!-- Profile Form -->
+      <div class="form">
+        <div class="wrap">
+          <!-- p  -->
+          <form action="">
+            <!-- Unverified Account -->
+            <div class="form-group input" id="verify-message">
+            </div>
+            <!-- Unverified Account -->
+
+            <div class="form-group input">
+              <label for="" class="">
+                <h5>Display Picture :</h5>
+                </label>
+                <input id="dp" type="text" name="dp" placeholder="Image url" value="" />
+             </div>
+
+            <div class="form-group input">
+              <label for="" class="">
+                <h5>Fullname :</h5>
+                </label>
+                <input id="fullname" type="text" name="fullname" placeholder="fullname" value="" />
+             </div>
+
+            <div class="form-group input focused">
+              <label for="" class="">
+                <h5>email</h5>
+              </label>
+              <input id="email" type="email" name="email" placeholder="email" value="" />
+            </div>
+
+            <div class="form-group input focused">
+              <label for="" class="">
+                <h5>nationality</h5>
+              </label>
+              <input id="nationality" type="text" name="nationality" placeholder="nationality" value="" />
+            </div>
+
+            <div class="form-group input focused">
+              <label for="" class="">
+                <h5>languages</h5>
+              </label>
+              <input id="languages" type="text" name="languages" placeholder="languages" value="" />
+            </div>
+
+
+            <div class="form-group input focused">
+              <label for="" class="">
+                <h5>github</h5>
+              </label>
+              <input id="github" type="text" name="github" placeholder="personal github url" value="" />
+            </div>
+
+            <div class="form-group input focused">
+              <label for="" class="">
+                <h5>Bio</h5>
+              </label>
+              <textarea id="bio" name="password"> </textarea>
+            </div>
+
+            <button type="button" onclick="updateProfile()">Confirm</button>
+          </form>
+        </div>
+      </div>
+      <!-- Profile Form -->
+    </div>
+    </div>
+  </div>
+  <!-- Component Based Javascript -->
+  <script>
+
+  function updateProfile(){
+    const url = `${app_home_url}/api/profile`;
+    const fullname = (document.getElementById("fullname").value).trim();
+    const dp = (document.getElementById("dp").value).trim();
+    const email = (document.getElementById("email").value).trim();
+    const nationality = (document.getElementById("nationality").value).trim();
+    const languages = (document.getElementById("languages").value).trim();
+    const github = (document.getElementById("github").value).trim();
+    const bio = (document.getElementById("bio").value).trim();
+
+    const profileData = {fullname, dp, email, nationality, github, bio};
+
+    const xhr  =  new XMLHttpRequest();
+          xhr.open("PUT", url);
+          xhr.setRequestHeader("Content-Type", "application/json");
+          xhr.send(JSON.stringify(profileData));
+
+          xhr.onload = function(){
+            console.log(this.responseText);
+
+            const response =  JSON.parse(this.responseText);
+
+            if(this.status > 399){
+              return alert(response.message)
+            }
+            else if(this.status > 499){
+              return alert("could not save profile at the moment");
+            }
+            else {
+              alert("profile saved");
+              loadProfile();
+              return;
+            }
+          }
+
+  }
+
+  (function liveImageView(){
+     const dpInput = document.getElementById("dp");
+     const dpDisplayElem = document.getElementById("dpDisplay");
+
+     dp.addEventListener('blur', function(e){ // bind to input mf
+      dpDisplayElem.style.backgroundImage = `url(${this.value})`;
+     })
+  })();
+ 
+  function loadProfile(){
+    const url = `${app_home_url}/api/profile`;
+    const fullnameInput = document.getElementById("fullname");
+    const dpInput = document.getElementById("dp");
+    const emailInput = document.getElementById("email");
+    const nationalityInput = document.getElementById("nationality");
+    const languagesInput = document.getElementById("languages");
+    const githubInput = document.getElementById("github");
+    const bioInput = document.getElementById("bio");
+    const dpDisplayElem = document.getElementById("dpDisplay");
+
+    // load profile data
+       const xhr  =  new XMLHttpRequest();
+          xhr.open("GET", url);
+          xhr.send();
+          xhr.onload = function(){
+            const response =  JSON.parse(this.responseText);
+
+            if(this.status > 399){
+              return alert("could not load profile at the moment");
+            }
+            else {
+              // set input values
+
+              const {fullname, dp, email, nationality, languages, github, bio } = response.data[0];
+
+              fullnameInput.value = fullname;
+              dpInput.value = dp;
+              emailInput.value = email;
+              nationalityInput.value = nationality;
+              languagesInput.value = languages;
+              githubInput.value = github;
+              bioInput.innerHTML = bio || "";
+
+              // display dp
+              dpDisplayElem.style.backgroundImage = `url(${dp})`;
+
+            }
+          }
+  }
+
+  function setProfileVerificationWarning(){
+    const url = `${app_home_url}/api/getadminuser`;
+
+    const xhr  =  new XMLHttpRequest();
+          xhr.open("GET", url);
+          xhr.send();
+          xhr.onload = function(){
+            const response =  JSON.parse(this.responseText);
+
+            if(this.status > 399){
+              return alert("could not load profile at the moment");
+            }
+            else {
+              // set input values
+
+              console.log(response.data.mailVerified);
+
+              if(response.data.mailVerified === false){
+                document.getElementById("verify-message").innerHTML = `
+                      <label for="" class="" style="color:rgba(244, 82, 82, 0.954)">
+                        Your account is unverified, forgetting your password might cost your Works
+                        <br>
+                        Click this link to <a href="/auth/mailverify">verify your account</a>
+                      </label>`
+
+                return;
+              }
+            }
+          }
+  }
+
+  loadProfile();
+  setProfileVerificationWarning();
+ </script>
