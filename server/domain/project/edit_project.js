@@ -3,6 +3,7 @@ const Imagekit = require('../../libs/imagekit/Imagekit');
 const ProjectModel = require('../../models/ProjectModel');
 const logger = require('../../../app/logger');
 const { validate } = require('../../models/ProjectModel');
+const Joi = require('joi');
 
 
 const allowedProjectHeroTypes = ["png", "jpg", "jpeg", "webp"];
@@ -15,11 +16,45 @@ async function editProject(project_id, editProjectData){
     const project = await ProjectModel.findById(project_id);
 
     // destructure project
-    const {title, category, description, tags, video, github, externalUrl, imageHero, project_img_1, project_img_2, project_img_3} = editProjectData;
+    let {title, category, description, tags, video, github, externalUrl, imageHero, project_img_1, project_img_2, project_img_3} = editProjectData;
+
+
+    /* 
+       Formdata will always convert an array to string which will force tags to come in strings seperated by commas
+       The nature of this api forces mimetypes to be sent alongside json data which shouldn't be.  
+       For the sake of now, we would manually convert string tags to an array. 
+       PS this is done because the api is tighly coupled with the app
+    */
+    tags = (typeof tags === "string")? tags.split(",") : tags ;
 
     let projectData = {title, category, description, tags, video, github, externalUrl};
     let projectHero = imageHero === "undefined" ? null : imageHero[0];
     let projectMedias = [project_img_1, project_img_2, project_img_3];
+
+    const schema = Joi.object({
+        title: Joi.string().trim(true).allow(''),
+        category: Joi.string().trim(true).allow(''),
+        description: Joi.string().trim(true).allow(''),
+        video: Joi.string().trim(true).allow(''),
+        github: Joi.string().trim(true).allow(''),
+        externalUrl: Joi.string().trim(true).allow(''),
+        tags: Joi.array().items(Joi.string()).allow(''),
+    });
+
+    try{
+        const value = await schema.validateAsync(projectData);
+    }
+    catch(error){
+      const {_original, details} = error;
+      const errorMessage =  (details[0]['message']).replace(/\"/g, "");
+
+      let errorObject = {};
+
+      errorObject.status = false;
+      errorObject.message = `parameter ${errorMessage}`;
+
+      return errorObject;
+    }
 
     
     (Object.keys(projectData)).forEach(property=>{
