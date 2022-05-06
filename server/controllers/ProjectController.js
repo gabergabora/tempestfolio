@@ -121,7 +121,7 @@ class ProjectController extends ApiController{
 
         const projectID = req.params.id || null;
        
-        if(!expertiseID) return res.status(400).json("no id sent");
+        if(!projectID) return res.status(400).json("no id sent");
 
         deleteProject(projectID)
         .then(status=>{ 

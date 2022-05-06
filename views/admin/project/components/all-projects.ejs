@@ -170,17 +170,20 @@ function loadPage(index=null, loadSingle=null){
         let projects = body.data.chunk;
 
         // render pagination
-        paginate(data);
+        if(projects.length){
+            paginate(data);
+            projects.forEach((project)=>{
+                tableProjectHolder.innerHTML += renderTableProjectRow(project);
+            })
 
-        projects.forEach((project)=>{
-            tableProjectHolder.innerHTML += renderTableProjectRow(project);
-        })
+            //auto load first project
 
-        //auto load first project
-        if(!loadSingle)
-            loadProject(projects[0]['_id']);
-        else 
-            loadProject(loadSingle);
+            if(!loadSingle) loadProject(projects[0]['_id']);
+            else loadProject(loadSingle);
+        }
+        else {
+            tableProjectHolder.innerHTML = "<tr> <td colspan='5'>You have no project yet, start by adding a project using the add project form</td></tr>";
+        }
     })
 
     .catch(error => {

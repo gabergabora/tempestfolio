@@ -32,7 +32,9 @@
                     id="project-description"
                     class="form-control bordered"
                     rows="10"
-                ></textarea>
+                >
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam nostrum, blanditiis magni quo, amet optio eveniet error in et a dolor dolore excepturi nulla reiciendis quaerat corrupti cum, iusto ratione.
+            </textarea>
             </div>
 
             <div class="image-upload">
@@ -111,7 +113,7 @@
                     type="text"
                     class="form-control bordered"
                 />
-            </div>
+             </div>
 
             <div class="position-relative form-group">
                 <label for="project-external-url" class=""
@@ -159,7 +161,6 @@
 
         const url = `${app_home_url}/api/project/${projectId}`;
 
-
         const formData = new FormData();
         formData.append("imageHero", projectImageHero);
         formData.append("project_img_1", projectImage1);
@@ -174,74 +175,24 @@
         formData.append("tags", tags);
         formData.append("date", new Date().toString());
 
-
         const xhr = new XMLHttpRequest();
               xhr.open("PUT", url)
               xhr.send(formData);
 
               xhr.onload = function(){
-                const response = JSON.parse(this.response)
-                
-                if(this.status > 399) return alert(response.message);
+                    try{
+                        const response = JSON.parse(this.response)
+                    
+                        if(this.status > 399) return alert(response.message);
 
-                alert("project updated");
-                loadEditProject(`${projectId}`);
+                        alert("project updated");
+                        loadEditProject(`${projectId}`);
+                    }
+                    catch(error){
+                        console.error(error)
+                    }
+               
               }
     }
-
-
-function renderAddProjectTags(tags){
-    const tagsContainer = document.querySelector('#tags-holder');
-    tagsContainer.innerHTML = "";
-
-    tags.forEach(tag => {
-        const newTagElement = `
-        <span 
-        class="tag"
-        name="${tag.name}"
-        key="${tag._id}"
-        role="button"
-        active="false"
-        onclick="toggleActiveTag(this)"
-          > 
-        ${tag.name} 
-        </span>`;
-
-        tagsContainer.innerHTML += newTagElement;
-    });
-}
-
-   function loadTags(){
-    const xhr  =  new XMLHttpRequest();
-    xhr.open("GET", `${app_home_url}/api/tag`);
-    xhr.send();
-
-    xhr.onload = function(){
-        const responseData =JSON.parse(this.responseText);
-        renderAddProjectTags(responseData.data)
-    }
-}
-
-loadTags();
-
-function toggleActiveTag(tagElem){
-     const isActive = tagElem.getAttribute("active") === "true" ? true :  false ; 
-     const flipActive = !isActive ; 
-    tagElem.setAttribute("active", flipActive);
-    if(flipActive) tagElem.className = "tag active";
-    else tagElem.className = "tag";
-}
-
-function getActiveTags(){
-    const activeTags = [];
-    const tags = document.querySelectorAll("span.tag");
-    Array.from(tags).forEach(tag=>{
-        if( tag.getAttribute("active") === "true" ) {
-            activeTags.push(tag.getAttribute("name").toLocaleLowerCase())
-        }
-    })
-
-    return activeTags;
-}
 
 </script>
