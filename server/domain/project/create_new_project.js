@@ -10,13 +10,21 @@ const allowedProjectFileTypes = [...allowedProjectHeroTypes, "gif"];
 
 async function createNewProject(project){
     // destructure project
-    const {title, category, description, tags, video, github, externalUrl, imageHero, project_img_1, project_img_2, project_img_3} = project;
+    let {title, category, description, tags, video, github, externalUrl, imageHero, project_img_1, project_img_2, project_img_3} = project;
     
+    /* 
+       Formdata will always convert an array to string which will force tags to come in strings seperated by commas
+       The nature of this api forces mimetypes to be sent alongside normal data which shouldn't be.  
+       For the sake of now, we would manually convert string tags to an array. 
+       PS this is done because the api is tighly coupled with the app
+    */
+
+    tags = (typeof tags === "string")? tags.split(",") : tags;
+
     let projectData = {title, category, description, tags};
     let projectHero = imageHero == "undefined" ? imageHero : imageHero[0];
     let projectMedias = [project_img_1, project_img_2, project_img_3];
     let projectMediasErrors = [];
-
 
     //Run all validations First
 
@@ -25,7 +33,7 @@ async function createNewProject(project){
         title: Joi.string().required().trim(true),
         category: Joi.string().required().trim(true),
         description: Joi.string().required().trim(true),
-        tags: Joi.string().required(),
+        tags: Joi.array().items(Joi.string().trim()).required(),
     });
 
     try{

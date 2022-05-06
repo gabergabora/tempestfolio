@@ -13,7 +13,7 @@ let projectSchema = new mongoose.Schema({
 	],
 
 	tags: [String],
-	videoLink: String,
+	video: String,
 	github: { type: String },
 	externalUrl: { type: String },
 	date: { type: String, default: new Date().getTime().toString() },
