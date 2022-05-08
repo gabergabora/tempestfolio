@@ -3,3 +3,4 @@ node_modules/
 public/assets/images
 todo.txt
 logs/
+globals.json
