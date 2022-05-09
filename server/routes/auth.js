@@ -15,10 +15,10 @@ router.post('/setup', setupController.postSetup);
 
 router.get('/mailverify', mailVerifyController.getMailVerify);
 
-router.post('/otp/generate', mailVerifyController.otpGenerate);
+// router.post('/otp/generate', mailVerifyController.otpGenerate);
 router.post('/otp/verify', mailVerifyController.otpVerify);
 
-router.get('/passwordreset', passwordResetController.setupPasswordReset);
+// router.get('/passwordreset', passwordResetController.setupPasswordReset);
 router.get('/passwordreset/:prid', passwordResetController.verifyPasswordResetLink);
 router.post('/passwordreset', passwordResetController.postResetPassword);
 
