@@ -2,6 +2,7 @@ const Joi = require('joi');
 const MessageModel = require('../../models/MessageModel');
 
 async function addNewMessage(messageData){
+    console.log(messageData);
    const {name, email, subject, message} = messageData;
 
     // Validate text data

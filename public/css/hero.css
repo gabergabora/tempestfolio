@@ -1,12 +1,12 @@
 section#hero {
 	display: block;
+	position: relative;
 	padding: 10px;
+	background-color: rgb(2, 7, 21);
 	background-attachment: scroll;
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
-	position: relative;
-	background: rgb(2, 7, 21);
 }
 section#hero > * {
 	-webkit-transition: all 0.5s ease-out;
@@ -44,6 +44,16 @@ section#hero div.content {
 	-webkit-box-pack: center;
 	-ms-flex-pack: center;
 	justify-content: center;
+}
+section#hero div.content .profile-image{
+	height: 250px;
+	width: 250px;
+	border-radius: 50%;
+	background-color: var(--cl-secondary);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+	border: 3px solid var(--cl-secondary);
 }
 
 section#hero div.content img.image-dp {
@@ -84,19 +94,13 @@ section#hero div.content > * {
 	}
 	section#hero div.content img.image-dp {
 		height: 200px;
+		width: auto
 	}
 }
 @media screen and (min-width: 768px) {
 	section#hero {
 		background-attachment: fixed;
 		background-attachment: scroll;
-	}
-	section#hero div.content {
-		/* min-height: 600px; */
-		/* margin-top: 150px; */
-	}
-	section#hero div.content img.image-dp {
-		height: 250px;
 	}
 }
 @media screen and (min-width: 1024px) {

@@ -1,71 +1,180 @@
 async function loadServices(){
-        const serviceContianer = $('#service-widget-holder')
-        const resourceUrl = `${baseurl}/api/service?visible=true`;
+        try {
+            const serviceSection = $('section#services');
+            const serviceWidgetContainer = $('#service-widget-holder');
+            
+            serviceWidgetContainer.innerHTML = "";
+    
+            const resourceUrl = `/api/service?visible=true`;
+    
+            const response = await fetch(resourceUrl) ;
+            const services = (await response.json()).data;
+    
+            if(!services.length){
+                // Hide the whole experience section
 
-        const response = await fetch(resourceUrl) ;
-        const services = await response.json();
+                serviceSection.style.display = "none";
+            }
+            else{
+                serviceSection.style.display = "block";
+    
+                console.log(services);
 
-        (services.data).forEach(service => {
-            serviceContianer.innerHTML += renderServiceWidget(service);
-        });
+                (services).forEach(service => {
+                  serviceWidgetContainer.innerHTML += renderServiceWidget(service);
+                });
+            }
+        }
+        catch(e){
+            console.error(e);
+        }
 }
 
 async function loadExperiences(){
-        const experienceContianer = $('#experience-widget-holder');
-        experienceContianer.innerHTML = "";
+       try{
+            const experienceSection = $('#experience');
+            const experienceWidgetHolder = $('#experience-widget-holder');
 
-        const entries = 3;
-        const pageIndex = 1;
-        const resourceUrl = `${baseurl}/api/experience?entries=${entries}`;
+            experienceWidgetHolder.innerHTML = "";
 
-        const response = await fetch(resourceUrl) ;
-        const experiences = await response.json();
+            const entries = 3;
+            const pageIndex = 1;
+            const resourceUrl = `/api/experience?entries=${entries}`;
 
-        (experiences.data.chunk).forEach(experience => {
-            experienceContianer.innerHTML += renderExperienceWidget(experience);
-        });
+            const response = await fetch(resourceUrl) ;
+            const experiences = (await response.json()).data.chunk;
+
+            if(!experiences.length){
+                // Hide the whole experience section
+
+                experienceSection.style.display = "none";
+            }
+            else{
+                experienceSection.style.display = "block";
+
+                (experiences).forEach(experience => {
+                    experienceWidgetHolder.innerHTML += renderExperienceWidget(experience);
+                });
+            }
+           
+       }
+       catch(e){
+           console.error(e);
+       }
 }
 
 async function loadExperties(){
-    const expertiseContianer = $('#expertise-widget-holder');
+    try{
+        const expertiseSection = $('#work-expertise');
+        const expertiseWidgetHolder = $('#expertise-widget-holder');
+        expertiseWidgetHolder.innerHTML = "";
 
-    const resourceUrl = `${baseurl}/api/expertise`;
+        const resourceUrl = `/api/expertise`;
 
-    const response = await fetch(resourceUrl) ;
-    const expertise = await response.json();
+        const response = await fetch(resourceUrl) ;
+        const expertise = (await response.json()).data;
+        
 
-    (expertise.data).forEach(skill => {
-        expertiseContianer.innerHTML += renderExpertiseWidget(skill);
-    });
+        if(!expertise.length){
+            // Hide the whole experience section
+
+            expertiseSection.style.display = "none";
+        }
+        else{
+            expertiseSection.style.display = "block";
+
+            (expertise).forEach(skill => {
+                expertiseWidgetHolder.innerHTML += renderExpertiseWidget(skill);
+            });
+        }
+    }
+    catch(e){console.error(e)}
 }
 
 
 async function loadProjects(){
-    const projectContianer = $('#project-widget-holder');
-    projectContianer.innerHTML = "";
+    try{
+        const projectSection = $('#my-works');
+        const projectWidgetHolder = $('#project-widget-holder');
+        projectWidgetHolder.innerHTML = "";
 
-    const resourceUrl = `${baseurl}/api/project?visible=true`;
+        const resourceUrl = `/api/project?visible=true`;
 
-    const response = await fetch(resourceUrl) ;
-    const projects = await response.json();
+        const response = await fetch(resourceUrl) ;
+        const projects = (await response.json()).data;
 
-    (projects.data).forEach(project => {
-        projectContianer.innerHTML += renderProjectWidget(project);
-    });
+        console.log(projects);
+
+        if(!projects.length){
+            // Hide the whole experience section
+
+            projectSection.style.display = "none";
+        }
+        else{
+            projectSection.style.display = "block";
+
+            (projects).forEach(project => {
+                projectWidgetHolder.innerHTML += renderProjectWidget(project);
+            });
+        }
+       
+    }
+    catch(e){console.error(e)}
 }
 
 async function loadBlog(){
-    const blogContianer = $('#blog-widget-holder');
+    try{
+        const blogSection = $('#blogs');
+        const blogWidgetHolder = $('#blog-widget-holder');
+        blogWidgetHolder.innerHTML = "";
 
-    const resourceUrl = `${baseurl}/api/blog`;
+        const resourceUrl = `/api/blog`;
 
-    const response = await fetch(resourceUrl) ;
-    const blogs = await response.json();
+        const response = await fetch(resourceUrl);
+        const blogs = (await response.json()).data;
 
-    (blogs.data).forEach(blog => {
-        blogContianer.innerHTML += renderBlogWidget(blog);
-    });
+        if(!blogs.length){
+            // Hide the whole experience section
+            blogSection.style.display = "none";
+        }
+        else{
+            blogSection.style.display = "block";
+
+            (blogs).forEach(blog => {
+                blogWidgetHolder.innerHTML += renderBlogWidget(blog);
+            });
+        }
+    }
+    catch(e){console.error(e)};
 }
+
+async function loadProfile(){
+    try{
+        const profileImageElem = document.getElementById('profile-image');
+        const emailElem = document.getElementById('profile-email');
+        const languageElem = document.getElementById('profile-languages');
+        const nationalityElem = document.getElementById('profile-nationality');
+        const githubElem = document.getElementById('profile-github');
+
+        const resourceUrl = `/api/profile`;
+
+        const response = await fetch(resourceUrl);
+        const profile = (await response.json()).data;
+
+        console.log(profile);
+
+        // set profile image to image url from profile
+        profileImageElem.style.backgroundImage = `url('${profile.dp}')`;
+        emailElem.textContent = profile.email;
+        languageElem.textContent = profile.languages;
+        githubElem.textContent = profile.github;
+
+
+    }
+    catch(e){console.error(e)};
+}
+
+
 
 
 
@@ -92,8 +201,8 @@ function renderServiceWidget(service) {
         return widget;
 }
 
-function renderExperienceWidget(experienc) {
-    const {title, icon, company, company_link, experience:take, from, to, _id} = experienc;
+function renderExperienceWidget(experience) {
+    const {title, icon, company, company_link, experience:take, from, to, _id} = experience;
 
     const widget = `
                 <div class="timeline-slot">
@@ -198,13 +307,13 @@ function renderBlogWidget(blog){
 }
 
 
-
 function init(){
     loadServices();
     loadExperiences();
     loadExperties();
     loadProjects();
     loadBlog();
+    loadProfile();
 }
 
 

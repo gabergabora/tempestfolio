@@ -219,8 +219,6 @@ h6 {
 .btn-primary:hover {
 	border: 1px solid var(--cl-primary);
 	border-color: var(--cl-primary);
-	-webkit-transform: translateY(-1px);
-	transform: translateY(-1px);
 	-webkit-filter: brightness(90%);
 	filter: brightness(90%);
 }
