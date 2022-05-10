@@ -24,11 +24,19 @@
     <link rel="stylesheet" href="/css/contact.css" />
     <link rel="stylesheet" href="/css/social.css" />
     <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/animation/animations.css" />
+    <link rel="stylesheet" href="/css/animation/index-srinit.css" />
     <!-- Animation css -->
     <link
       rel="stylesheet"
       href="/css/animation/animation_override.css"
     />
+  <script src="/js/lbt_scrollReveal.js"></script>
+  <script src="/js/scrollreveal.js"></script>
+
+  <!-- Global Variables -->
+  <!-- const baseUrl = <%= globals.app_home_url %> -->
+
   </head>
   <!-- BODY -->
   <body onresize="resizeMedia()">
@@ -57,21 +65,29 @@
     </header>
 
     <!-- Hero Start -->
-    <section id="hero">
-      <div class="background" style="background-image: url('https://www.avidblogs.com/wp-content/uploads/2019/09/2019_WALLPAPERS_PRO_TOOLS-1.jpg');"></div>
+    <section
+      id="hero"
+      style=""
+    >
+      <div class="background" style="background-image: url('https://ik.imagekit.io/zzajmh3pzny/portf/static-portfolio-ui/3909236_WAz7P5vai.png?ik-sdk-version=javascript-1.4.3&updatedAt=1652144429968');">
+      </div>
       <div class="overlay"></div>
       <div class="container">
         <div class="content">
-          <img class="image-dp" src="https://ik.imagekit.io/zzajmh3pzny/tempest-on-chistmas-cap.jpg" loading="lazy" alt="oluwaniyii" />
+          <div id="profile-image" class="profile-image" style="background-image:url('https://ik.imagekit.io/zzajmh3pzny/static-ui-assests/portfolio-frontpage/call-of-duty-modern-warfare_lKGqZ4rw0.png?ik-sdk-version=javascript-1.4.3&updatedAt=1651426070940')">
+          </div>
           <h1 class="heading text-white">Hi, I am Oluwaniyii Ayodele</h1>
           <h6 class="designation text-white">
             I'm a Passionate <span class="text-primary">Web Developer</span>
           </h6>
           <div class="hero-btn mb-2">
-            <a href="#" class="btn btn-primary rounded text-white mr-2 mb-2"
-              >Hire Me</a
-            >
-            <a href="#" class="btn btn-primary rounded mb-2">
+            <a href="#contact-me" class="btn btn-primary rounded text-white mr-2 mb-2"
+              >Hire Me 
+              <i class="fas fa-hand-peace"
+              style="margin-left: 3px; vertical-align: center"
+              ></i>
+              </a>
+            <!-- <a href="#contact-me" class="btn btn-primary rounded mb-2">
               <span style="display: flex; align-items: center">
                 Download CV
                 <span>
@@ -94,7 +110,7 @@
                   </svg>
                 </span>
               </span>
-            </a>
+            </a> -->
           </div>
         </div>
       </div>
@@ -114,16 +130,20 @@
                   <ul class="info">
                     <li>
                       <span>Email: </span>
-                      ayodeleyniyii@gmail.com
+                      <span id="profile-email"> ayodeleyniyii@gmail.com</span>
+                    </li>
+                    <li>
+                      <span>Github: </span>
+                      <span id="profile-github">http://github.com/Oluwaniyii/</span>
                     </li>
                     <li>
                       <span>Languages: </span>
-                      English, Yoruba
+                      <span id="profile-languages"> English, Yoruba</span>
                     </li>
-                    <li>
+                    <!-- <li>
                       <span>Nationality: </span>
-                      Nigerian
-                    </li>
+                      <span id="profile-nationality">Nigerian</span>
+                    </li> -->
                   </ul>
                 </div>
               </div>
@@ -132,11 +152,10 @@
                   I am a <span class="text-primary">Node JS</span> Developer
                 </div>
                 <div class="content">
-                  Obviously I'm a Web Designer. Web Developer with over 3 years
-                  of experience. Experienced with all stages of the development
-                  cycle for dynamic web projects. The as opposed to using
-                  'Content here, content here', making it look like readable
-                  English.
+                  With 3 years of experience in Node JS and PHP. I specialize in
+                  designing and building robust api's for web, mobile and
+                  desktop applications. I am currently open to remote fulltime
+                  or partime jobs with an option to relocate.
                 </div>
                 <!-- signature -->
                 <h1 class="signature">Oluwaniyii Ayodele</h1>
@@ -154,13 +173,11 @@
           <div class="section-heading">
             <div class="title text-lg text-dark">Awesome Service</div>
             <div class="comment text-sm text-secondary">
-              Obviously I'm a Web Designer. Experienced with all stages of the
-              development cycle for dynamic web projects.
+              Below are list of services I render as an employee and independent freelancer
             </div>
           </div>
 
           <div id="service-widget-holder" class="section-body grid-board">
-            <!--  -->
             <!-- <div class="card">
               <h2 class="service-icon text-lg">
                 <i class="fas fa-desktop"></i>
@@ -176,9 +193,8 @@
                 </div>
               </div>
             </div> -->
-            <!--  -->
           </div>
-        </div>f
+        </div>
       </section>
       <!-- Services End -->
 
@@ -188,17 +204,19 @@
           <div class="section-heading f-left">
             <div class="title text-lg text-dark">Work Participation</div>
             <div class="comment text-sm text-secondary">
-              Obviously I'm a Web Designer. Experienced with all stages of the
-              development cycle for dynamic web projects.
+              I'm happy to walk you through some of the exciting journeys I've
+              embarked on as a software developer :)
             </div>
             <div class="link-button">
-              <a href="#" class="btn btn-lg btn-primary mt-2">See More</a>
+              <spam class="btn btn-primary mt-2">
+                <i class="fa fa-arrow-right"></i>
+              </span>
             </div>
           </div>
 
-          <div class="section-body f-right">
-            <div id="experience-widget-holder" class="timeline">
-              <div class="timeline-slot">
+          <div id="experience-widget-holder" class="section-body f-right">
+            <div class="timeline">
+              <!-- <div class="timeline-slot">
                 <a href="#timeline">
                   <div class="timeline-head">
                     <div class="timeline-icon text-primary">
@@ -222,64 +240,14 @@
                     </div>
                   </div>
                 </a>
-              </div>
-
-              <div class="timeline-slot">
-                <a href="#timeline">
-                  <div class="timeline-head">
-                    <div class="timeline-icon text-primary">
-                      <i class="fas fa-paper-plane"></i>
-                    </div>
-                    <div class="job-duration text-tiny font-700 text-primary">
-                      2015 - 2019
-                    </div>
-                  </div>
-                  <div class="timeline-body">
-                    <div class="job-title text-md font-400">Web Developer</div>
-                    <div class="job-company text-tiny">
-                      <span class="company"> Oppo </span>
-                      <span class="position"> HR-Manager </span>
-                    </div>
-                    <div class="job-description text-secondary">
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Autem rerum asperiores non, accusamus recusandae iste?
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <div class="timeline-slot">
-                <a href="#timeline">
-                  <div class="timeline-head">
-                    <div class="timeline-icon text-primary">
-                      <i class="fas fa-users"></i>
-                    </div>
-                    <div class="job-duration text-tiny font-700 text-primary">
-                      2020 - Currently
-                    </div>
-                  </div>
-                  <div class="timeline-body">
-                    <div class="job-title text-md font-400">
-                      Network Testing & Security
-                    </div>
-                    <div class="job-company text-tiny">
-                      <span class="company"> Vidly </span>
-                      <span class="position"> Dev-Ops </span>
-                    </div>
-                    <div class="job-description text-secondary">
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Autem rerum asperiores non, accusamus recusandae iste?
-                    </div>
-                  </div>
-                </a>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
       </section>
       <!-- Work paticipation End -->
       <!-- Fan fact Start -->
-      <!-- <section id="fan-fact">
+      <section id="fan-fact">
         <div class="container">
           <div class="cards-holder">
             <div class="card font-700">
@@ -300,7 +268,7 @@
             </div>
           </div>
         </div>
-      </section> -->
+      </section>
       <!-- Fan fact End -->
       <!-- Work Expertise Start -->
       <section id="work-expertise">
@@ -309,24 +277,23 @@
             <div class="left">
               <div
                 class="background-holder"
-                style="background-image: url('/assets/images/skills.jpg')"
+                style="background-image: url('https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,f_auto,q_auto:eco,dpr_1/vm6petunbtmfmoicyf52')
+                "
               ></div>
             </div>
             <div class="right">
               <div class="section-heading">
                 <div class="title text-lg text-dark">Work Expertise</div>
                 <div class="comment text-sm text-secondary">
-                  Obviously I'm a Web Designer. Experienced with all stages of
-                  the development cycle for dynamic web projects.
+                 This are my top tier skills I use from time to time as an engineer
                 </div>
               </div>
-
               <div id="expertise-widget-holder" class="skillsets">
                 <!-- <div class="skill">
                   <img
                     class="skill-thumb"
                     id="bootstrap"
-                    src="/assets/images/devicons/bootstrap.svg"
+                    src="/images/devicons/bootstrap.svg"
                     alt=""
                   />
                   <span class="skill-rating text-tiny text-primary font-600"
@@ -346,16 +313,11 @@
           <div class="section-heading">
             <div class="title text-lg text-dark">My Recent Works</div>
             <div class="comment text-sm text-secondary">
-              Obviously I'm a Web Designer. Experienced with all stages of the
-              development cycle for dynamic web projects.
+             Take insigthful look on interesting projects I've worked on. Challenges, solution and future plans
             </div>
           </div>
-          
           <div id="project-widget-holder" class="portfolio-board">
-            <div
-              class="slot"
-              style="background-image: url('/assets/images/portfolio/1.jpg')"
-            >
+            <!-- <div class="slot" style="background-image: url('/images/portfolio/1.jpg')">
               <div class="slot-content">
                 <div class="icon">
                   <a href="#">
@@ -365,146 +327,25 @@
                 <div class="slot-name font-600">Iphone mockup</div>
                 <div class="slot-category text-tiny">Branding</div>
               </div>
-            </div>
-            <div
-              class="slot"
-              style="background-image: url('/assets/images/portfolio/2.jpg')"
-            >
-              <div class="slot-content">
-                <div class="icon">
-                  <a href="#">
-                    <i class="fas fa-eye"></i>
-                  </a>
-                </div>
-                <div class="slot-name font-600">Iphone mockup</div>
-                <div class="slot-category text-tiny">Branding</div>
-              </div>
-            </div>
-            <div
-              class="slot"
-              style="background-image: url('/assets/images/portfolio/3.jpg')"
-            >
-              <div class="slot-content">
-                <div class="icon">
-                  <a href="#">
-                    <i class="fas fa-eye"></i>
-                  </a>
-                </div>
-                <div class="slot-name font-600">Iphone mockup</div>
-                <div class="slot-category text-tiny">Branding</div>
-              </div>
-            </div>
-            <div
-              class="slot"
-              style="background-image: url('/assets/images/portfolio/4.jpg')"
-            >
-              <div class="slot-content">
-                <div class="icon">
-                  <a href="#">
-                    <i class="fas fa-eye"></i>
-                  </a>
-                </div>
-                <div class="slot-name font-600">Iphone mockup</div>
-                <div class="slot-category text-tiny">Branding</div>
-              </div>
-            </div>
-            <div
-              class="slot"
-              style="background-image: url('/assets/images/portfolio/5.jpg')"
-            >
-              <div class="slot-content">
-                <div class="icon">
-                  <a href="#">
-                    <i class="fas fa-eye"></i>
-                  </a>
-                </div>
-                <div class="slot-name font-600">Iphone mockup</div>
-                <div class="slot-category text-tiny">Branding</div>
-              </div>
-            </div>
-            <div
-              class="slot"
-              style="background-image: url('/assets/images/portfolio/6.jpg')"
-            >
-              <div class="slot-content">
-                <div class="icon">
-                  <a href="#">
-                    <i class="fas fa-eye"></i>
-                  </a>
-                </div>
-                <div class="slot-name font-600">Iphone mockup</div>
-                <div class="slot-category text-tiny">Branding</div>
-              </div>
-            </div>
-          </div>
-          <div class="see-more">
-            <a href="#" class="btn btn-primary">See More </a>
+            </div> -->
           </div>
         </div>
       </section>
       <!-- My works End -->
 
-      <!-- Client comments Start -->
-      <!-- <section id="clients-say">
-        <div class="container">
-          <div class="section-heading">
-            <div class="title text-lg text-dark">Clients Say</div>
-            <div class="comment text-sm text-secondary">
-              Obviously I'm a Web Designer. Experienced with all stages of the
-              development cycle for dynamic web projects.
-            </div>
-          </div>
-          <div class="comments carousel">
-            <div class="carousel-container">
-              <div class="carousel-slider">
-                <div class="comment card">
-                  <div class="comment-user-dp mb-1">
-                    <img src="/assets/images/clients/01.jpg" alt="" />
-                  </div>
-                  <h2 class="font-700 text-dark text-md mb-">Jenny Wislon</h2>
-                  <div class="designation font-100 text-dark text-tiny mb-1">
-                    C.E.O Tech-Moto
-                  </div>
-                  <div class="comment-text text-tiny text-secondary">
-                    There are many variations of passages of Lorem Ipsum
-                    available, but the majority have suffered alteration in some
-                    form
-                  </div>
-                </div>
-                <div class="comment card">
-                  <div class="comment-user-dp mb-3">
-                    <img src="/assets/images/clients/female-3.jpg" alt="" />
-                  </div>
-                  <h2 class="font-600 text-dark text-md mb-">Esther Howard</h2>
-                  <div class="designation font-100 text-dark text-tiny mb-1">
-                    C.E.O Tech-Moto
-                  </div>
-                  <div class="comment-text text-tiny text-secondary">
-                    There are many variations of passages of Lorem Ipsum
-                    available, but the majority have suffered alteration in some
-                    form
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> -->
-      <!-- Client comments End -->
       <!-- Blogs Start -->
       <section id="blogs">
         <div class="container">
           <div class="section-heading">
             <div class="title text-lg text-dark">Latest News & Blog</div>
             <div class="comment text-sm text-secondary">
-              Obviously I'm a Web Designer. Experienced with all stages of the
-              development cycle for dynamic web projects.
+             Here are some of my insightful blogs on node and php related topic. Enjoy!
             </div>
           </div>
           <div id="blog-widget-holder" class="blogs-board">
             <!-- <div class="blog-card card">
               <div class="blog-image">
-                <img src="/assets/images/blogs/1.jpg" alt="" />
+                <img src="/images/blogs/1.jpg" alt="" />
               </div>
               <div class="blog-info">
                 <div class="blog-title text-md font-600 mb-1">
@@ -526,15 +367,14 @@
         </div>
       </section>
       <!-- Blogs End -->
-
+      
       <!-- Contact me Start -->
       <section id="contact-me">
         <div class="container">
           <div class="section-heading">
             <div class="title text-lg text-dark">Contact Me</div>
             <div class="comment text-sm text-secondary">
-              Obviously I'm a Web Designer. Experienced with all stages of the
-              development cycle for dynamic web projects.
+             Contact me for fulltime or partime jobs, freelancing or project collabration. I reply in a flash 
             </div>
           </div>
 
@@ -545,10 +385,9 @@
               </span>
               <span class="font-600 text-md text-dark mb-1">Phone</span>
               <span class="text-secondary">
-                Promising development turmoil inclusive education transformative
-                community
+               If its urgent, be sure to call or text me on whatsapp, I'm one text away :)
               </span>
-              <span class="main copy-to-clipboard">+152 534-468-854 </span>
+              <span class="main copy-to-clipboard" role="button" onclick="clipText('+2347035100280')">+234-703-510-0280 </span>
             </div>
             <div class="email">
               <span class="icon">
@@ -556,18 +395,9 @@
               </span>
               <span class="font-600 text-md text-dark mb-1">Email</span>
               <span class="text-secondary">
-                Phone Promising development turmoil inclusive education
-                transformative community
+                I will check emails at my convenient time. Please use the mail if it's not urgent
               </span>
-              <span class="main copy-to-clipboard">contact@example.com</span>
-            </div>
-            <div class="location">
-              <span class="icon"> <i class="fas fa-map-marker-alt"></i> </span>
-              <span class="font-600 text-md text-dark mb-1">Location</span>
-              <span class="text-secondary">
-                C/54 Northwest Freeway, Suite 558, Houston, USA 485
-              </span>
-              <span class="main copy-to-clipboard"> View on Google map </span>
+              <span class="main copy-to-clipboard" onclick="clipText('oluwaniyiiofficial@gmail.com')">oluwaniyiiofficial@gmail.com</span>
             </div>
           </div>
 
@@ -575,14 +405,14 @@
             <form action="">
               <div class="row">
                 <div class="left">
-                  <input type="text" placeholder="Your Firstname :" />
-                  <input type="text" placeholder="Your Email :" />
-                  <input type="text" placeholder="Your Subject :" />
+                  <input type="text" id="mail-name" placeholder="Your Firstname :" />
+                  <input type="text" id="mail-address" placeholder="Your Email :" />
+                  <input type="text" id="mail-subject" placeholder="Your Subject :" />
                 </div>
                 <div class="right">
                   <textarea
                     name=""
-                    id=""
+                    id="mail-body"
                     cols="30"
                     rows="10"
                     placeholder="Your Message :"
@@ -590,7 +420,7 @@
                 </div>
               </div>
               <div class="submit">
-                <button type="submit" class="btn btn-primary">Send</button>
+                <button type="button" onclick="sendMail()" class="btn btn-primary">Send</button>
               </div>
             </form>
           </div>
@@ -598,16 +428,20 @@
       </section>
       <!-- Contact me End -->
       <!-- Social Start -->
-      <!-- <section id="social">
+      <section id="social">
         <div class="section-heading">
           <h2 class="text-lg font-600 mb-1">Niyii</h2>
           <p class="text-dark mb-1">
-            Obviously I'm a Web Designer. Experienced with all stages of the
-            development cycle for dynamic web projects.
-          </p>
+          Connect with me on any of these platforms and lets discuss :)
         </div>
         <div class="links">
-          <a href="#">
+          <a href="https://github.com/Oluwaniyii" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="htpps://linkedin.com/oluwaniyii-ayodele-43346221" target="_blank">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+          <!-- <a href="#">
             <i class="fab fa-facebook-f"></i>
           </a>
           <a href="#">
@@ -622,11 +456,9 @@
           <a href="#">
             <i class="fab fa-google-plus-g"></i>
           </a>
-          <a href="#">
-            <i class="fab fa-linkedin-in"></i>
-          </a>
+          -->
         </div>
-      </section> -->
+      </section>
       <!-- Social End -->
       <!-- <div class="back-to-top">to top</div> -->
     </main>
@@ -677,19 +509,17 @@
     <!-- Back-to-top End -->
 
     <!-- Footer Start -->
-    <footer class="footer">© 2021 Queue. Design by Zoyothemes</footer>
+    <footer class="footer">© longbotton dev 2021. Design idea by <a href="https://themeforest.net/item/queue-personal-portfolio-resume-template/27561447" style="color:inherit;">Zoyothemes</a></footer>
     <!-- Footer End -->
-
+  </body>
     <!-- script -->
-    <script>
-      const baseurl = "<%=globals.app_home_url%>";
-    </script>
     <script src="/js/util.js"></script>
     <script src="/js/navbar.js"></script>
     <script src="/js/parallax.js"></script>
     <script src="/js/scrollspy.js"></script>
     <script src="/js/back-to-top.js"></script>
     <script src="/js/theme-select.js"></script>
+    <script src="/js/cliptotext.js"></script>
     <script src="/js/api.js"></script>
-  </body>
+    <script src="/js/contact.js"></script>
 </html>

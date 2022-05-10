@@ -115,7 +115,6 @@ body {
 	font-family: var(--ff-nunito);
 	font-size: var(--fs-sm);
 	font-weight: var(--fw-400);
-	min-height: 1500px;
 	background: var(--bs-dark);
 	overflow-x: hidden;
 	overflow-y: scroll;
@@ -219,8 +218,6 @@ h6 {
 .btn-primary:hover {
 	border: 1px solid var(--cl-primary);
 	border-color: var(--cl-primary);
-	-webkit-transform: translateY(-1px);
-	transform: translateY(-1px);
 	-webkit-filter: brightness(90%);
 	filter: brightness(90%);
 }
