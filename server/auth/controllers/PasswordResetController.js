@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const AdminModel = require('../models/AdminModel');
 const PasswordResetModel = require('../models/PasswordResetModel') ;
 const logger = require('../../../app/logger');
-const Mailer = require('../../libs/mailer/mailer');
+const Mailer = require('../../libs/mailer/index');
 const uuid = require('uuid');
 
 
@@ -60,6 +60,7 @@ class PasswordResetController extends AuthController {
 
           await reset.save();
 
+          return;
           let mailInfo = await Mailer.mail(
             adminEmailAddress,
 

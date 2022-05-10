@@ -1,0 +1,67 @@
+body{
+    /* background: var(--cl-primary); */
+}
+
+section#work-expertise .skillsets .skill:nth-child(even){
+    transform: translateY(0px);
+    animation: moveYAxis 3s ease-in-out infinite forwards;
+
+}
+
+section#work-expertise .skillsets .skill:nth-child(odd){
+    transform: translateY(-10px);
+    animation: moveYAxisLater 3s ease-in-out infinite forwards;
+}
+
+section#hero,
+section#about{
+    animation: fadeIn 1.2s ease-in-out forwards;
+}
+
+section#work-expertise .left {
+    overflow: hidden;
+}
+section#hero {
+    overflow: hidden;
+}
+
+section#hero .background{
+    animation: trabaye 40s ease-in-out infinite;
+}
+
+
+@keyframes moveYAxis {
+    0%{
+        transform: translateY(0px);
+    }
+    50%{
+        transform: translateY(-10px);
+    }
+    100%{
+        transform: translateY(0px);
+    }
+}
+
+@keyframes moveYAxisLater {
+    0%{
+        transform: translateY(-10px);
+    }
+    50%{
+        transform: translateY(0px);
+    }
+    100%{
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes trabaye {
+    0% {transform: scale(1);}
+    50% {transform: scale(1.5);}
+    100% {transform: scale(1);}
+
+}

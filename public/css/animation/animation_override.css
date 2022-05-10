@@ -13,26 +13,10 @@ section#hero div.background {
 	width: 100%;
 	height: 100%;
 	background-color: var(--cl-primary);
-	background-image: url("../../images/hero-bg.jpg");
+	background-image: url("../../wp6392102-call-of-duty-modern-warfare-2020-hd-desktop-wallpapers\ \(1\).png");
 	background-attachment: fixed;
 	background-attachment: scroll;
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
-	animation: slide 05s 1s ease-in-out forwards infinite;
-	/* z-index: 10; */
 }
-
-/* style="background-image: url('./assets/images/hero-bg.jpg')"  */
-
-/* @keyframes slide {
-	from {
-		top: 0;
-	}
-	to {
-		top: -100%;
-	}
-} */
-
-/* transform: translateY(0px); */
-/* transform: translateY(-100%); */
