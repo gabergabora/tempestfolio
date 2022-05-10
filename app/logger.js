@@ -26,14 +26,14 @@ const logger = winston.createLogger({
   });
 
 
-/*
-// Transport to console on development environment
-if (env !== 'production') {
-    logger.add(new winston.transports.Console({
-      format: winston.format.simple(),
-    }));
-}
-*/
+/** 
+ * Heroku uses standard output to for manual logging
+ * So we turn on console for it to reflect on hroku logs
+ * */ 
+
+logger.add(new winston.transports.Console({
+  format: winston.format.simple(),
+}));
 
 module.exports = logger ;
 
