@@ -175,9 +175,6 @@ async function loadProfile(){
 }
 
 
-
-
-
 // Widgets
 function renderServiceWidget(service) {
         const {icon, title, take, _id} = service;
@@ -203,13 +200,14 @@ function renderServiceWidget(service) {
 
 function renderExperienceWidget(experience) {
     const {title, icon, company, company_link, experience:take, from, to, _id} = experience;
+          let takeExtract = take.substring(0, 200);
 
     const widget = `
                 <div class="timeline-slot">
-                    <a href="#timeline">
+                    <a href="/experience/${_id}">
                         <div class="timeline-head">
                             <div class="timeline-icon text-primary">
-                            <i class="fas fa-users"></i>
+                            <i class="fas ${icon}"></i>
                             </div>
                             <div class="job-duration text-tiny font-700 text-primary">
                             ${from} - ${to}
@@ -224,9 +222,7 @@ function renderExperienceWidget(experience) {
                             <span class="position"> Dev-Ops </span>
                             </div>
                             <div class="job-description text-secondary">
-                            ${take}
-                            ${take}
-                            ${take}
+                            ${takeExtract}...
                             </div>
                         </div>
                     </a>
@@ -263,11 +259,9 @@ function renderProjectWidget(project) {
                     style="background-image: url('${imageHero.url}')"
                 >
                 <div class="slot-content">
-                <div class="icon">
-                    <a href="/project/${_id}">
+                <a href="/project/${_id}" class="icon">
                     <i class="fas fa-eye"></i>
-                    </a>
-                </div>
+                </a>
                 <div class="slot-name font-600">${title}</div>
                 <div class="slot-category text-tiny">${category }</div>
                 </div>

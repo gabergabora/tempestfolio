@@ -13,6 +13,19 @@ section#hero > * {
 	transition: all 0.5s ease-out;
 }
 
+section#hero .background .img{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+section#hero .background .img img{
+	animation: rotate 3s linear infinite forwards;
+	transform-origin: center;
+	width: 400px
+}
+
 section#hero div.overlay {
 	background-color: rgba(60, 72, 88, 0.7);
 	background-color: rgba(60, 72, 88, 0.771);
@@ -106,6 +119,11 @@ section#hero div.content > * {
 @media screen and (min-width: 1024px) {
 }
 @media screen and (min-width: 1200px) {
+}
+
+@keyframes rotate {
+	from {transform: rotate(0deg);}
+	to {transform: rotate(360deg);}
 }
 
 /* Mutate For Animations */

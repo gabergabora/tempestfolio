@@ -128,3 +128,25 @@ div.slider .slider-content-wrap .slider-image-holder img {
 .swiper-pagination-bullet-active{
     background: var(--cl-primary) !important;
 }
+
+.swiper-slide{
+    border: 4px solid var(--cl-dark);
+}
+
+/* description style */
+#project-description-holder {
+    line-height: 1.8em;
+    color: #4a4646;
+    margin-top: 2em;
+}
+
+#project-description-holder a{
+    color: var(--cl-primary);
+    opacity: 0.9;
+    
+}
+
+#project-description-holder img{
+    max-width: 100%;
+    margin: 10px 0;
+}

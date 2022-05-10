@@ -115,7 +115,6 @@ body {
 	font-family: var(--ff-nunito);
 	font-size: var(--fs-sm);
 	font-weight: var(--fw-400);
-	min-height: 1500px;
 	background: var(--bs-dark);
 	overflow-x: hidden;
 	overflow-y: scroll;
