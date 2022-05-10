@@ -259,13 +259,15 @@ function renderProjectWidget(project) {
                     style="background-image: url('${imageHero.url}')"
                 >
                 <div class="slot-content">
-                <a href="/project/${_id}" class="icon">
+                <span class="icon">
+                <a href="/project/${_id}">
                     <i class="fas fa-eye"></i>
                 </a>
+                </span>
                 <div class="slot-name font-600">${title}</div>
                 <div class="slot-category text-tiny">${category }</div>
                 </div>
-            </div>
+                </div>
     `;
 
     return widget;

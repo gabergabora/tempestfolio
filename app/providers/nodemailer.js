@@ -28,7 +28,6 @@ function mail(mail, message) {
 			resolve(info);
 		})
 		.catch(error=>reject(error))
-		
 	});
 }
 
