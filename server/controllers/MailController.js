@@ -56,10 +56,11 @@ class MailController extends ApiController{
     const addNewMessage = require('../domain/message/add_new_message');
 
     const messageData = req.body;
+    console.log(req.body)
 
     if(!(Object.values(messageData))) return res.status(400).json({message: "no data sent"});
 
-    addNewMessage()
+    addNewMessage(messageData)
     .then(message=>{
         if(!message.status)return res.status(400).json({message: message.message});
 

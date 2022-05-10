@@ -12,6 +12,7 @@ async function updateService(service_id, data){
         icon: Joi.string().trim(true),
         title: Joi.string().trim(true),
         take: Joi.string().trim(true),
+        visibility: Joi.boolean(),
     })
 
 
@@ -36,7 +37,7 @@ async function updateService(service_id, data){
     (Object.keys(service._doc)).forEach(property=>{
         if(!disAllowedProperties.includes(property)){
             if(data[property] != undefined){
-                service[property] = (data[property]).trim();
+                service[property] = data[property];
             }
         }
     })

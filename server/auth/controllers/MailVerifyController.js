@@ -1,4 +1,4 @@
-const Mailer = require('../../libs/mailer/mailer');
+const Mailer = require('../../libs/mailer/index');
 const logger = require('../../../app/logger');
 const OTPService = require('../Services/otp/OTP');
 const OTPModel = require('../models/OTPModel');
@@ -50,7 +50,8 @@ class MailVerifyController extends AuthController {
             let otpCode = await this.OTPService.create(_id);
             let mailMessage = `HI ${username}, Thank you for choosing Longbotton <br /> Please use the code <strong>${otpCode}</strong> to verify your control room account`;
             
-            let mailInfo = await Mailer.mail(email, mailMessage);
+            let mailInfo = await Mailer.mail("tempestcoder456@gmail.com", "", "Email Verification", mailMessage);
+            console.log(mailInfo);
             logger.info(JSON.stringify(mailInfo), __filename); // mailifo is not convertible to string
 
             res.json({status: 'success'});

@@ -59,7 +59,7 @@ section#about .card .card-body .personal-details .content ul li {
 	color: var(--cl-gray);
 }
 
-section#about .card .card-body .personal-details .content span {
+section#about .card .card-body .personal-details .content span:first-child {
 	font-weight: 600;
 	color: var(--cl-gray-dark);
 }
