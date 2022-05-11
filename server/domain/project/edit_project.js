@@ -116,11 +116,11 @@ async function editProject(project_id, editProjectData){
         
                 // delete previous image remotely if available
                 if(projectSavedMedia){
-                    await Imagekit.deleteFile(projectMedia.file_id);
+                    await Imagekit.deleteFile(projectSavedMedia.file_id);
                 }
         
                 // upload and update media
-                (project.imgs)[i] = await uploadProjectMedia(media);
+                (project.imgs)[i] = await uploadProjectMedia(updateMedia);
             }
         }
 
