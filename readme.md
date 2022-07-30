@@ -24,7 +24,6 @@ The overall goal is to have a personal website I can resume to as an independent
 - [Set up environment variables](#set-up-environment-variables)
 - [Install npm dependencies](#install-npm-dependencies)
 - [Run server](#run-server)
-- [Testing](#testing)
 
 ### Set up environment variables
 
@@ -43,8 +42,6 @@ MONGO_DB=mongodb+srv://<user>:<password>@cluster0-clxgl.mongodb.net/test?retryWr
 MAILJET_API_KEY=your_mailjet_public_key
 ```
 
-[node-config](https://github.com/lorenwest/node-config) fails to work so I wrote my own mimmick
-
 ### Install npm dependencies
 
 - Run `npm install`
@@ -53,7 +50,3 @@ MAILJET_API_KEY=your_mailjet_public_key
 
 - `npm run dev` - development mode
 - `npm run start` - production mode
-
-### Testing
-
-- `npm test` - Run unit tests
