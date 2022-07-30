@@ -9,6 +9,8 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       referrerpolicy="no-referrer"
     />
+    <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
+
     <link rel="stylesheet" href="/css/variables.css" />
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/navbar.css" />
@@ -43,13 +45,17 @@
     <header>
       <nav class="navbar navbar-collapsed bg-light">
         <div class="container">
-          <div class="logo">Oluwaniyii</div>
+          <div class="logo" id="admin-visit">
+            <a href="/admin" class="text-primary" style="font-size: 35px;">
+            <span class="icon iconify" data-icon="ri:admin-line"></span>
+          </a>
+
+          </div>
           <button class="hamburger active" onclick="navbarCollapseToggle()">
             <i class="fas fa-bars font-600"></i>
           </button>
 
           <ul class="nav-links">
-            <!-- <div class="container"> -->
             <li class="navlink active"><a href="#hero">me</a></li>
             <li class="navlink"><a href="#services">services</a></li>
             <li class="navlink"><a href="#experience">experience</a></li>
@@ -58,7 +64,6 @@
             <li class="navlink"><a href="#my-works">projects</a></li>
             <li class="navlink"><a href="#blogs">blogs</a></li>
             <li class="navlink"><a href="#contact-me">contact</a></li>
-            <!-- </div> -->
           </ul>
         </div>
       </nav>
@@ -87,30 +92,6 @@
               style="margin-left: 3px; vertical-align: center"
               ></i>
               </a>
-            <!-- <a href="#contact-me" class="btn btn-primary rounded mb-2">
-              <span style="display: flex; align-items: center">
-                Download CV
-                <span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="15"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="feather feather-download fea icon-sm"
-                    style="margin-left: 3px; vertical-align: center"
-                  >
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="7 10 12 15 17 10"></polyline>
-                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                  </svg>
-                </span>
-              </span>
-            </a> -->
           </div>
         </div>
       </div>
@@ -149,13 +130,13 @@
               </div>
               <div class="about-me">
                 <div class="title text-lg text-dark">
-                  I am a <span class="text-primary">Node JS</span> Developer
+                  I am a <span class="text-primary">Backend</span> Developer
                 </div>
                 <div class="content">
-                  With 3 years of experience in Node JS and PHP. I specialize in
-                  designing and building robust api's for web, mobile and
-                  desktop applications. I am currently open to remote fulltime
-                  or partime jobs with an option to relocate.
+                  <p id="profile-bio">
+                    With 2+ years of experience in Node JS and PHP. I am currently open to remote fulltime
+                    or partime jobs with an option to relocate.
+                  </p>
                 </div>
                 <!-- signature -->
                 <h1 class="signature">Oluwaniyii Ayodele</h1>
@@ -173,26 +154,11 @@
           <div class="section-heading">
             <div class="title text-lg text-dark">Awesome Service</div>
             <div class="comment text-sm text-secondary">
-              Below are list of services I render as an employee and independent freelancer
+              Below are list of services I render as an independent freelancer
             </div>
           </div>
 
           <div id="service-widget-holder" class="section-body grid-board">
-            <!-- <div class="card">
-              <h2 class="service-icon text-lg">
-                <i class="fas fa-desktop"></i>
-              </h2>
-              <div class="service-text">
-                <h3 class="service-text-title text-dark">Web Development</h3>
-                <div class="services-text-content text-sm text-secondary">
-                  With lots of unique blocks, you can easily build a page
-                  without coding.
-                </div>
-                <div class="service-link">
-                  <a href="#" class=""> Read more </a>
-                </div>
-              </div>
-            </div> -->
           </div>
         </div>
       </section>
@@ -216,55 +182,12 @@
 
           <div id="experience-widget-holder" class="section-body f-right">
             <div class="timeline">
-              <!-- <div class="timeline-slot">
-                <a href="#timeline">
-                  <div class="timeline-head">
-                    <div class="timeline-icon text-primary">
-                      <i class="fas fa-database"></i>
-                    </div>
-                    <div class="job-duration text-tiny font-700 text-primary">
-                      2012 - 2015
-                    </div>
-                  </div>
-                  <div class="timeline-body">
-                    <div class="job-title text-md font-400">
-                      Database Management
-                    </div>
-                    <div class="job-company text-tiny">
-                      <span class="company"> Vivo </span>
-                      <span class="position"> Data-Sceintist </span>
-                    </div>
-                    <div class="job-description text-secondary">
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Autem rerum asperiores non, accusamus recusandae iste?
-                    </div>
-                  </div>
-                </a>
-              </div> -->
             </div>
           </div>
         </div>
       </section>
       <!-- Work paticipation End -->
        <!-- Fan fact Start -->
-       <section id="fan-fact">
-        <div class="container">
-          <div class="cards-holder">
-            <div class="card font-700">
-              <h1 class="text-lg">Ilearn</h1>
-            </div>
-            <div class="card font-700">
-              <h1 class="text-lg">Icode</h1>
-            </div>
-            <div class="card font-700">
-              <h1 class="text-lg">Idebug</h1>
-            </div>
-            <div class="card font-700">
-              <h1 class="text-lg">Iimprove</h1>
-            </div>
-          </div>
-        </div>
-        </section>
         <!-- Fan fact End -->
       <!-- Work Expertise Start -->
       <section id="work-expertise">
@@ -285,17 +208,6 @@
                 </div>
               </div>
               <div id="expertise-widget-holder" class="skillsets">
-                <!-- <div class="skill">
-                  <img
-                    class="skill-thumb"
-                    id="bootstrap"
-                    src="/images/devicons/bootstrap.svg"
-                    alt=""
-                  />
-                  <span class="skill-rating text-tiny text-primary font-600"
-                    >75%</span
-                  >
-                </div> -->
               </div>
             </div>
           </div>
@@ -313,17 +225,6 @@
             </div>
           </div>
           <div id="project-widget-holder" class="portfolio-board">
-            <!-- <div class="slot" style="background-image: url('/images/portfolio/1.jpg')">
-              <div class="slot-content">
-                <div class="icon">
-                  <a href="#">
-                    <i class="fas fa-eye"></i>
-                  </a>
-                </div>
-                <div class="slot-name font-600">Iphone mockup</div>
-                <div class="slot-category text-tiny">Branding</div>
-              </div>
-            </div> -->
           </div>
         </div>
       </section>
@@ -339,26 +240,6 @@
             </div>
           </div>
           <div id="blog-widget-holder" class="blogs-board">
-            <!-- <div class="blog-card card">
-              <div class="blog-image">
-                <img src="/images/blogs/1.jpg" alt="" />
-              </div>
-              <div class="blog-info">
-                <div class="blog-title text-md font-600 mb-1">
-                  <a href="#"> Design your apps in your own way </a>
-                </div>
-                <div class="blog-subtext text-secondary text-sm mb-1">
-                  This is required when, for example, the final text is not yet
-                  available.
-                </div>
-                <div class="blog-links text-tiny">
-                  <a href="#" class="date"
-                    ><i class="far fa-calendar-alt"></i> Dec 19</a
-                  >
-                  <a href="#" class="link">Read More</a>
-                </div>
-              </div>
-            </div> -->
           </div>
         </div>
       </section>
@@ -383,7 +264,7 @@
               <span class="text-secondary">
                If its urgent, be sure to call or text me on whatsapp, I'm one text away :)
               </span>
-              <span class="main copy-to-clipboard" role="button" onclick="clipText('+2347035100280')">+234-703-510-0280 </span>
+              <span class="main copy-to-clipboard" role="button" onclick="clipText('+2349074237582')">+234-907-423-7582 </span>
             </div>
             <div class="email">
               <span class="icon">
@@ -437,22 +318,6 @@
           <a href="https://www.linkedin.com/in/oluwaniyii-ayodele-433462215/" target="_blank">
             <i class="fab fa-linkedin-in"></i>
           </a>
-          <!-- <a href="#">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-          <a href="#">
-            <i class="fab fa-twitter"></i>
-          </a>
-          <a href="#">
-            <i class="fab fa-instagram"></i>
-          </a>
-          <a href="#">
-            <i class="fab fa-vimeo-v"></i>
-          </a>
-          <a href="#">
-            <i class="fab fa-google-plus-g"></i>
-          </a>
-          -->
         </div>
       </section>
       <!-- Social End -->
@@ -511,7 +376,6 @@
     <!-- script -->
     <script src="/js/util.js"></script>
     <script src="/js/navbar.js"></script>
-    <script src="/js/parallax.js"></script>
     <script src="/js/scrollspy.js"></script>
     <script src="/js/back-to-top.js"></script>
     <script src="/js/theme-select.js"></script>

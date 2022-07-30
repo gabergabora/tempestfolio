@@ -59,7 +59,6 @@
                 >
                     <img
                         id="single-project-hero-img"
-                        style="height: 400px; width: auto; max-width: 100%"
                         src="/assets/images/5c4fe3b160c6248c37d9d987caeb7172.jpg"
                         alt=""
                     />
@@ -151,7 +150,7 @@
 <script>
 
  function loadProject(projectID){
-    const url = `${app_home_url}/api/project/${projectID}`;
+    const url = `/api/project/${projectID}`;
 
     fetch(url)
 
@@ -246,7 +245,7 @@
     actionButtonVisibility.firstElementChild.className = visibility ? visibleClass : nonVisibleClass;
 
     //action button actions;
-    actionButtonEdit.setAttribute('href', `${app_home_url}/admin/project/edit?id=${_id}`)
+    actionButtonEdit.setAttribute('href', `/admin/project/edit?id=${_id}`)
     actionButtonDelete.setAttribute('onclick',`deleteProject('${_id}')`);
     actionButtonVisibility.setAttribute('onclick',`changeProjectVisibility('${_id}', ${!visibility})`);
     actionButtonVisit.firstElementChild.setAttribute('src', externalUrl);
@@ -255,7 +254,7 @@
 
  function renderProjectMedia(media){
      const elem = `
-     <a href="${media.url}" target="_blank" title="${media.original_name}" style="display:block; width:200px; margin-bottom:7px; border:4px solid #34566f70; border-radius:4px;">
+     <a href="${media.url}" target="_blank" title="${media.original_name}">
         <img class="image-selector" src="${media.thumb}" style="width: 200px; height: auto">
      </a>
      `
@@ -366,7 +365,5 @@ function parseCkescapedData(data){
 
     return parseData;
 }
-
-// icon fa fa-eye-slash icon-gradient bg-heavy-rain
 
 </script>

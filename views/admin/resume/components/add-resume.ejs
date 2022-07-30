@@ -1,21 +1,12 @@
 <div class="main-card mb-3 card">
   <div class="card-body">
     <h5 class="card-title">Upload resume</h5>
-    <!-- <form action="" enctype="multipart/form-data">
-        </form> -->
     <input type="file" id="selectResume" />
     <button class="mt-1 btn btn-primary" type="button" onclick="uploadResume()">
       Submit
     </button>
     <br />
     <br />
-    <!-- <div id="resume-loader-holder" class="resume-loader-holder">
-            <div id="resume-loader" class="resume-loader"></div>
-            <br>
-            <div id="upload-message" class="upload-message">
-                uploading...
-            </div>
-      </div> -->
     <hr />
   </div>
 </div>
@@ -28,7 +19,7 @@
     const formdata = new FormData();
     formdata.append("resume", file);
 
-      const url = `${app_home_url}/api/resume/`;
+      const url = '/api/resume/';
 
       const xhr =  new XMLHttpRequest();
       xhr.onload = function(){

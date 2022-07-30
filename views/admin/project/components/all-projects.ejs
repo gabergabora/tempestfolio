@@ -10,14 +10,6 @@
               <option value="5">compact</option>
               <option value="10">extended</option>
             </select>
-
-            <!-- <div role="group" class="btn-group-sm btn-group">
-                <button class="active btn btn-focus">
-                    All Projects
-                </button>
-                <button class="btn btn-focus">Visible</button>
-                <button class="btn btn-focus">Hidden</button>
-            </div> -->
         </div>
     </div>
    
@@ -161,7 +153,7 @@ function loadPage(index=null, loadSingle=null){
     const entries = tableEntries;
     let pageIndex = index || 1;
 
-    const url = `${app_home_url}/api/project?entries=${entries}&index=${pageIndex}`;
+    const url = `/api/project?entries=${entries}&index=${pageIndex}`;
 
     fetch(url)
     .then(response => response.json())
@@ -177,7 +169,6 @@ function loadPage(index=null, loadSingle=null){
             })
 
             //auto load first project
-
             if(!loadSingle) loadProject(projects[0]['_id']);
             else loadProject(loadSingle);
         }
@@ -352,8 +343,6 @@ function paginate(data) {
 
 // actions
 loadPage();
-
-
 
 
 </script>

@@ -159,7 +159,7 @@
         const projectExternalUrl = document.getElementById('project-external-url').value.trim();
         const tags = getActiveTags();
 
-        const url = `${app_home_url}/api/project/${projectId}`;
+        const url = `/api/project/${projectId}`;
 
         const formData = new FormData();
         formData.append("imageHero", projectImageHero);

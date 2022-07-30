@@ -18,7 +18,7 @@
         let entries = 4;
         let pageIndex = index || 1;
 
-        const url = `${app_home_url}/api/expertise?entries=${entries}&index=${pageIndex}`;
+        const url = `/api/expertise?entries=${entries}&index=${pageIndex}`;
         const xhr  =  new XMLHttpRequest();
         xhr.open("GET", url);
         xhr.send();

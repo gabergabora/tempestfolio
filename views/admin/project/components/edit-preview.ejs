@@ -60,7 +60,6 @@
                 >
                     <img
                         id="edit-project-hero-img"
-                        style="height: 400px; width: auto; max-width: 100%"
                         src="/assets/images/5c4fe3b160c6248c37d9d987caeb7172.jpg"
                         alt=""
                     />
@@ -209,7 +208,7 @@ const projectId = '<%= projectId %>';
 
 
 function loadEditProject(projectId){
-    const url = `${app_home_url}/api/project/${projectId}`;
+    const url = `/api/project/${projectId}`;
 
     fetch(url)
 
@@ -313,7 +312,7 @@ function loadEditProject(projectId){
 
  function renderProjectMedia(media){
      const elem = `
-     <a href="${media.url}" target="_blank" title="${media.original_name}" style="display:block; width:200px; margin-bottom:7px; border:4px solid #34566f70; border-radius:4px;">
+     <a href="${media.url}" target="_blank" title="${media.original_name}">
         <img class="image-selector" src="${media.thumb}" style="width: 100%; height: auto">
      </a>
      `
@@ -361,7 +360,7 @@ function loadEditProject(projectId){
 
 function loadEditTags(tagsOwned){
     const xhr  =  new XMLHttpRequest();
-    xhr.open("GET", `${app_home_url}/api/tag/`);
+    xhr.open("GET", '/api/tag/');
     xhr.send();
 
     xhr.onload = function(){

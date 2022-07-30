@@ -70,7 +70,7 @@
     const actionButtonEdit = document.getElementById("service-edit");
     serviceTitleHolder.textContent = serviceName;
 
-    const url = `${app_home_url}/api/service/${serviceID}`;
+    const url = `/api/service/${serviceID}`;
     const xhr = new XMLHttpRequest();
     xhr.open("GET", url);
     xhr.send();
@@ -126,7 +126,7 @@
         visibility: visibility,
       };
 
-      const url = `${app_home_url}/api/service/${serviceID}`;
+      const url = `/api/service/${serviceID}`;
       const xhr = new XMLHttpRequest();
       xhr.open("PUT", url);
       xhr.setRequestHeader("Content-Type", "application/json");
@@ -175,7 +175,7 @@
       )
     ) {
       const xhr = new XMLHttpRequest();
-      xhr.open("DELETE", `${app_home_url}/api/service/${serviceID}`);
+      xhr.open("DELETE", `/api/service/${serviceID}`);
       xhr.send();
 
       xhr.onload = function () {

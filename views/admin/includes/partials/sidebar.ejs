@@ -122,26 +122,6 @@
             <i class="metismenu-icon pe-7s-power  icon-gradient bg-love-kiss" style="opacity: .91;"> </i> logout
           </a>
         </li>
-        <!-- <li>
-          <a href="#">
-            <i class="metismenu-icon pe-7s-diamond"></i>
-            Elements
-            <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
-          </a>
-          <ul>
-            <li>
-              <a href="elements-buttons-standard.html">
-                <i class="metismenu-icon"></i>
-                Buttons
-              </a>
-            </li>
-            <li>
-              <a href="elements-dropdowns.html">
-                <i class="metismenu-icon"> </i>Dropdowns
-              </a>
-            </li>
-          </ul>
-        </li> -->
       </ul>
     </div>
   </div>
@@ -149,14 +129,12 @@
 <!-- Component Based Javascript -->
 <script>
    function fetchUnreadMails(callbackAction){
-    let url = `${app_home_url}/api/mail?filter=read.false&entries=5`;
+    let url = `/api/mail?filter=read.false&entries=5`;
 
     const xhr  =  new XMLHttpRequest();
 
         xhr.onload = function(){
-            if(this.status > 399){
-                return console.log("could not load mails at the moment")
-            }
+            if(this.status > 399) return;
             
             const mailsPage = (JSON.parse(this.responseText)).data;
             callbackAction(mailsPage);
