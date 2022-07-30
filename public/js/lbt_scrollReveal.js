@@ -2,6 +2,8 @@
  * longbOTTON_dev
  * library for scroll animation effect
  * copyright 2020
+ *
+ * @format
  */
 
 function scrollReveal(obj) {
@@ -18,9 +20,9 @@ function scrollReveal(obj) {
     } = obj;
 
     // Make multiple selection possible
-    if(Array.isArray(elem)){
-      return elem.forEach((elem)=>{
-        let elemObj = {...obj, elem: elem};
+    if (Array.isArray(elem)) {
+      return elem.forEach((elem) => {
+        let elemObj = { ...obj, elem: elem };
         scrollAppear(elemObj);
       });
     }
@@ -35,7 +37,7 @@ function scrollReveal(obj) {
             duration ? duration : ".5"
           }s ease-in-out`;
           // if new class is available, add new class to classlist
-          if (newClass) domElem.classList.add(newClass); 
+          if (newClass) domElem.classList.add(newClass);
           if (newStyleObj) {
             for (const styleIndex in newStyleObj) {
               // loop through new style object and register styles

@@ -77,7 +77,7 @@ function addExpertise() {
     formData.append('icon', icon);
 
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", `${app_home_url}/api/expertise/`);
+    xhr.open("POST", `/api/expertise/`);
     xhr.send(formData);
 
     xhr.onload = function() {

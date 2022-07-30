@@ -187,7 +187,7 @@ function loadBlog(blogID){
     const actionButtonVisibility = document.getElementById('blog-visibility');
     const actionButtonEdit = document.getElementById('blog-edit');
 
-    const url = `${app_home_url}/api/blog/${blogID}`;
+    const url = `/api/blog/${blogID}`;
     const xhr  =  new XMLHttpRequest();
     xhr.open("GET", url);
     xhr.send();
@@ -247,7 +247,7 @@ function dropBlog(blogID){
     try {
         if(confirm("This Blog will be completely removed, Continue anyway?")) {
             const xhr  =  new XMLHttpRequest();
-                xhr.open("DELETE", `${app_home_url}/api/blog/${blogID}`);
+                xhr.open("DELETE", `/api/blog/${blogID}`);
                 xhr.send(); 
 
                 xhr.onload= function(){

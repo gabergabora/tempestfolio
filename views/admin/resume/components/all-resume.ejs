@@ -8,7 +8,7 @@
       resWidgetsHolder.innerHTML = "";
 
       async function fetchResumes() {
-        const url = `${app_home_url}/api/resume/`;
+        const url = '/api/resume/';
 
         let requestObject = await fetch(url);
         let response = await requestObject.json();
@@ -79,7 +79,7 @@
 
     function deleteResume(resumeID) {
       async function fetchDeleteResume() {
-        const url = `${app_home_url}/api/resume/${resumeID}`;
+        const url = `/api/resume/${resumeID}`;
         const method = "delete";
         const options = { method };
 
@@ -103,7 +103,7 @@
 
     function setActiveResume(resumeID) {
       async function fetchSetActiveResume() {
-        const url = `${app_home_url}/api/resume/${resumeID}/setactive`;
+        const url = `/api/resume/${resumeID}/setactive`;
         const method = "put";
         const options = { method };
 

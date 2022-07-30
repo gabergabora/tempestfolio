@@ -93,7 +93,7 @@
     const editServiceButton = document.getElementById("edit--service--button");
     editServiceDesc.innerText = "";
 
-    const url = `${app_home_url}/api/service/${serviceID}`;
+    const url = `/api/service/${serviceID}`;
     const xhr = new XMLHttpRequest();
     xhr.open("GET", url);
     xhr.send();
@@ -128,7 +128,7 @@
     }
 
     const xhr = new XMLHttpRequest();
-    xhr.open("PUT", `${app_home_url}/api/service/${serviceID}`);
+    xhr.open("PUT", `/api/service/${serviceID}`);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(JSON.stringify(serializedData));
 

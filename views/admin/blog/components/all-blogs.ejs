@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-12">
-        <div class="main-card mb-3 card all-blogs-container">
+        <div class="main-card mb-3 card all-blogs-container" id="blog-card">
             <div class="card-header" style="border: none;">
                 <div>
                     <h5 class="card-title">All Blogs</h5>
@@ -55,6 +55,7 @@
 <!-- Component Based Javascript -->
 <script>
 function loadPage(index){
+    const blogCard = document.getElementById('blog-card');
     const blogsHolder = document.getElementById('blogsHolder');
     const blogsContainer = document.querySelector('.all-blogs-container');
     const entries = document.getElementById("entries").value || 5;
@@ -81,7 +82,7 @@ function loadPage(index){
     blogsContainer.style.minHeight = blogsContainerHeight;
     let blogsHolderParent = blogsHolder.parentElement;
 
-    const url = `${app_home_url}/api/blog/?entries=${entries}&index=${pageIndex}`;
+    const url = `/api/blog/?entries=${entries}&index=${pageIndex}`;
     const xhr  =  new XMLHttpRequest();
     xhr.open("GET", url);
     xhr.send();
@@ -96,15 +97,20 @@ function loadPage(index){
                 return;
         }
 
-         const response =  JSON.parse(this.responseText);
-         let data = response.data;
-         let blogs = data.chunk;
+        const response =  JSON.parse(this.responseText);
+        let data = response.data;
+        let blogs = data.chunk;
 
-        paginate(data)
-        blogs.forEach(blog => {
+        if(blogs.length){
+            paginate(data)
+            blogs.forEach(blog => {
                 blogsHolder.innerHTML += renderBlogRow(blog);
         });
-        loadBlog(blogs[0]._id);
+            loadBlog(blogs[0]._id);
+        }
+        else {
+            blogCard.innerHTML = "<h4 style='padding: 10px'>You have no bogs yet</h4>"
+        }
     }
 }
 

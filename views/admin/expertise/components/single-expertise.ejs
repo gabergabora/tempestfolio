@@ -76,7 +76,7 @@ function loadSingleExpertise(expertiseID) {
     let deleteSkillButton = document.getElementById("skill-delete");
 
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", `${app_home_url}/api/expertise/${expertiseID}`);
+    xhr.open("GET", `/api/expertise/${expertiseID}`);
     xhr.send();
 
     xhr.onload = function() {
@@ -117,7 +117,7 @@ function updateSkill(expertiseID) {
     formData.append('icon', editIcon);
 
     const xhr = new XMLHttpRequest();
-    xhr.open("PUT", `${app_home_url}/api/expertise/${expertiseID}`);
+    xhr.open("PUT", `/api/expertise/${expertiseID}`);
     xhr.send(formData);
 
     xhr.onload = function() {
@@ -136,7 +136,7 @@ function updateSkill(expertiseID) {
 function deleteSkill(expertiseID){
     if(confirm("Skill will be permanently deleted. Continue anyway?")){
         const xhr = new XMLHttpRequest();
-        xhr.open("DELETE", `${app_home_url}/api/expertise/${expertiseID}`);
+        xhr.open("DELETE", `/api/expertise/${expertiseID}`);
         xhr.send();
 
         xhr.onload = function() {

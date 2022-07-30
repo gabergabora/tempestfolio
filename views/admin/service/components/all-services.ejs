@@ -1,9 +1,9 @@
 <div class="row">
-  <div class="col-lg-12">
-    <div class="row" id="serviceWidgetsHolder" style="min-height:328px"></div>
+  <div class="col-md-12" style="min-height:328px">
+    <div class="row" id="serviceWidgetsHolder"></div>
   </div>
 
-  <div class="col-lg-12">
+  <div class="col-md-12">
     <nav class="" aria-label="Page navigation example">
       <ul class="pagination" id="pagination"></ul>
     </nav>
@@ -45,7 +45,7 @@
     let pageIndex = index || 1;
 
     async function fetchServicespage() {
-      const url = `${app_home_url}/api/service/?entries=${entries}&index=${pageIndex}`;
+      const url = `/api/service/?entries=${entries}&index=${pageIndex}`;
       let requestObject = await fetch(url);
       let requestStatus = requestObject.status;
       let response = await requestObject.json();

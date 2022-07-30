@@ -83,7 +83,7 @@
   <script>
 
   function updateProfile(){
-    const url = `${app_home_url}/api/profile`;
+    const url = `/api/profile`;
     const fullname = (document.getElementById("fullname").value).trim();
     const dp = (document.getElementById("dp").value).trim();
     const email = (document.getElementById("email").value).trim();
@@ -129,7 +129,7 @@
   })();
  
   function loadProfile(){
-    const url = `${app_home_url}/api/profile`;
+    const url = `/api/profile`;
     const fullnameInput = document.getElementById("fullname");
     const dpInput = document.getElementById("dp");
     const emailInput = document.getElementById("email");
@@ -170,7 +170,7 @@
   }
 
   function setProfileVerificationWarning(){
-    const url = `${app_home_url}/api/getadminuser`;
+    const url = `/api/getadminuser`;
 
     const xhr  =  new XMLHttpRequest();
           xhr.open("GET", url);

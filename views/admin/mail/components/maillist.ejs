@@ -6,39 +6,19 @@
       </div>
     </div>
     <div class="right">
-      <span class="paginate-button" id="paginate-button-prev" role="button">
-        <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
-      </span>
+      <div id="pagenation-buttons" style="opacity:.46">
+        <span class="paginate-button" id="paginate-button-prev" role="button">
+          <i class="iconify" data-icon="bi:arrow-left-circle"></i>
+        </span>
 
-      <span class="paginate-button"  id="paginate-button-next" role="button">
-        <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
-      </span>
+        <span class="paginate-button"  id="paginate-button-next" role="button">
+          <i class="iconify" data-icon="bi:arrow-right-circle"></i>
+        </span>
+      </div>
     </div>
 
     </div>
     <div class="mails" id="mailListWidgetHolder">
-
-      <!-- <div class="mail-slot active">
-        <div class="mail-content">
-          <div class="avatar-container">
-            <div class="avatar blue"></div>
-          </div>
-
-          <div class="mailinfo-container">
-            <div class="mail-head">
-              <div class="name">
-                <h2>Rufai Qudus</h2>
-              </div>
-              <div class="mail-time"></div>
-            </div>
-            <div class="mail-address">raksjavac@gmail</div>
-            <div class="mail-extract">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              Eveniet ipsa dolores quisquam
-            </div>
-          </div>
-        </div>
-      </div> -->
 
     </div>
   </div>
@@ -51,13 +31,13 @@
         let entries = 10;
         let pageIndex = index || 1;
 
-        let url = `${app_home_url}/api/mail?entries=${entries}&index=${pageIndex}`;
+        let url = `/api/mail?entries=${entries}&index=${pageIndex}`;
 
         const xhr  =  new XMLHttpRequest();
 
         xhr.onload = function(){
             if(this.status > 399){
-                return console.log("could not load mails at the moment");
+                alert("could not load mails at the moment");
                 return renderMailListWidget(null);
 
             }
@@ -65,9 +45,12 @@
             const mailsPage = (JSON.parse(this.responseText)).data;
             const mails =  mailsPage.chunk;
             
-            renderMailPagination(mailsPage);
-            return renderMailListWidget(mails);
-
+            if(mails.length){
+              renderMailPagination(mailsPage);
+              return renderMailListWidget(mails);
+            }else{
+              return document.getElementById("mailListWidgetHolder").innerHTML = "<p style='padding: 1em'> You do not have any mail </p>";
+            } 
         }
 
         xhr.open('GET', url);
@@ -78,12 +61,10 @@
   // widgets
 
   function renderMailPagination(paginationData){
-    /* paginationData.count;
-    // paginationData.entries;
-    //  paginationData.page; */
-
+    const pagintionButtons = document.getElementById("pagenation-buttons");
     const paginteButtonPrev = document.getElementById("paginate-button-prev");
     const paginteButtonNext = document.getElementById("paginate-button-next");
+    
 
     let maxPage = Math.ceil(paginationData.count / paginationData.entries);
     let prevPage = paginationData.page - 1;
@@ -95,6 +76,7 @@
     let prevPageDisabled = prevPage ? false : true;
     let nextPageDisabled = nextPage ? false : true;
 
+    pagintionButtons.style.visibility = "visible !important";
     paginteButtonPrev.setAttribute("onclick", `getPage(${prevPage})`);
     paginteButtonPrev.setAttribute("disabled", prevPageDisabled);
 
@@ -142,12 +124,7 @@
               <div class="name">
                 <h2>${name}</h2>
               </div>
-              ${!isNewMessage?
-                 `<div class="mail-time">
-                  ${((new Date(parseInt(date))).toLocaleDateString()).replaceAll(/\//g, '-')}
-                  </div>`
-                :
-                `<div class="mail-time new">
+              ${!isNewMessage ? "" : `<div class="mail-time new">
                   <span class="mail-count"></span>
                   <span class="new-badge">new</span>
                  </div>`

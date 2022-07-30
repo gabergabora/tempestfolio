@@ -130,7 +130,7 @@
     const actionButtonVisit = document.getElementById('exp-company-visit');
     const actionButtonEdit = document.getElementById('exp-edit');
 
-    const url = `${app_home_url}/api/experience/${experienceID}`;
+    const url = `/api/experience/${experienceID}`;
     const xhr  =  new XMLHttpRequest();
     xhr.open("GET", url);
     xhr.send();
@@ -175,7 +175,7 @@
  function dropExperience(expID){
     if(confirm("This Experience will be completely removed,  Continue anyway?")){
         const xhr  =  new XMLHttpRequest();
-        xhr.open("DELETE", `${app_home_url}/api/experience/${expID}`);
+        xhr.open("DELETE", `/api/experience/${expID}`);
         xhr.send(); 
         xhr.onload= function(){
             if(this.status > 399) return alert("An error occured");

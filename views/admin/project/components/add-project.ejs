@@ -156,7 +156,7 @@
         const projectExternalUrl = document.getElementById('project-external-url').value.trim();
         const tags = getActiveTags();
 
-        const url = `${app_home_url}/api/project`;
+        const url = '/api/project';
 
         const formData = new FormData();
         formData.append("imageHero", projectImageHero);
@@ -211,7 +211,7 @@ function renderAddProjectTags(tags){
 
    function loadTags(){
     const xhr  =  new XMLHttpRequest();
-    xhr.open("GET", `${app_home_url}/api/tag`);
+    xhr.open("GET", '/api/tag');
     xhr.send();
 
     xhr.onload = function(){

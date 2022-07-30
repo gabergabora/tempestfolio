@@ -1,184 +1,162 @@
-async function loadServices(){
-        try {
-            const serviceSection = $('section#services');
-            const serviceWidgetContainer = $('#service-widget-holder');
-            
-            serviceWidgetContainer.innerHTML = "";
-    
-            const resourceUrl = `/api/service?visible=true`;
-    
-            const response = await fetch(resourceUrl) ;
-            const services = (await response.json()).data;
-    
-            if(!services.length){
-                // Hide the whole experience section
+/** @format */
 
-                serviceSection.style.display = "none";
-            }
-            else{
-                serviceSection.style.display = "block";
-    
-                console.log(services);
+async function loadServices() {
+  try {
+    const serviceSection = $("section#services");
+    const serviceWidgetContainer = $("#service-widget-holder");
 
-                (services).forEach(service => {
-                  serviceWidgetContainer.innerHTML += renderServiceWidget(service);
-                });
-            }
-        }
-        catch(e){
-            console.error(e);
-        }
-}
+    serviceWidgetContainer.innerHTML = "";
 
-async function loadExperiences(){
-       try{
-            const experienceSection = $('#experience');
-            const experienceWidgetHolder = $('#experience-widget-holder');
+    const resourceUrl = `/api/service?visible=true`;
 
-            experienceWidgetHolder.innerHTML = "";
+    const response = await fetch(resourceUrl);
+    const services = (await response.json()).data;
 
-            const entries = 3;
-            const pageIndex = 1;
-            const resourceUrl = `/api/experience?entries=${entries}`;
+    if (!services.length) {
+      serviceSection.style.display = "none";
+    } else {
+      serviceSection.style.display = "block";
 
-            const response = await fetch(resourceUrl) ;
-            const experiences = (await response.json()).data.chunk;
-
-            if(!experiences.length){
-                // Hide the whole experience section
-
-                experienceSection.style.display = "none";
-            }
-            else{
-                experienceSection.style.display = "block";
-
-                (experiences).forEach(experience => {
-                    experienceWidgetHolder.innerHTML += renderExperienceWidget(experience);
-                });
-            }
-           
-       }
-       catch(e){
-           console.error(e);
-       }
-}
-
-async function loadExperties(){
-    try{
-        const expertiseSection = $('#work-expertise');
-        const expertiseWidgetHolder = $('#expertise-widget-holder');
-        expertiseWidgetHolder.innerHTML = "";
-
-        const resourceUrl = `/api/expertise`;
-
-        const response = await fetch(resourceUrl) ;
-        const expertise = (await response.json()).data;
-        
-
-        if(!expertise.length){
-            // Hide the whole experience section
-
-            expertiseSection.style.display = "none";
-        }
-        else{
-            expertiseSection.style.display = "block";
-
-            (expertise).forEach(skill => {
-                expertiseWidgetHolder.innerHTML += renderExpertiseWidget(skill);
-            });
-        }
+      services.forEach((service) => {
+        serviceWidgetContainer.innerHTML += renderServiceWidget(service);
+      });
     }
-    catch(e){console.error(e)}
+  } catch (e) {
+    console.error(e);
+  }
 }
 
+async function loadExperiences() {
+  try {
+    const experienceSection = $("#experience");
+    const experienceWidgetHolder = $("#experience-widget-holder");
 
-async function loadProjects(){
-    try{
-        const projectSection = $('#my-works');
-        const projectWidgetHolder = $('#project-widget-holder');
-        projectWidgetHolder.innerHTML = "";
+    experienceWidgetHolder.innerHTML = "";
 
-        const resourceUrl = `/api/project?visible=true`;
+    const entries = 3;
+    const pageIndex = 1;
+    const resourceUrl = `/api/experience?entries=${entries}`;
 
-        const response = await fetch(resourceUrl) ;
-        const projects = (await response.json()).data;
+    const response = await fetch(resourceUrl);
+    const experiences = (await response.json()).data.chunk;
 
-        console.log(projects);
+    if (!experiences.length) {
+      experienceSection.style.display = "none";
+    } else {
+      experienceSection.style.display = "block";
 
-        if(!projects.length){
-            // Hide the whole experience section
-
-            projectSection.style.display = "none";
-        }
-        else{
-            projectSection.style.display = "block";
-
-            (projects).forEach(project => {
-                projectWidgetHolder.innerHTML += renderProjectWidget(project);
-            });
-        }
-       
+      experiences.forEach((experience) => {
+        experienceWidgetHolder.innerHTML += renderExperienceWidget(experience);
+      });
     }
-    catch(e){console.error(e)}
+  } catch (e) {
+    console.error(e);
+  }
 }
 
-async function loadBlog(){
-    try{
-        const blogSection = $('#blogs');
-        const blogWidgetHolder = $('#blog-widget-holder');
-        blogWidgetHolder.innerHTML = "";
+async function loadExperties() {
+  try {
+    const expertiseSection = $("#work-expertise");
+    const expertiseWidgetHolder = $("#expertise-widget-holder");
+    expertiseWidgetHolder.innerHTML = "";
 
-        const resourceUrl = `/api/blog`;
+    const resourceUrl = `/api/expertise`;
 
-        const response = await fetch(resourceUrl);
-        const blogs = (await response.json()).data;
+    const response = await fetch(resourceUrl);
+    const expertise = (await response.json()).data;
 
-        if(!blogs.length){
-            // Hide the whole experience section
-            blogSection.style.display = "none";
-        }
-        else{
-            blogSection.style.display = "block";
+    if (!expertise.length) {
+      expertiseSection.style.display = "none";
+    } else {
+      expertiseSection.style.display = "block";
 
-            (blogs).forEach(blog => {
-                blogWidgetHolder.innerHTML += renderBlogWidget(blog);
-            });
-        }
+      expertise.forEach((skill) => {
+        expertiseWidgetHolder.innerHTML += renderExpertiseWidget(skill);
+      });
     }
-    catch(e){console.error(e)};
+  } catch (e) {
+    console.error(e);
+  }
 }
 
-async function loadProfile(){
-    try{
-        const profileImageElem = document.getElementById('profile-image');
-        const emailElem = document.getElementById('profile-email');
-        const languageElem = document.getElementById('profile-languages');
-        const nationalityElem = document.getElementById('profile-nationality');
-        const githubElem = document.getElementById('profile-github');
+async function loadProjects() {
+  try {
+    const projectSection = $("#my-works");
+    const projectWidgetHolder = $("#project-widget-holder");
+    projectWidgetHolder.innerHTML = "";
 
-        const resourceUrl = `/api/profile`;
+    const resourceUrl = `/api/project?visible=true`;
 
-        const response = await fetch(resourceUrl);
-        const profile = (await response.json()).data;
+    const response = await fetch(resourceUrl);
+    const projects = (await response.json()).data;
 
-        console.log(profile);
+    if (!projects.length) {
+      projectSection.style.display = "none";
+    } else {
+      projectSection.style.display = "block";
 
-        // set profile image to image url from profile
-        profileImageElem.style.backgroundImage = `url('${profile.dp}')`;
-        emailElem.textContent = profile.email;
-        languageElem.textContent = profile.languages;
-        githubElem.textContent = profile.github;
-
-
+      projects.forEach((project) => {
+        projectWidgetHolder.innerHTML += renderProjectWidget(project);
+      });
     }
-    catch(e){console.error(e)};
+  } catch (e) {
+    console.error(e);
+  }
 }
 
+async function loadBlog() {
+  try {
+    const blogSection = $("#blogs");
+    const blogWidgetHolder = $("#blog-widget-holder");
+    blogWidgetHolder.innerHTML = "";
+
+    const resourceUrl = `/api/blog`;
+
+    const response = await fetch(resourceUrl);
+    const blogs = (await response.json()).data;
+
+    if (!blogs.length) {
+      blogSection.style.display = "none";
+    } else {
+      blogSection.style.display = "block";
+
+      blogs.forEach((blog) => {
+        blogWidgetHolder.innerHTML += renderBlogWidget(blog);
+      });
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+async function loadProfile() {
+  try {
+    const profileImageElem = document.getElementById("profile-image");
+    const emailElem = document.getElementById("profile-email");
+    const languageElem = document.getElementById("profile-languages");
+    const nationalityElem = document.getElementById("profile-nationality");
+    const githubElem = document.getElementById("profile-github");
+    const bio = document.getElementById("profile-bio");
+
+    const resourceUrl = `/api/profile`;
+
+    const response = await fetch(resourceUrl);
+    const profile = (await response.json()).data;
+
+    profileImageElem.style.backgroundImage = `url('${profile.dp}')`;
+    emailElem.textContent = profile.email;
+    languageElem.textContent = profile.languages;
+    githubElem.innerHTML = `<a href="${profile.github}" style="color: inherit">${profile.github}</a>`;
+    bio.textContent = profile.bio;
+  } catch (e) {
+    console.error(e);
+  }
+}
 
 // Widgets
 function renderServiceWidget(service) {
-        const {icon, title, take, _id} = service;
-        const widget = `
+  const { icon, title, take, _id } = service;
+  const widget = `
             <div class="card">
                 <h2 class="service-icon text-lg">
                     <i class="fa ${icon}"></i>
@@ -189,20 +167,27 @@ function renderServiceWidget(service) {
                     ${take}
                     </div>
                     <div class="service-link">
-                    <a href="#" class=""> Read more </a>
-                    </div>
                 </div>
             </div>
         `;
 
-        return widget;
+  return widget;
 }
 
 function renderExperienceWidget(experience) {
-    const {title, icon, company, company_link, experience:take, from, to, _id} = experience;
-          let takeExtract = take.substring(0, 200);
+  const {
+    title,
+    icon,
+    company,
+    company_link,
+    experience: take,
+    from,
+    to,
+    _id,
+  } = experience;
+  let takeExtract = take.substring(0, 200);
 
-    const widget = `
+  const widget = `
                 <div class="timeline-slot">
                     <a href="/experience/${_id}">
                         <div class="timeline-head">
@@ -229,12 +214,12 @@ function renderExperienceWidget(experience) {
                 </div>
     `;
 
-    return widget;
+  return widget;
 }
 
 function renderExpertiseWidget(expertise) {
-    const {icon, name, rating, _id} = expertise;
-    const widget = `
+  const { icon, name, rating, _id } = expertise;
+  const widget = `
             <div class="skill">
                 <img
                     class="skill-thumb"
@@ -248,35 +233,32 @@ function renderExpertiseWidget(expertise) {
             </div>
     `;
 
-    return widget;
+  return widget;
 }
 
 function renderProjectWidget(project) {
-    const {title, category, imageHero, _id} = project;
-    const widget = `
+  const { title, category, imageHero, _id } = project;
+  const widget = `
                 <div
                     class="slot"
                     style="background-image: url('${imageHero.url}')"
                 >
-                <div class="slot-content">
-                <span class="icon">
                 <a href="/project/${_id}">
-                    <i class="fas fa-eye"></i>
+                  <div class="slot-content">
+                  <div class="slot-name font-600">${title}</div>
+                  <div class="slot-category text-tiny">${category}</div>
+                  </div>
                 </a>
-                </span>
-                <div class="slot-name font-600">${title}</div>
-                <div class="slot-category text-tiny">${category }</div>
-                </div>
                 </div>
     `;
 
-    return widget;
+  return widget;
 }
 
-function renderBlogWidget(blog){
-    const {title, image, link, extract, date, id} = blog;
+function renderBlogWidget(blog) {
+  const { title, image, link, extract, date, id } = blog;
 
-    const widget = `
+  const widget = `
             <div class="blog-card card">
                 <div class="blog-image">
                     <img src="${image}" alt="" />
@@ -296,21 +278,18 @@ function renderBlogWidget(blog){
                     </div>
                 </div>
             </div>
-    `
+    `;
 
-    return widget;
-
+  return widget;
 }
 
-
-function init(){
-    loadServices();
-    loadExperiences();
-    loadExperties();
-    loadProjects();
-    loadBlog();
-    loadProfile();
+function init() {
+  loadServices();
+  loadExperiences();
+  loadExperties();
+  loadProjects();
+  loadBlog();
+  loadProfile();
 }
-
 
 init();

@@ -45,7 +45,7 @@
     let pageIndex = index || 1;
 
     async function fetchExperiencespage() {
-      const url = `${app_home_url}/api/experience/?entries=${entries}&index=${pageIndex}`;
+      const url = `/api/experience/?entries=${entries}&index=${pageIndex}`;
       let requestObject = await fetch(url);
       let response = await requestObject.json();
 
