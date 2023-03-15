@@ -56,48 +56,6 @@
          <section class="project-hero" style="background-color: #2b3135;">
          </section>
 
-         <!-- Slider main container -->
-         <section>
-            <div class="container">
-                <div class="swiper slider">
-                    <div class="swiper-wrapper slider-wrapper">
-                      <!-- Image hero  -->
-                        <div class="swiper-slide slider-content-wrap">
-                          <a href="<%= project.imageHero.url %>" target="_blank">
-                            <div class="slider-image-holder" style="background-image: url('<%= project.imageHero.url %>'); height:300px;" >
-                            </div>
-                          </a>
-                        </div>
-
-                      <!-- other images -->
-                       <% project.imgs.forEach(function(img){ %>
-                          <div class="swiper-slide slider-content-wrap">
-                            <a href="<%= img.url%>" target="_blank">
-                              <div class="slider-image-holder" style="background-image: url('<%= img.url %>'); height:300px;" >
-                              </div>
-                            </a>
-                        </div>
-                       <% }); %>
-                    </div>
-
-                    <!-- <div class="swiper-pagination"></div> -->
-
-                    <div class="controls" style="margin-top:20px; display: flex; justify-content: center;">
-                        <div class="swiper-prev slider-button left">
-                            <i class="fas fa-arrow-left"></i>
-                        </div>
-
-                        <div class="swiper-next slider-button right" >
-                            <i class="fas fa-arrow-right"></i>
-                        </div>
-                    </div>
-
-                   
-                </div>
-            </div>
-        </section>
-        <!-- Slider main container-->
-
          <section class="project-info">
              <div class="container">
                  <div class="project-heading">
