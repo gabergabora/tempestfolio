@@ -3,87 +3,61 @@
         <div class="row">
             <div class="col-md-12">
                 <!-- Head -->
-                <h5
-                style="
+                <h5 style="
                     font-size: 1.5rem;
                     display: flex;
                     flex-direction: column;
                     align-items: start;
                     justify-content: space-between;
-                "
-                >
+                ">
                     <p class="font-weight-bold" style="margin-bottom: 5px" id="single-project-title">
                     </p>
                     <small>
                         <div style="opacity: 0.7; margin-left: 0px">
-                            <span
-                                id="single-project-category"
-                                class="technology"
-                                style="
+                            <span id="single-project-category" class="technology" style="
                                     margin-right: 0px;
                                     font-size: 16px;
                                     vertical-align: middle;
-                                "
-                                >
-                                </span
-                            >
-                            <span
-                                class="dot"
-                                style="
+                                ">
+                            </span>
+                            <span class="dot" style="
                                     display: inline-block;
                                     width: 5px;
                                     height: 5px;
                                     border-radius: 50%;
                                     background: lightseagreen;
                                     margin-left: 0px 3px;
-                                "
-                            ></span>
-                            <span 
-                            id="single-project-visibility"
-                            class="technology" style="font-size: 14px"
-                                ></span
-                            >
-                            <span id="single-project-date" class="technology" style="font-size: 14px"
-                                ></span
-                            >
+                                "></span>
+                            <span id="single-project-visibility" class="technology" style="font-size: 14px"></span>
+                            <span id="single-project-date" class="technology" style="font-size: 14px"></span>
                         </div>
                     </small>
                 </h5>
 
                 <!-- Hero Image -->
-                <div
-                    class="img-hero"
-                    style="
+                <div class="img-hero" style="
                         margin-bottom: 15px;
-                    "
-                >
-                    <img
-                        id="single-project-hero-img"
-                        src="/assets/images/5c4fe3b160c6248c37d9d987caeb7172.jpg"
-                        alt=""
-                    />
+                    ">
+                    <img id="single-project-hero-img" src="/assets/images/5c4fe3b160c6248c37d9d987caeb7172.jpg"
+                        alt="" />
                 </div>
 
-                 <!-- other -->
+                <!-- other -->
                 <div id="single-project-media" style="margin-bottom: 30px;">
                 </div>
                 <!-- description -->
-                <div
-                style="
+                <div style="
                     max-width: 100%;
                     border: 1px solid #cccccc40;
                     padding: 1rem;
                     margin-top: 10px;
                     font-size: 1rem;
-                "
-                >
-                    <p  id="single-project-description"
-                        style="
+                ">
+                    <p id="single-project-description" style="
                             margin-bottom: 0;
                             opacity: 0.9;
                             font-size: 15px;
-                        "
-                    >
+                        ">
                     </p>
                 </div>
 
@@ -102,43 +76,28 @@
             </div>
 
         </div>
-       
+
         <!-- Should be on card -->
         <div id="single-project-action-buttons" class="action-buttons" style="margin-top: 15px">
-            <a 
-                id="single-project-action-edit"
-                class="action-button" 
-                >
+            <a id="single-project-action-edit" class="action-button">
                 <i class="icon fa fa-edit icon-gradient bg-arielle-smile" aria-hidden="true"></i>
             </a>
 
-            <span 
-                id="single-project-action-delete"
-                role="button" 
-                class="action-button" 
-                >
+            <span id="single-project-action-delete" role="button" class="action-button">
                 <i class="icon fa fa-trash icon-gradient bg-arielle-smile" aria-hidden="true"></i>
             </span>
 
-            <span 
-                id="single-project-action-visibility"
-                role="button" 
-                class="action-button" 
-                >
+            <span id="single-project-action-visibility" role="button" class="action-button">
                 <i class="icon fa fa-eye icon-gradient bg-love-kiss" aria-hidden="true"></i>
             </span>
 
-            <span 
-                id="single-project-action-visit"
-                role="button" 
-                class="action-button"
-                >
+            <span id="single-project-action-visit" role="button" class="action-button">
 
                 <a href="" target="_blank">
                     <i class="icon fa fa-link icon-gradient bg-ripe-malin" aria-hidden="true" title="download"></i>
                 </a>
             </span>
-           
+
         </div>
 
     </div>
@@ -149,137 +108,137 @@
 <!-- Component Based Javascript -->
 <script>
 
- function loadProject(projectID){
-    const url = `/api/project/${projectID}`;
+    function loadProject(projectID) {
+        const url = `/api/project/${projectID}`;
 
-    fetch(url)
+        fetch(url)
 
-    .then(response => response.json())
+            .then(response => response.json())
 
-    .then(body=>{
-        let project = body.data;
-        renderSingleProject(project);
-    })
+            .then(body => {
+                let project = body.data;
+                renderSingleProject(project);
+            })
 
-    .catch(error=>{
-        console.log(error)
-        alert("could not load data at the moment")
-    })
- }
-
-
- function renderSingleProject(project){
-
-    //elements
-    const projectCard = document.getElementById("single-project-widget-card");
-    const projectTitle = document.getElementById("single-project-title");
-    const projectCategory = document.getElementById("single-project-category");
-    const projectVisibility = document.getElementById("single-project-visibility");
-    const projectDate = document.getElementById("single-project-date");
-    const projectDescription = document.getElementById("single-project-description");
-    const projectHeroImage = document.getElementById("single-project-hero-img");
-    const projectMediaHolder = document.getElementById("single-project-media");
-    const projectLinksHolder = document.getElementById("single-project-links");
-    const projectTagsHolder = document.getElementById("single-project-tags");
-    const projectActionButtonsHolder = document.getElementById("single-project-action-buttons");
-
-    //Action Buttons
-    const actionButtonEdit = document.getElementById("single-project-action-edit");
-    const actionButtonDelete = document.getElementById("single-project-action-delete");
-    const actionButtonVisibility = document.getElementById("single-project-action-visibility");
-    const actionButtonVisit = document.getElementById("single-project-action-visit");
-
-    projectLinksHolder.innerHTML = "";
-
-    if(!project) return projectCard.innerHTML = "<h3>Could not fetch data at the moment</h3>";
+            .catch(error => {
+                console.log(error)
+                alert("could not load data at the moment")
+            })
+    }
 
 
-    const {_id, title, category, imageHero, date, description, tags, visibility, video, github, external_url} = project;
+    function renderSingleProject(project) {
 
-    //traverse
-    projectTitle.innerHTML = title;
-    projectCategory.innerHTML = category;
-    projectVisibility.innerHTML = visibility ? "Visible" : "Hidden";
+        //elements
+        const projectCard = document.getElementById("single-project-widget-card");
+        const projectTitle = document.getElementById("single-project-title");
+        const projectCategory = document.getElementById("single-project-category");
+        const projectVisibility = document.getElementById("single-project-visibility");
+        const projectDate = document.getElementById("single-project-date");
+        const projectDescription = document.getElementById("single-project-description");
+        const projectHeroImage = document.getElementById("single-project-hero-img");
+        const projectMediaHolder = document.getElementById("single-project-media");
+        const projectLinksHolder = document.getElementById("single-project-links");
+        const projectTagsHolder = document.getElementById("single-project-tags");
+        const projectActionButtonsHolder = document.getElementById("single-project-action-buttons");
 
-    projectDescription.innerHTML = parseCkescapedData(description);
+        //Action Buttons
+        const actionButtonEdit = document.getElementById("single-project-action-edit");
+        const actionButtonDelete = document.getElementById("single-project-action-delete");
+        const actionButtonVisibility = document.getElementById("single-project-action-visibility");
+        const actionButtonVisit = document.getElementById("single-project-action-visit");
 
-    let projectDateObject = new Date(parseInt(date));
-    let projectDateMin = projectDateObject.toLocaleString();
+        projectLinksHolder.innerHTML = "";
 
-    projectDate.innerHTML = projectDateMin;
-
+        if (!project) return projectCard.innerHTML = "<h3>Could not fetch data at the moment</h3>";
 
 
-     //Medias
+        const { _id, title, category, imageHero, date, description, tags, visibility, video, github, external_url } = project;
 
-     //Hero Image
-     projectHeroImage.setAttribute('src', imageHero.url);
+        //traverse
+        projectTitle.innerHTML = title;
+        projectCategory.innerHTML = category;
+        projectVisibility.innerHTML = visibility ? "Visible" : "Hidden";
 
-     //Other medias
-     projectMediaHolder.innerHTML = "";
-     let projectMedia = project.imgs;
+        projectDescription.innerHTML = parseCkescapedData(description);
 
-     
-     for(var i=0; i<projectMedia.length; i++){
-        projectMediaHolder.innerHTML += renderProjectMedia(projectMedia[i]);
-     }
+        let projectDateObject = new Date(parseInt(date));
+        let projectDateMin = projectDateObject.toLocaleString();
 
-     //links
-     let links = [video, github, external_url];
+        projectDate.innerHTML = projectDateMin;
 
-     for(var i=0; i<links.length; i++){
-        //  console.log(Object.keys(links[i]));
-        if(links[i]){
-            projectLinksHolder.innerHTML += renderLinkElement(links[i], "github");
+
+
+        //Medias
+
+        //Hero Image
+        projectHeroImage.setAttribute('src', imageHero.url);
+
+        //Other medias
+        projectMediaHolder.innerHTML = "";
+        let projectMedia = project.imgs;
+
+
+        for (var i = 0; i < projectMedia.length; i++) {
+            projectMediaHolder.innerHTML += renderProjectMedia(projectMedia[i]);
         }
-     }
 
-     //traverse Action Buttons
-    // external link
-    let externalUrl = external_url || github || video;
+        //links
+        let links = [video, github, external_url];
 
-    //visibility button behaviour
-    let visibleClass = "icon fa fa-eye icon-gradient bg-love-kiss";
-    let nonVisibleClass = "icon fa fa-eye-slash icon-gradient bg-heavy-rain";
+        for (var i = 0; i < links.length; i++) {
+            //  console.log(Object.keys(links[i]));
+            if (links[i]) {
+                projectLinksHolder.innerHTML += renderLinkElement(links[i], "github");
+            }
+        }
 
-    actionButtonVisibility.firstElementChild.className = visibility ? visibleClass : nonVisibleClass;
+        //traverse Action Buttons
+        // external link
+        let externalUrl = external_url || github || video;
 
-    //action button actions;
-    actionButtonEdit.setAttribute('href', `/admin/project/edit?id=${_id}`)
-    actionButtonDelete.setAttribute('onclick',`deleteProject('${_id}')`);
-    actionButtonVisibility.setAttribute('onclick',`changeProjectVisibility('${_id}', ${!visibility})`);
-    actionButtonVisit.firstElementChild.setAttribute('src', externalUrl);
+        //visibility button behaviour
+        let visibleClass = "icon fa fa-eye icon-gradient bg-love-kiss";
+        let nonVisibleClass = "icon fa fa-eye-slash icon-gradient bg-heavy-rain";
 
- }
+        actionButtonVisibility.firstElementChild.className = visibility ? visibleClass : nonVisibleClass;
 
- function renderProjectMedia(media){
-     const elem = `
+        //action button actions;
+        actionButtonEdit.setAttribute('href', `/admin/project/edit?id=${_id}`)
+        actionButtonDelete.setAttribute('onclick', `deleteProject('${_id}')`);
+        actionButtonVisibility.setAttribute('onclick', `changeProjectVisibility('${_id}', ${!visibility})`);
+        actionButtonVisit.firstElementChild.setAttribute('src', externalUrl);
+
+    }
+
+    function renderProjectMedia(media) {
+        const elem = `
      <a href="${media.url}" target="_blank" title="${media.original_name}">
         <img class="image-selector" src="${media.thumb}" style="width: 200px; height: auto">
      </a>
      `
 
-    return elem;
- }
-
- function renderLinkElement(link, type){
-    let linkIcon;
-
-    switch(type){
-        case "video" :
-            linkIcon = "play-circle-o";
-        break;
-
-        case "github" :
-            linkIcon = "fa-github";
-        break;
-
-        case "external_url" :
-            linkIcon = "fa-globe";
-        break;
+        return elem;
     }
 
-     const linkElement = `
+    function renderLinkElement(link, type) {
+        let linkIcon;
+
+        switch (type) {
+            case "video":
+                linkIcon = "play-circle-o";
+                break;
+
+            case "github":
+                linkIcon = "fa-github";
+                break;
+
+            case "external_url":
+                linkIcon = "fa-globe";
+                break;
+        }
+
+        const linkElement = `
             <span style="
                     display: inline-block;
                     padding: 10px;
@@ -296,74 +255,74 @@
             </span>
      `;
 
-     return linkElement;
- }
+        return linkElement;
+    }
 
- function renderTag(tag){
-    const tagElem = `
+    function renderTag(tag) {
+        const tagElem = `
         <span style="font-weight:500; display: inline-block; margin-right: 5px">
             ${tag}
         </span>
      `;
 
-    return tagElem;
- }
-                          
-         
- // Actions
-
-function deleteProject(projectID){
-    let message = "Deleted project cannot be recovered, you can choose to hide a project instead. Do you want to continue anyway?";
-    if(confirm(message)){
-        let url = `${app_home_url}/api/project/${projectID}`;
-
-        console.log(url)
-        fetch(url, {
-            method: "DELETE"
-        })
-
-        .then(()=>{
-            alert("project deleted");
-            loadPage();
-        })
-
-        .catch(error=>{
-            console.log(error);
-            alert("could not delete project at the moment");
-        })
+        return tagElem;
     }
-}
 
-function changeProjectVisibility(projectID, visibility){ 
-    console.log(visibility)
-    let url = `${app_home_url}/api/project/${projectID}/setvisibility/`;
 
-    let data = {visibility};
+    // Actions
 
-    fetch(url, {
-        method: "PUT",
-	    body: JSON.stringify(data),
-        headers: {
-            'Content-type': 'application/json'
+    function deleteProject(projectID) {
+        let message = "Deleted project cannot be recovered, you can choose to hide a project instead. Do you want to continue anyway?";
+        if (confirm(message)) {
+            let url = `/api/project/${projectID}`;
+
+            console.log(url)
+            fetch(url, {
+                method: "DELETE"
+            })
+
+                .then(() => {
+                    alert("project deleted");
+                    loadPage();
+                })
+
+                .catch(error => {
+                    console.log(error);
+                    alert("could not delete project at the moment");
+                })
         }
-    })
+    }
 
-    .then(response => response.json())
-    .then(body=>{
-        loadPage();
-    })
-   
-    .catch(error=>{
-        console.error(error);
-        alert("could not complete request at the moment");
-    })
-}
+    function changeProjectVisibility(projectID, visibility) {
+        console.log(visibility)
+        let url = `${app_home_url}/api/project/${projectID}/setvisibility/`;
 
-function parseCkescapedData(data){
-    let parseData = data.replace(/&lt;/g, '<');
-    parseData = parseData.replace(/&gt;/g, '>');
+        let data = { visibility };
 
-    return parseData;
-}
+        fetch(url, {
+            method: "PUT",
+            body: JSON.stringify(data),
+            headers: {
+                'Content-type': 'application/json'
+            }
+        })
+
+            .then(response => response.json())
+            .then(body => {
+                loadPage();
+            })
+
+            .catch(error => {
+                console.error(error);
+                alert("could not complete request at the moment");
+            })
+    }
+
+    function parseCkescapedData(data) {
+        let parseData = data.replace(/&lt;/g, '<');
+        parseData = parseData.replace(/&gt;/g, '>');
+
+        return parseData;
+    }
 
 </script>
